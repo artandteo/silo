@@ -1,20 +1,46 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title><%= content_for?(:title) ? yield(:title) : "SILO" %></title>
 
-    <%= stylesheet_link_tag    "application" %>
-    <%= javascript_include_tag "application", 'data-turbolinks-track' => true %>
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+
     <%= csrf_meta_tags %>
   </head>
 
   <body>
-    <p class="notice"><%= notice %></p>
-    <p class="alert"><%= alert %></p>
-    <%= yield %>
+
+    <div class="off-canvas position-left" id="offCanvas" data-off-canvas>
+        <!-- Close button -->
+      <button class="close-button" aria-label="Close menu" type="button" data-close>
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <ul>
+        <li>blabla</li>
+        <li>blibli</li>
+      </ul>
+    </div>
+
+    <div class="off-canvas-content" data-off-canvas-content>
+        <header class="">
+          <%= render 'layouts/header' %>
+        </header>
+
+        <main class="">
+          <p class="notice"><%= notice %></p>
+          <p class="alert"><%= alert %></p>
+          <%= yield %>
+        </main>
+
+        <footer class="">
+          <%= render 'layouts/footer' %>
+        </footer>
+    </div>
 
   </body>
 </html>

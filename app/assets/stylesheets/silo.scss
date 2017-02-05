@@ -1,0 +1,84 @@
+// SCSS Style for SILO
+
+@import url('https://fonts.googleapis.com/css?family=Lato:100,100i,700');
+
+// VARIABLES
+
+$col1: #FF5B2B;
+$col2: #B1221C;
+$col3: #34393E;
+$col4: #8CC6D7;
+$col5: #FFDA8C;
+
+.row {
+	max-width: 100%;
+}
+
+// GENERAL
+
+body{
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+}
+
+header{
+	text-align: center;
+  .top-bar {
+    background: $col3;
+    height: 70px;
+    color: $col1;
+    .form {
+      background: lighten($col3, 0.8);
+      box-shadow: 0px 1px 0px 0px $col4;
+      font-size: 12px;
+    }
+  }
+  .bandeau {
+    text-align: center;
+    width: 100%;
+    background: $col4;
+    // url(/img/bandeau_music.jpg) no-repeat center center;
+    background-size: cover;
+  }
+}
+
+main {
+
+}
+
+footer{
+	text-align: center;
+	margin-top:auto;
+  background: $col3;
+  height: 150px;
+  color: $col1;
+}
+
+.row_desk1 {
+	height: 30%;
+}
+
+.row_desk2 {
+	height: 20%;
+}
+
+
+.box{
+	min-height: 180px;
+	border: solid black 2px;
+	border-radius: 5px;
+	width: auto;
+}
+
+h1 {
+  font-family: 'Lato', sans-serif;
+  font-weight: 700;
+  color: green;
+}
+
+h2 {
+  font-family: 'Lato', sans-serif;
+  font-weight: 100;
+  font-style: italic;
+}
