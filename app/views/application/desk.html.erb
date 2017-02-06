@@ -53,7 +53,8 @@
 </div>-->
 
 <div class="row row_desk1">
-<% Dir.foreach("./public/folders/#{current_user.name}") do |folder| %>
+
+<% Dir.foreach("public/folders/#{current_user.name}") do |folder| %>
 	<% if Dir.exists?(folder) %>
 		<% if File.directory?(folder) %>
 			<div class="box item1 small-12 medium-6 large-4">
@@ -64,4 +65,11 @@
 	<% end %>
 <% end %>
 
+<% 
+d = Dir.open("./public/folders/#{current_user.name}")
+
+while d.read
+
+end
+%>
 </div>
