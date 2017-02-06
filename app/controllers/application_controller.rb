@@ -15,11 +15,21 @@ class ApplicationController < ActionController::Base
   end
 
   def accueil
+    if user_signed_in?
+      redirect_to user_space_path(current_user.name)
+    end
   end
 
-  def index
-    @user = User.where(name: params[:name])
+  def desk
+    if params[:directory] == current_user.name
 
+    else
+      redirect_to user_space_path(current_user.name)
+    end
+  end
+
+  def draw 
+    
   end
 
   def configure_devise_parameters

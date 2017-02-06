@@ -1,0 +1,67 @@
+<!-- <div class="row row_desk1">
+
+	<div class="box item1 small-12 medium-6 large-4">
+		<h2>première box</h2>
+	</div>
+
+	<div class="box item2 small-12 medium-6 large-4">
+		<h2>deuxième box</h2>
+	</div>
+
+	<div class="box item4  small-12 medium-12 large-4">
+		<h2>troisième box</h2>
+	</div>
+
+</div>
+
+<div class="row row_desk2">
+	<div class="box item4 small-12 medium-6 large-6">
+		<h2>quatrième box</h2>
+	</div>
+
+	<div class="box item5 small-12 medium-6 large-6">
+		<h2>cinquième box</h2>
+	</div>
+
+</div>
+
+<div class="row row_desk1">
+
+	<div class="box item1 small-12 medium-12 large-4">
+		<h2>première box</h2>
+	</div>
+
+	<div class="box item2 small-12 medium-6 large-4">
+		<h2>deuxième box</h2>
+	</div>
+
+	<div class="box item4 small-12 medium-6 large-4">
+		<h2>troisième box</h2>
+	</div>
+
+</div>
+
+<div class="row row_desk2">
+	<div class="box item4 small-12 medium-12 large-6">
+		<h2>quatrième box</h2>
+	</div>
+
+	<div class="box item5 small-12 medium-12 large-6">
+		<h2>cinquième box</h2>
+	</div>
+
+</div>-->
+
+<div class="row row_desk1">
+<% Dir.foreach("./public/folders/#{current_user.name}") do |folder| %>
+	<% if Dir.exists?(folder) %>
+		<% if File.directory?(folder) %>
+			<div class="box item1 small-12 medium-6 large-4">
+				<%= folder %>
+			</div>
+		<% end %>
+
+	<% end %>
+<% end %>
+
+</div>

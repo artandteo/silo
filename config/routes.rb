@@ -6,7 +6,8 @@ Rails.application.routes.draw do
   scope "/(:locale)" do
   	devise_for :users, path: '', path_names: { sign_in: 'connexion', sign_out: 'deconnexion', sign_up: 'inscription'}
 
-  	get '/:demo', to: 'application#index'
+  	get '/:directory', to: 'application#desk', as: :user_space
+
   end
   
 end

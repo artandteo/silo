@@ -1,0 +1,12 @@
+fr: 
+    accueil: 
+        nom: "Nom attribué à votre espace"
+        email: "Votre adresse email"
+        mdp: "Votre mot de passe"
+        confirmer_mdp: "Confirmer le mot de passe"  
+        char_min: "caractères minimum"
+        se-souvenir: "Se souvenir de moi"
+        btn-inscription: "S'inscrire"
+        btn-connexion: "Se connecter"
+        connexion: "Connexion"
+
