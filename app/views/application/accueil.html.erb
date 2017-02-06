@@ -1,2 +1,11 @@
 <h1>SILO</h1>
 <h2>Bienvenue</h2>
+
+<%= form_for :comptes do |f| %>
+
+<%= f.label :nom, 'Nom à attribuer:' %>
+<%= f.text_field :nom %>
+
+<%= f.submit :submit, value: 'Continuer', class: 'success button' %>
+
+<% end %>
