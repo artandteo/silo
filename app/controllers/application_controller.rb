@@ -1,10 +1,28 @@
 class ApplicationController < ActionController::Base 
   protect_from_forgery with: :exception 
+  before_action :set_locale
+  before_action :configure_devise_parameters, if: :devise_controller?
+  before_action :authenticate_user!, only: [:index]
+
+
+
+  def set_locale
+    I18n.locale = params[:locale] || I18n.default_locale
+  end
+
+  def default_url_options(options={})
+    { :locale => I18n.locale == I18n.default_locale ? nil : I18n.locale  }
+  end
 
   def accueil
   end
 
-  def inscription
-  	redirect_to new_user_registration_path
+  def index
+    @user = User.where(name: params[:name])
+
+  end
+
+  def configure_devise_parameters
+    devise_parameter_sanitizer.permit(:sign_up) { |u| u.permit(:name, :email, :password, :password_confirmation) }
   end
 end

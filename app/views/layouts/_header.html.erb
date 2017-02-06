@@ -1,5 +1,11 @@
 <div class="top-bar">
   <button type="button" class="button" data-toggle="offCanvas">Open Left</button>
+  <% if user_signed_in? %>
+  	Connecté en tant que <%= current_user.email %>
+  	<%= link_to 'Déconnexion', destroy_user_session_path, method: "delete" %>
+  <% else %>
+  	<%= link_to 'Se connecter', new_user_session_path %>
+  <% end %>
 </div>
 <div class="bandeau">
   <h1>SILO</h1>
