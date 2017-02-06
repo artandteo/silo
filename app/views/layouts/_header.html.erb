@@ -1,3 +1,4 @@
+
 <div class="row top-bar">
   <div class="medium-1">
     <button type="button" class="menu-icon" data-toggle="offCanvas"></button>
@@ -6,8 +7,14 @@
     <img src="img/logo_silo_gris.png" alt="Logo de Silo by artandteo" />
   </div>
   <div class="medium-9">
-
+    <% if user_signed_in? %>
+    	Connecté en tant que <%= current_user.email %>
+    	<%= link_to 'Déconnexion', destroy_user_session_path, method: "delete" %>
+    <% else %>
+    	<%= link_to 'Se connecter', new_user_session_path %>
+    <% end %>
   </div>
+
 </div>
 <div class="bandeau">
   <div class="row">
