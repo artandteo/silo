@@ -1,6 +1,6 @@
 // SCSS Style for SILO
 
-@import url('https://fonts.googleapis.com/css?family=Lato:100,100i,700');
+@import url('https://fonts.googleapis.com/css?family=Lato:100,300,100i,700');
 
 // VARIABLES
 
@@ -9,6 +9,9 @@ $col2: #B1221C;
 $col3: #34393E;
 $col4: #8CC6D7;
 $col5: #FFDA8C;
+$gris_pale: #F2F2F2;
+$vert_silo: #7ED321;
+$blanc: #FFFFFF;
 
 .row {
 	max-width: 100%;
@@ -37,9 +40,10 @@ header{
   .bandeau {
     text-align: center;
     width: 100%;
-    background: $col4;
+    background: $gris_pale;
     // url(/img/bandeau_music.jpg) no-repeat center center;
     background-size: cover;
+		padding: 40px 50px 40px 50px;
   }
 }
 
@@ -51,8 +55,11 @@ footer{
 	text-align: center;
 	margin-top:auto;
   background: $col3;
-  height: 150px;
-  color: $col1;
+  height: 120px;
+	padding: 30px 0 30px 0;
+	p, a {
+		color: $blanc;
+	}
 }
 
 .row_desk1 {
@@ -81,4 +88,8 @@ h2 {
   font-family: 'Lato', sans-serif;
   font-weight: 100;
   font-style: italic;
+}
+
+p {
+	font-weight: 300;
 }
