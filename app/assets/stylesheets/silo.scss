@@ -37,14 +37,22 @@ header{
       font-size: 12px;
     }
   }
-  .bandeau {
-    text-align: center;
-    width: 100%;
-    background: $gris_pale;
-    // url(/img/bandeau_music.jpg) no-repeat center center;
-    background-size: cover;
-		padding: 40px 50px 40px 50px;
-  }
+}
+
+.top-logo {
+	filter: grayscale(100%);
+}
+.top-logo:hover {
+	filter: grayscale(0%);
+}
+
+.bandeau {
+	text-align: center;
+	width: 100%;
+	background: $gris_pale;
+	// url(/img/bandeau_music.jpg) no-repeat center center;
+	background-size: cover;
+	padding: 40px 50px 40px 50px;
 }
 
 main {
@@ -88,6 +96,7 @@ h2 {
   font-family: 'Lato', sans-serif;
   font-weight: 100;
   font-style: italic;
+	text-align: center;
 }
 
 p {

@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="small-4 large-centered columns">
+    <div class="small-6 large-centered columns">
         <h2>Création de votre compte</h2>
 
         <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
@@ -19,8 +19,9 @@
 
             <%= f.label :password_confirmation, t('accueil.confirmer_mdp') %>
             <%= f.password_field :password_confirmation, autocomplete: "off" %>
-
-            <%= f.submit t('accueil.btn-inscription'), class: "button success" %>
+            <div class="text-center">
+              <%= f.submit t('accueil.btn-inscription'), class: "button success" %>
+            </div>
         <% end %>
     </div>
 </div>
