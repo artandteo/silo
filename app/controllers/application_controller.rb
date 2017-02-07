@@ -54,7 +54,7 @@ class ApplicationController < ActionController::Base
   end
 
   def desk_delete
-    Dir.rmdir("./public/folders/#{params[:desk]}/#{params[:draw]}/")
+    FileUtils.rm_rf("./public/folders/#{params[:desk]}/#{params[:draw]}/")
     redirect_to desk_path
   end
 
