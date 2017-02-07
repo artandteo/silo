@@ -20,23 +20,41 @@ class ApplicationController < ActionController::Base
 
   def desk
     if params[:desk] == current_user.name
-      liste_rep("./public/folders/#{current_user.name}/")
+      liste_d("./public/folders/#{current_user.name}/")
     else
       #redirect_to desk_path(current_user.name)
     end
   end
 
   def draw
-    liste_rep("./public/folders/#{current_user.name}/#{params[:draw]}/")
+      @table = Array.new { Array.new }
+      i = 0
+      liste_d("./public/folders/#{current_user.name}/#{params[:draw]}/").each do |a|
+
+        b = liste_f("./public/folders/#{current_user.name}/#{params[:draw]}/#{a}/")
+        @table.push(b)
+        @length = @table.length
+      i = i + 1
+      end
+      
+      liste_d("./public/folders/#{current_user.name}/#{params[:draw]}/")
+      liste_f("./public/folders/#{current_user.name}/#{params[:draw]}/")
   end
 
-  def configure_devise_parameters
-    devise_parameter_sanitizer.permit(:sign_up) { |u| u.permit(:name, :email, :password, :password_confirmation) }
+  def draw_add
+    path = "./public/folders/#{params[:desk]}/#{params[:draw]}/"
+    Dir.mkdir(File.join(path, params[:nouv_dossier][:nom]), 0777)
+    redirect_to draw_path(current_user.name)
   end
 
   private 
 
-  def liste_rep(folder)
+  def configure_devise_parameters
+    devise_parameter_sanitizer.permit(:sign_up) { |u| u.permit(:name, :email, :password, :password_confirmation) }
+  end
+ 
+
+  def liste_d(folder)
     d = Dir.open(folder)
     liste_exclus = [".", ".."]
     liste_dir = d.sort - liste_exclus
@@ -45,14 +63,26 @@ class ApplicationController < ActionController::Base
     @arr = Array.new
     liste_dir.each do |fichier|
       if File.ftype(folder+fichier) == "directory"
-        @arr[i] = fichier
-        i = i + 1
+          @arr[i] = fichier
+          i = i + 1
       end
     end
   end
 
-  def liste_fichiers(folder)
-    
+  def liste_f(dir)
+    puts dir
+    d = Dir.open(dir)
+    liste_exclus = [".", ".."]
+    liste_dir = d.sort - liste_exclus
+
+    a = 0
+    @files = Array.new
+    liste_dir.each do |fichier|
+      if File.ftype(dir+fichier) == "file"
+          @files[a] = fichier
+          a = a + 1
+      end
+    end
   end
 
 end
