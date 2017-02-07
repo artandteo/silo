@@ -58,16 +58,17 @@ class ApplicationController < ActionController::Base
     redirect_to desk_path
   end
 
-  private 
+  private
+
 
   def configure_devise_parameters
     devise_parameter_sanitizer.permit(:sign_up) { |u| u.permit(:name, :email, :password, :password_confirmation) }
   end
- 
+
 
   def liste_d(folder)
     d = Dir.open(folder)
-    liste_exclus = [".", ".."]
+    liste_exclus = [".", "..", ".DS_Store"]
     liste_dir = d.sort - liste_exclus
 
     i = 0

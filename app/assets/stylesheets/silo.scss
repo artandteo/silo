@@ -55,8 +55,19 @@ header{
 	padding: 40px 50px 40px 50px;
 }
 
-main {
-
+.main_desk {
+			display: -webkit-box;
+	    display: -ms-flexbox;
+	    display: flex;
+	    -webkit-box-orient: horizontal;
+	    -webkit-box-direction: normal;
+	    -ms-flex-direction: row;
+	    flex-direction: row;
+	    -ms-flex-wrap: wrap;
+	    flex-wrap: wrap;
+	    max-width: 1400px;
+	    margin-left: auto;
+	    margin-right: auto;
 }
 
 footer{
@@ -78,13 +89,73 @@ footer{
 	height: 20%;
 }
 
-
 .box{
-	min-height: 180px;
-	border: solid black 2px;
-	border-radius: 5px;
-	width: auto;
+    display: flex;
+    height: 180px;
+    min-width: 250px;
+    margin: 20px;
+    /*padding: 15px;*/
+    border-radius: 5px;
+    -webkit-box-flex: 1 0 auto;
+    -ms-flex: 1 0 auto;
+    flex:1 0 auto;
+		a {
+			color: $blanc;
+		}
 }
+
+.enfant{
+margin: auto;
+}
+
+.status3,
+.status4,
+.status5,
+.status6,
+.status7,
+.status8,
+.status9,
+.status10,
+.status11,
+.status12
+
+{
+    visibility: hidden;
+}
+
+.status2{
+    background-color: #d6d4c7;
+}
+
+.box:first-of-type,
+.box:nth-of-type(7),
+.box:nth-of-type(11){
+    background-color: #4675ff;
+}
+
+.box:nth-of-type(2),
+.box:nth-of-type(8){
+    background: orange;
+}
+
+.box:nth-of-type(3),
+.box:nth-of-type(9){
+    background: hotpink;
+}
+.box:nth-of-type(4),
+.box:nth-of-type(10){
+    background: olivedrab;
+}
+
+.box:nth-of-type(5),
+.box:nth-of-type(11){
+    background: #fff14f;
+}
+.box:nth-of-type(6),
+.box:nth-of-type(12){
+    background: #ff1130;
+}
+
 
 h1 {
   font-family: 'Lato', sans-serif;
