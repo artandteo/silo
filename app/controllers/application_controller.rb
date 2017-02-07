@@ -1,5 +1,5 @@
-class ApplicationController < ActionController::Base 
-  protect_from_forgery with: :exception 
+class ApplicationController < ActionController::Base
+  protect_from_forgery with: :exception
   before_action :set_locale
   before_action :configure_devise_parameters, if: :devise_controller?
   before_action :authenticate_user!, only: [:index]
@@ -30,8 +30,8 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def draw 
-    
+  def draw
+
   end
 
   def configure_devise_parameters
@@ -53,4 +53,5 @@ class ApplicationController < ActionController::Base
       end
     end
   end
+
 end
