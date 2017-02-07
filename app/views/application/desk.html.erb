@@ -54,4 +54,22 @@
 
 <% @arr.each do |dir| %>
 	<a href="<%= draw_path(params[:desk], dir) %>"><%= dir %></a>
+	<a href="<%= draw_path(params[:desk], dir) %>" data-method="delete" data-confirm="Souhaitez-vous supprimer le dossier <%= dir %> ? Cette action est irréversible et ne peux être annuler.">-</a>
 <% end %>
+
+<% if @arr.count != 12 %>
+	<a data-open="exampleModal1">+</a>
+<% end %>
+
+<div class="reveal" id="exampleModal1" data-reveal>
+  <%= form_for :nouv_desk do |f| %>
+	<%= f.label :nom, 'Nom du dossier' %>
+	<%= f.text_field :nom %>
+	<%= f.submit :go, value: "Valider", class: "button success" %>
+  <% end %>
+
+  <button class="close-button" data-close aria-label="Close modal" type="button">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+

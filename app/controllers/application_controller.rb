@@ -36,7 +36,7 @@ class ApplicationController < ActionController::Base
         @length = @table.length
       i = i + 1
       end
-      
+
       liste_d("./public/folders/#{current_user.name}/#{params[:draw]}/")
       liste_f("./public/folders/#{current_user.name}/#{params[:draw]}/")
   end
@@ -45,6 +45,17 @@ class ApplicationController < ActionController::Base
     path = "./public/folders/#{params[:desk]}/#{params[:draw]}/"
     Dir.mkdir(File.join(path, params[:nouv_dossier][:nom]), 0777)
     redirect_to draw_path(current_user.name)
+  end
+
+  def desk_add
+    path = "./public/folders/#{params[:desk]}/"
+    Dir.mkdir(File.join(path, params[:nouv_desk][:nom]), 0777)
+    redirect_to desk_path
+  end
+
+  def desk_delete
+    Dir.rmdir("./public/folders/#{params[:desk]}/#{params[:draw]}/")
+    redirect_to desk_path
   end
 
   private 
