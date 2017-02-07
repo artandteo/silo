@@ -36,7 +36,7 @@ class ApplicationController < ActionController::Base
         @length = @table.length
       i = i + 1
       end
-      
+
       liste_d("./public/folders/#{current_user.name}/#{params[:draw]}/")
       liste_f("./public/folders/#{current_user.name}/#{params[:draw]}/")
   end
@@ -47,16 +47,16 @@ class ApplicationController < ActionController::Base
     redirect_to draw_path(current_user.name)
   end
 
-  private 
+  private
 
   def configure_devise_parameters
     devise_parameter_sanitizer.permit(:sign_up) { |u| u.permit(:name, :email, :password, :password_confirmation) }
   end
- 
+
 
   def liste_d(folder)
     d = Dir.open(folder)
-    liste_exclus = [".", ".."]
+    liste_exclus = [".", "..", ".DS_Store"]
     liste_dir = d.sort - liste_exclus
 
     i = 0

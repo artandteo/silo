@@ -51,7 +51,16 @@
 	</div>
 
 </div>-->
+<div class="main_desk">
 
-<% @arr.each do |dir| %>
-	<a href="<%= draw_path(params[:desk], dir) %>"><%= dir %></a>
-<% end %>
+	<% i = 1 %>
+	<% @arr.each do |dir| %>
+		<div class="box status <% i %>">
+			<div class="enfant">
+				<a href="<%= draw_path(params[:desk], dir) %>"><%= dir %></a>
+				<% i = i + 1 %>
+			</div>
+		</div>
+	<% end %>
+
+</div>
