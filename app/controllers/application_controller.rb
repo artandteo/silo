@@ -47,7 +47,19 @@ class ApplicationController < ActionController::Base
     redirect_to draw_path(current_user.name)
   end
 
+  def desk_add
+    path = "./public/folders/#{params[:desk]}/"
+    Dir.mkdir(File.join(path, params[:nouv_desk][:nom]), 0777)
+    redirect_to desk_path
+  end
+
+  def desk_delete
+    Dir.rmdir("./public/folders/#{params[:desk]}/#{params[:draw]}/")
+    redirect_to desk_path
+  end
+
   private
+
 
   def configure_devise_parameters
     devise_parameter_sanitizer.permit(:sign_up) { |u| u.permit(:name, :email, :password, :password_confirmation) }
