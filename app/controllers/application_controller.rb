@@ -23,7 +23,6 @@ class ApplicationController < ActionController::Base
 
   def desk
     if params[:directory] == current_user.name
-      puts "====== AFFICHAGE"
       @r = liste_rep
 
     else
@@ -47,10 +46,9 @@ class ApplicationController < ActionController::Base
     liste_dir = d.sort - liste_exclus
 
     liste_dir.each do |fichier|
-      
       if File.ftype(selfs+fichier) == "directory"
-        puts "====== LISTE_REP"
         @directory = fichier
+        puts "======================"
         puts @directory
       end
     end
