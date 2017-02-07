@@ -5,9 +5,11 @@
 			<div id="content_onglet" class="row collapse">
 			  <div class="medium-3 columns">
 			    <ul class="tabs vertical" id="example-vert-tabs" data-tabs>
-			      <li class="tabs-title is-active"><a href="#panel1v" aria-selected="true">exemple</a></li>
-			      <li class="tabs-title"><a href="#panel2v">+</a></li>
-			      <li class="tabs-title"><a href="#panel3v">+</a></li>
+			      <!--  <li class="tabs-title is-active"><a href="#panel1v" aria-selected="true">exemple</a></li>-->
+			      <% @arr.each do |folder| %>
+					<li class="tabs-title"><a href="#<%= folder %>"><%= folder %></a></li>
+			      <% end %>
+			      <li class="tabs-title"><a href="#nouveau_dossier">+</a></li>
 			    </ul>
 			  </div>
 

@@ -3,9 +3,6 @@ class ApplicationController < ActionController::Base
   before_action :set_locale
   before_action :configure_devise_parameters, if: :devise_controller?
   before_action :authenticate_user!, only: [:index]
-  before_action :liste_rep, only:[:desk]
-
-
 
   def set_locale
     I18n.locale = params[:locale] || I18n.default_locale
@@ -17,41 +14,45 @@ class ApplicationController < ActionController::Base
 
   def accueil
     if user_signed_in?
-      redirect_to user_space_path(current_user.name)
+      redirect_to desk_path(current_user.name)
     end
   end
 
   def desk
-    if params[:directory] == current_user.name
-      @r = liste_rep
-
+    if params[:desk] == current_user.name
+      liste_rep("./public/folders/#{current_user.name}/")
     else
-      redirect_to user_space_path(current_user.name)
+      #redirect_to desk_path(current_user.name)
     end
   end
 
   def draw
-
+    liste_rep("./public/folders/#{current_user.name}/#{params[:draw]}/")
   end
 
   def configure_devise_parameters
     devise_parameter_sanitizer.permit(:sign_up) { |u| u.permit(:name, :email, :password, :password_confirmation) }
   end
 
-  def liste_rep()
-    selfs = "./public/folders/#{current_user.name}/"
+  private 
 
-    d = Dir.open("./public/folders/#{current_user.name}/")
+  def liste_rep(folder)
+    d = Dir.open(folder)
     liste_exclus = [".", ".."]
     liste_dir = d.sort - liste_exclus
 
+    i = 0
+    @arr = Array.new
     liste_dir.each do |fichier|
-      if File.ftype(selfs+fichier) == "directory"
-        @directory = fichier
-        puts "======================"
-        puts @directory
+      if File.ftype(folder+fichier) == "directory"
+        @arr[i] = fichier
+        i = i + 1
       end
     end
+  end
+
+  def liste_fichiers(folder)
+    
   end
 
 end

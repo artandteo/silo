@@ -52,9 +52,8 @@
 
 </div>-->
 
-<% @r.each do |d| %>
+<% @arr.each do |dir| %>
 
-<%= d %>
-<br/>
+	<a href="<%= draw_path(params[:desk], dir) %>"><%= dir %></a>
 
 <% end %>
