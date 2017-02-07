@@ -3,6 +3,7 @@ class ApplicationController < ActionController::Base
   before_action :set_locale
   before_action :configure_devise_parameters, if: :devise_controller?
   before_action :authenticate_user!, only: [:index]
+  before_action :liste_rep, only:[:desk]
 
 
 
@@ -22,6 +23,8 @@ class ApplicationController < ActionController::Base
 
   def desk
     if params[:directory] == current_user.name
+      puts "====== AFFICHAGE"
+      @r = liste_rep
 
     else
       redirect_to user_space_path(current_user.name)
@@ -36,5 +39,21 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.permit(:sign_up) { |u| u.permit(:name, :email, :password, :password_confirmation) }
   end
 
+  def liste_rep()
+    selfs = "./public/folders/#{current_user.name}/"
+
+    d = Dir.open("./public/folders/#{current_user.name}/")
+    liste_exclus = [".", ".."]
+    liste_dir = d.sort - liste_exclus
+
+    liste_dir.each do |fichier|
+
+      if File.ftype(selfs+fichier) == "directory"
+        puts "====== LISTE_REP"
+        @directory = fichier
+        puts @directory
+      end
+    end
+  end
 
 end
