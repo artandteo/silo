@@ -20,10 +20,7 @@
       <button class="menu-icon" aria-label="Close menu" type="button" data-close>
         <span aria-hidden="true">&times;</span>
       </button>
-      <ul>
-        <li>blabla</li>
-        <li>blibli</li>
-      </ul>
+      <%= render 'layouts/canvas' %>
     </div>
 
     <div class="off-canvas-content" data-off-canvas-content>
@@ -41,6 +38,24 @@
           <%= render 'layouts/footer' %>
         </footer>
     </div>
+
+
+    <script type="text/javascript">
+      $( ".col_config_1" ).click(function() {
+        $( ".top-bar" ).css( "background-color", "#34393E" );
+        $( "footer" ).css( "background-color", "#34393E" );
+      });
+      $( ".col_config_2" ).click(function() {
+        $( ".top-bar" ).css( "background-color", "#FF0000" );
+        $( "footer" ).css( "background-color", "#FF0000" );
+      });
+      $( ".pol_1" ).click(function() {
+        $( "h1, h2, h3, h4, h5, h6, p, li, a" ).css( "font-family", "Lato" );
+      });
+      $( ".pol_2" ).click(function() {
+        $( "h1, h2, h3, h4, h5, h6, p, li, a" ).css( "font-family", "Roboto" );
+      });
+    </script>
 
   </body>
 </html>

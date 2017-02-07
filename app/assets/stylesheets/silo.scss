@@ -102,3 +102,26 @@ h2 {
 p {
 	font-weight: 300;
 }
+
+// -------- Préférences et Config Admin ------------
+
+@mixin col {
+	width: 20px;
+	height: 20px;
+	display: inline-block;
+}
+
+.col_config_1 {
+	.col1 { @include col; background-color: $col1; }
+	.col2 { @include col; background-color: $col2; }
+	.col3 { @include col; background-color: $col3; }
+	.col4 { @include col; background-color: $col4; }
+	.col5 { @include col; background-color: $col5; }
+}
+.col_config_2 {
+	.col1 { @include col; background-color: #FFF200; }
+	.col2 { @include col; background-color: #E8860C; }
+	.col3 { @include col; background-color: #FF0000; }
+	.col4 { @include col; background-color: #780CE8; }
+	.col5 { @include col; background-color: #0D8AFF; }
+}
