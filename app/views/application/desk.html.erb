@@ -58,17 +58,30 @@
 		<div class="box status <% i %>">
 			<div class="enfant">
 				<a href="<%= draw_path(params[:desk], dir) %>"><%= dir %></a>
+				<a data-open="rename_desk">/</a>
 				<a href="<%= draw_path(params[:desk], dir) %>" data-method="delete" data-confirm="Souhaitez-vous supprimer le dossier <%= dir %> ? Cette action est irréversible et ne peux être annuler.">-</a>
 				<% i = i + 1 %>
 			</div>
 		</div>
+		<div class="reveal" id="rename_desk" data-reveal>
+		  <%= form_for :rename, method: 'put' do |f| %>
+			<%= f.label :nom, 'Nouveau nom ' %>
+			<%= f.text_field :new_name, value: dir %>
+			<%= f.hidden_field :last_name, value: dir %>
+			<%= f.submit :go, value: "Valider", class: "button success" %>
+		  <% end %>
+
+		  <button class="close-button" data-close aria-label="Close modal" type="button">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		</div>
 	<% end %>
 
 	<% if @arr.count != 12 %>
-		<a data-open="exampleModal1">+</a>
+		<a data-open="nouveau_desk">+</a>
 	<% end %>
 
-	<div class="reveal" id="exampleModal1" data-reveal>
+	<div class="reveal" id="nouveau_desk" data-reveal>
 	  <%= form_for :nouv_desk do |f| %>
 		<%= f.label :nom, 'Nom du dossier' %>
 		<%= f.text_field :nom %>
@@ -79,5 +92,7 @@
 	    <span aria-hidden="true">&times;</span>
 	  </button>
 	</div>
+
+	
 
 </div>

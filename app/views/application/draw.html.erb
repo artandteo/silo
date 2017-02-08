@@ -7,11 +7,27 @@
 			      <!-- <li class="tabs-title is-active"><a href="#panel1v" aria-selected="true">exemple</a></li>-->
 				  <% i = 0 %>
 			      <% @arr.each do |a| %>
-					<li class="tabs-title"><a href="#<%= i+1 %>"><%= a %></a></li>
+					<li class="tabs-title">
+						<a href="#<%= i+1 %>"><%= a %></a>
+					</li>
+					<a data-open="rename_desk">/</a>
+					<a href="<%= draws_path(params[:desk], params[:draw], a) %>" data-method="delete" data-confirm="Souhaitez-vous supprimer le dossier <%= a %> ? Cette action est irréversible et ne peux être annuler.">-</a>
 					<% i = i + 1 %>
+					<div class="reveal" id="rename_desk" data-reveal>
+					  <%= form_for :rename, method: 'put' do |f| %>
+						<%= f.label :nom, 'Nouveau nom ' %>
+						<%= f.text_field :new_name, value: a %>
+						<%= f.hidden_field :last_name, value: a %>
+						<%= f.submit :go, value: "Valider", class: "button success" %>
+					  <% end %>
+
+					  <button class="close-button" data-close aria-label="Close modal" type="button">
+					    <span aria-hidden="true">&times;</span>
+					  </button>
+					</div>
 			      <% end %>
 			    </ul>
-			    <a data-open="exampleModal1">+</a>
+			    <a data-open="creer_dossier">+</a>
 			  </div>
 
 
@@ -25,12 +41,16 @@
 				        <ul>
 				        	<% if @table[i-1] != nil %>	        	
 					        	<% for j in 0..@table[i-1].length-1 %>
-		        					<li><a target="_blank"><i class="fi-page-export-pdf size-36 step"></i><%= @table[i-1][j] %></a></li>
+		        					<li>
+		        					<a target="_blank"><i class="fi-page-export-pdf size-36 step"></i><%= @table[i-1][j] %></a>
+		        					</li>
 		        				<% end %>
 	        				<% end %>
 				        </ul>
+				        <a data-open="telech_fichier"><button type="button" class="button primary">Envoyer un nouveau fichier</button></a>
 				      </div>
 			      <% end %>
+
 			      <!-- 
 			      <div class="tabs-panel is-active" id="panel2v">
 			        <ul>
@@ -45,7 +65,9 @@
 			      </div>
 			      
 				-->
+
 			    </div>
+
 			  </div>
 		</div>
 	</div>
@@ -53,7 +75,7 @@
 
 
 
-<div class="reveal" id="exampleModal1" data-reveal>
+<div class="reveal" id="creer_dossier" data-reveal>
   <%= form_for :nouv_dossier do |f| %>
 	<%= f.label :nom, 'Nom du dossier' %>
 	<%= f.text_field :nom %>
@@ -64,3 +86,14 @@
   </button>
 </div>
 
+
+<div class="reveal" id="telech_fichier" data-reveal>
+  <%= form_for :nouv_fichier do |f| %>
+	<%= f.label :nom, 'Nom du dossier' %>
+	<%= f.file_field :fichier %>
+	<%= f.submit :envoyer, value: "Mettre à jour", class: "button success" %>
+  <% end %>
+  <button class="close-button" data-close aria-label="Close modal" type="button">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>

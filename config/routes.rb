@@ -8,9 +8,13 @@ Rails.application.routes.draw do
 
   get '/:desk', to: 'application#desk', as: :desk
   post '/:desk', to: 'application#desk_add'
-  delete '/:desk/:draw', to: 'application#desk_delete', as: :delete_desk
+  put '/:desk', to: 'application#desk_rename'
+  delete '/:desk/:draw', to: 'application#desk_delete'
+
+  put '/:desk/:draw', to: 'application#draw_rename'
 
   get '/:desk/:draw', to: 'application#draw', as: :draw
+  get '/:desk/:draw/:dossier', to: 'application#draw', as: :draws
   post '/:desk/:draw',to: 'application#draw_add'
   
 end
