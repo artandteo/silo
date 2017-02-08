@@ -55,7 +55,7 @@
 
 	<% i = 1 %>
 	<% @arr.each do |dir| %>
-		<div class="box status <% i %>">
+		<div class="box color<%= (i-1) % 5 %>">
 			<div class="enfant">
 				<a href="<%= draw_path(params[:desk], dir) %>"><%= dir %></a>
 				<a href="<%= draw_path(params[:desk], dir) %>" data-method="delete" data-confirm="Souhaitez-vous supprimer le dossier <%= dir %> ? Cette action est irréversible et ne peux être annuler.">-</a>
