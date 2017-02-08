@@ -3,6 +3,7 @@ class ApplicationController < ActionController::Base
   before_action :set_locale
   before_action :configure_devise_parameters, if: :devise_controller?
   before_action :authenticate_user!, only: [:index]
+  before_action :authenticate_user!, only: [:index]
 
   def set_locale
     I18n.locale = params[:locale] || I18n.default_locale
@@ -42,9 +43,15 @@ class ApplicationController < ActionController::Base
   end
 
   def draw_add
-    path = "./public/folders/#{params[:desk]}/#{params[:draw]}/"
-    Dir.mkdir(File.join(path, params[:nouv_dossier][:nom]), 0777)
-    redirect_to draw_path(current_user.name)
+    if params.include?(:nouv_dossier)
+      path = "./public/folders/#{params[:desk]}/#{params[:draw]}/"
+      Dir.mkdir(File.join(path, params[:nouv_dossier][:nom]), 0777)
+      redirect_to draw_path(current_user.name)
+    else
+      uploader = FichiersUploader.new
+      uploader.store!(params[:nouv_fichier][:fichier])
+
+    end
   end
 
   def desk_add
@@ -53,10 +60,29 @@ class ApplicationController < ActionController::Base
     redirect_to desk_path
   end
 
-  def desk_delete
-    Dir.rmdir("./public/folders/#{params[:desk]}/#{params[:draw]}/")
+  def desk_rename 
+    puts "==debug==="
+    puts params[:rename][:last_name]
+    puts params[:rename][:new_name]
+    FileUtils.mv("./public/folders/#{current_user.name}/#{params[:rename][:last_name]}", "./public/folders/#{current_user.name}/#{params[:rename][:new_name]}")
     redirect_to desk_path
   end
+
+  def desk_delete
+    puts "== debug"
+    puts "#{params[:sub_folder]}"
+    FileUtils.rm_rf("./public/folders/#{params[:desk]}/#{params[:draw]}/#{params[:dossier]}")
+    redirect_to desk_path
+  end
+
+  def draw_rename 
+    puts "==debug==="
+    puts params[:rename][:last_name]
+    puts params[:rename][:new_name]
+    FileUtils.mv("./public/folders/#{current_user.name}/#{params[:draw]}/#{params[:rename][:last_name]}", "./public/folders/#{current_user.name}/#{params[:draw]}/#{params[:rename][:new_name]}")
+    redirect_to desk_path
+  end
+
 
   private
 
