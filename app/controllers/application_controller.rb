@@ -61,17 +61,20 @@ class ApplicationController < ActionController::Base
       else
         redirect_to draw_path, notice: 'Aucun fichier téléchargé'
       end
-      
+
     end
+
   end
 
   def desk_add
-    path = "./public/folders/#{params[:desk]}/"
-    Dir.mkdir(File.join(path, params[:nouv_desk][:nom]), 0777)
-    redirect_to desk_path
+    if params.include?(:nouv_desk)
+      path = "./public/folders/#{params[:desk]}/"
+      Dir.mkdir(File.join(path, params[:nouv_desk][:nom]), 0777)
+      redirect_to desk_path
+    end
   end
 
-  def desk_rename 
+  def desk_rename
     FileUtils.mv("./public/folders/#{current_user.name}/#{params[:rename][:last_name]}", "./public/folders/#{current_user.name}/#{params[:rename][:new_name]}")
     redirect_to desk_path
   end
@@ -81,7 +84,7 @@ class ApplicationController < ActionController::Base
     redirect_to desk_path
   end
 
-  def draw_rename 
+  def draw_rename
     FileUtils.mv("./public/folders/#{current_user.name}/#{params[:draw]}/#{params[:rename][:last_name]}", "./public/folders/#{current_user.name}/#{params[:draw]}/#{params[:rename][:new_name]}")
     redirect_to desk_path
   end

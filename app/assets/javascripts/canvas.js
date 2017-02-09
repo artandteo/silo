@@ -56,4 +56,9 @@ document.addEventListener("turbolinks:load", function() {
       $(this).parent().parent().css( "opacity", "1");
     });
 
+    $('.switch :checkbox').change(function(e){
+     var message = $(this).prop('checked') ? 'on' : 'off';
+     document.getElementById("yes-no").value = message;
+    });
+
 });

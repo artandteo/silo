@@ -18,12 +18,14 @@
   <% if user_signed_in? %>
     <div class="medium-2 medium-offset-5">
       <div class="switch small vertical-center">
-        <input class="switch-input" id="yes-no" type="checkbox" name="exampleSwitch">
+
+        <input class="switch-input" id="yes-no" type="checkbox" checked="true" name="adminSwitch">
         <label class="switch-paddle" for="yes-no">
           <span class="show-for-sr">Admin</span>
           <span class="switch-active" aria-hidden="true">1</span>
           <span class="switch-inactive" aria-hidden="true">0</span>
         </label>
+
       </div>
     </div>
   <% end %>
