@@ -89,23 +89,51 @@ footer{
 	height: 20%;
 }
 
+@mixin box {
+	display: flex;
+	height: 180px;
+	min-width: 250px;
+	margin: 20px;
+	/*padding: 15px;*/
+	border-radius: 5px;
+	-webkit-box-flex: 1 0 auto;
+	-ms-flex: 1 0 auto;
+	flex:1 0 auto;
+	a {
+		color: $blanc;
+		font-size: 2em;
+		font-weight: 700;
+	}
+}
+
 .box{
-    display: flex;
-    height: 180px;
-    min-width: 250px;
-    margin: 20px;
-    /*padding: 15px;*/
-    border-radius: 5px;
-    -webkit-box-flex: 1 0 auto;
-    -ms-flex: 1 0 auto;
-    flex:1 0 auto;
-		a {
-			color: $blanc;
-		}
+	@include box;
+}
+.box_add{
+	@include box;
+	background-color: $gris_pale;
+	i {
+		font-size: 3em;
+	}
+}
+
+.draw_add {
+	text-align: center;
+	padding: 15px 0 15px 0;
+	i {
+		font-size: 3em;
+	}
 }
 
 .enfant{
 margin: auto;
+}
+
+.box_buttons {
+	text-align: center;
+	i {
+		padding: 0 5px 0 5px;
+	}
 }
 
 .box:first-of-type,
@@ -176,4 +204,11 @@ p {
 	.col3 { @include col; background-color: #FF0000; }
 	.col4 { @include col; background-color: #780CE8; }
 	.col5 { @include col; background-color: #0D8AFF; }
+}
+.col_config_3 {
+	.col1 { @include col; background-color: #8AFF80; }
+	.col2 { @include col; background-color: #E8D280; }
+	.col3 { @include col; background-color: #FF9680; }
+	.col4 { @include col; background-color: #BC80E8; }
+	.col5 { @include col; background-color: #80D8FF; }
 }

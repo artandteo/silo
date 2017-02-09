@@ -7,7 +7,7 @@ var col4 = sessionStorage.getItem("couleur4");
 var police = sessionStorage.getItem("police");
 
 document.addEventListener("turbolinks:load", function() {
-    // foundation.offcancas ();
+
     $( ".top-bar" ).css( "background-color", col2 );
     $( "footer" ).css( "background-color", col2 );
     $( ".color0" ).css( "background-color", col0 );
@@ -33,6 +33,14 @@ document.addEventListener("turbolinks:load", function() {
       sessionStorage.setItem("couleur4","#0D8AFF");
       window.location.reload(true);
     });
+    $( ".col_config_3" ).click(function() {
+      sessionStorage.setItem("couleur0","#8AFF80");
+      sessionStorage.setItem("couleur1","#E8D280");
+      sessionStorage.setItem("couleur2","#FF9680");
+      sessionStorage.setItem("couleur3","#BC80E8");
+      sessionStorage.setItem("couleur4","#80D8FF");
+      window.location.reload(true);
+    });
     $( ".pol_1" ).click(function() {
       sessionStorage.setItem("police","Lato");
       window.location.reload(true);
@@ -40,6 +48,12 @@ document.addEventListener("turbolinks:load", function() {
     $( ".pol_2" ).click(function() {
       sessionStorage.setItem("police","Roboto");
       window.location.reload(true);
+    });
+
+    $( ".box a").hover(function() {
+      $(this).css( "opacity", "0.5");
+      }, function(){
+      $(this).css( "opacity", "1");
     });
 
 });

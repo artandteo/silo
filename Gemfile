@@ -38,6 +38,7 @@ gem 'jbuilder', '~> 2.5'
 gem 'devise'
 gem 'foundation-rails'
 gem 'carrierwave', '~> 1.0'
+gem 'font-awesome-sass', '~> 4.7.0'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -53,7 +54,7 @@ group :development do
   gem 'spring-watcher-listen', '~> 2.0.0'
 end
 
-group :production do 
+group :production do
   gem 'sqlite3'
 end
 
