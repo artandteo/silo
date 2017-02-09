@@ -19,6 +19,9 @@ class ApplicationController < ActionController::Base
   end
 
   def desk
+
+    @prefs = Preference.where(comptes_id: current_user.id)
+    
     if params[:desk] == current_user.name
       liste_d("./public/folders/#{current_user.name}/")
     else
