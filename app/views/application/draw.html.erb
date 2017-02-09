@@ -8,12 +8,11 @@
 				  <% i = 0 %>
 			    <% @arr.each do |a| %>
 					<li class=<% if i == 0 %>"tabs-title is-active"<% else %>"tabs-title"<% end %>">
-						<a href="#<%= i+1 %>"><%= a %></a>
+						<a href="#<%= @arr[i] %>"><%= a %></a>
 					</li>
-					<a data-open="rename_desk"><i class="fa fa-file-text" aria-hidden="true"></i></a>
+					<a data-open="rename_desk-<%= a %>"><i class="fa fa-file-text" aria-hidden="true"></i></a>
 					<a href="<%= draws_path(params[:desk], params[:draw], a) %>" data-method="delete" data-confirm="Souhaitez-vous supprimer le dossier <%= a %> ? Cette action est irréversible et ne peux être annuler."><i class="fa fa-trash" aria-hidden="true"></i></a>
-					<% i = i + 1 %>
-					<div class="reveal" id="rename_desk" data-reveal>
+					<div class="reveal" id="rename_desk-<%= a %>" data-reveal>
 					  <%= form_for :rename, method: 'put' do |f| %>
 						<%= f.label :nom, 'Nouveau nom ' %>
 						<%= f.text_field :new_name, value: a %>
@@ -25,6 +24,8 @@
 					    <span aria-hidden="true">&times;</span>
 					  </button>
 					</div>
+					<% i = i + 1 %>
+					
 			    <% end %>
 			    </ul>
 					<div class="draw_add">
@@ -39,17 +40,17 @@
 			    <div class="tabs-content vertical" data-tabs-content="example-vert-tabs">
 			      <%
 			      for i in 0..@arr.count %>
-				      <div class="tabs-panel" id="<%= i %>">
+				      <div class="tabs-panel" id="<%= @arr[i] %>">
 				        <ul>
-				        	<% if @table[i-1] != nil %>
-					        	<% for j in 0..@table[i-1].length-1 %>
+				        	<% if @table[i] != nil %>
+					        	<% for j in 0..@table[i].length-1 %>
 		        					<li>
-		        					<a target="_blank"><i class="fi-page-export-pdf size-36 step"></i><%= @table[i-1][j] %></a>
+		        					<a target="_blank"><i class="fi-page-export-pdf size-36 step"></i><%= @table[i][j] %></a>
 		        					</li>
 		        				<% end %>
 	        				<% end %>
 				        </ul>
-				        <a data-open="telech_fichier"><button type="button" class="button primary">Envoyer un nouveau fichier</button></a>
+				        <a data-open="telech_fichier-<%= @arr[i] %>"><button type="button" class="button primary">Envoyer un nouveau fichier</button></a>
 				      </div>
 			      <% end %>
 
@@ -88,14 +89,16 @@
   </button>
 </div>
 
-
-<div class="reveal" id="telech_fichier" data-reveal>
-  <%= form_for :nouv_fichier do |f| %>
+<% @arr.each do |a| %>
+<div class="reveal" id="telech_fichier-<%= a %>" data-reveal>
+	<%= form_for :nouv_fichier do |f| %>
 	<%= f.label :nom, 'Nom du dossier' %>
-	<%= f.file_field :fichier %>
+	<%= f.file_field :fichier, accept: "image/png, text/html" %>
+	<%= f.hidden_field :dossier_courant, value: a %>
 	<%= f.submit :envoyer, value: "Mettre à jour", class: "button success" %>
-  <% end %>
-  <button class="close-button" data-close aria-label="Close modal" type="button">
-    <span aria-hidden="true">&times;</span>
-  </button>
+	<% end %>
+	<button class="close-button" data-close aria-label="Close modal" type="button">
+		<span aria-hidden="true">&times;</span>
+	</button>
 </div>
+<% end %>

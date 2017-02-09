@@ -52,7 +52,6 @@
 
 </div>-->
 <div class="main_desk">
-
 	<% i = 1 %>
 	<% @arr.each do |dir| %>
 		<div class="box color<%= (i-1) % 5 %>">
@@ -61,11 +60,11 @@
 				<% i = i + 1 %>
 			</div>
 			<div class="box_buttons">
-				<a class="float-left" data-open="rename_desk"><i class="fa fa-file-text" aria-hidden="true"></i></a>
+				<a class="float-left" data-open="rename_desk-<%= i %>"><i class="fa fa-file-text" aria-hidden="true"></i></a>
 				<a class="float-right" href="<%= draw_path(params[:desk], dir) %>" data-method="delete" data-confirm="Souhaitez-vous supprimer le dossier <%= dir %> ? Cette action est irréversible et ne peux être annuler."><i class="fa fa-trash" aria-hidden="true"></i></a>
 			</div>
 		</div>
-		<div class="reveal" id="rename_desk" data-reveal>
+		<div class="reveal" id="rename_desk-<%= i %>" data-reveal>
 		  <%= form_for :rename, method: 'put' do |f| %>
 			<%= f.label :nom, 'Nouveau nom ' %>
 			<%= f.text_field :new_name, value: dir %>
@@ -98,7 +97,4 @@
 	    <span aria-hidden="true">&times;</span>
 	  </button>
 	</div>
-
-
-
 </div>

@@ -3,7 +3,6 @@ class ApplicationController < ActionController::Base
   before_action :set_locale
   before_action :configure_devise_parameters, if: :devise_controller?
   before_action :authenticate_user!, only: [:index]
-  before_action :authenticate_user!, only: [:index]
 
   def set_locale
     I18n.locale = params[:locale] || I18n.default_locale
@@ -23,7 +22,7 @@ class ApplicationController < ActionController::Base
     if params[:desk] == current_user.name
       liste_d("./public/folders/#{current_user.name}/")
     else
-      #redirect_to desk_path(current_user.name)
+      redirect_to desk_path(current_user.name)
     end
   end
 
@@ -48,9 +47,21 @@ class ApplicationController < ActionController::Base
       Dir.mkdir(File.join(path, params[:nouv_dossier][:nom]), 0777)
       redirect_to draw_path(current_user.name)
     else
-      uploader = FichiersUploader.new
-      uploader.store!(params[:nouv_fichier][:fichier])
-
+      authorized_ext = [".pdf", ".jpg", ".jpeg"]
+      if !params[:nouv_fichier][:fichier].blank?
+        filename = params[:nouv_fichier][:fichier].original_filename
+        directory = "public/folders/#{current_user.name}/#{params[:draw]}/#{params[:nouv_fichier][:dossier_courant]}/"
+        path = File.join(directory, filename)
+        if authorized_ext.include? File.extname(path)
+          File.open(path, "wb") { |f| f.write(params[:nouv_fichier][:fichier].read) }
+          redirect_to draw_path, notice: 'Fichier téléchargé'
+        else
+          redirect_to draw_path, notice: 'extension non autorisé'
+        end
+      else
+        redirect_to draw_path, notice: 'Aucun fichier téléchargé'
+      end
+      
     end
   end
 
@@ -61,31 +72,22 @@ class ApplicationController < ActionController::Base
   end
 
   def desk_rename 
-    puts "==debug==="
-    puts params[:rename][:last_name]
-    puts params[:rename][:new_name]
     FileUtils.mv("./public/folders/#{current_user.name}/#{params[:rename][:last_name]}", "./public/folders/#{current_user.name}/#{params[:rename][:new_name]}")
     redirect_to desk_path
   end
 
   def desk_delete
-    puts "== debug"
-    puts "#{params[:sub_folder]}"
     FileUtils.rm_rf("./public/folders/#{params[:desk]}/#{params[:draw]}/#{params[:dossier]}")
     redirect_to desk_path
   end
 
   def draw_rename 
-    puts "==debug==="
-    puts params[:rename][:last_name]
-    puts params[:rename][:new_name]
     FileUtils.mv("./public/folders/#{current_user.name}/#{params[:draw]}/#{params[:rename][:last_name]}", "./public/folders/#{current_user.name}/#{params[:draw]}/#{params[:rename][:new_name]}")
     redirect_to desk_path
   end
 
 
   private
-
 
   def configure_devise_parameters
     devise_parameter_sanitizer.permit(:sign_up) { |u| u.permit(:name, :email, :password, :password_confirmation) }
