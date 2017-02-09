@@ -1,17 +1,25 @@
 
-<div class="row top-bar">
+<div class="expanded row top-bar">
+
   <div class="medium-1">
-    <button type="button" class="menu-icon" data-toggle="offCanvas"></button>
-  </div>
-  <div class="medium-2">
-    <a href="<%= root_path %>"><img class="top-logo" src="/img/logo_silo_small.png" alt="Logo de Silo by artandteo" /></a>
-  </div>
-  <div class="medium-9">
     <% if user_signed_in? %>
-    	Connecté en tant que <%= current_user.email %>
-    	<%= link_to 'Déconnexion', destroy_user_session_path, method: "delete" %>
+      <button type="button" data-toggle="offCanvas"><img class="config-logo" src="/img/logo_silo_ico.png" alt="Icone de menu Silo" /></button>
+    <% end %>
+  </div>
+
+  <div class="medium-2">
+    <% if user_signed_in? %>
+      <a href="<%= root_path %>"><h1><%= current_user.name %></h1></a>
     <% else %>
-    	<%= link_to 'Se connecter', new_user_session_path %>
+      <a href="<%= root_path %>"><img class="top-logo" src="/img/logo_silo_small.png" alt="Logo de Silo by artandteo" /></a>
+    <% end %>
+  </div>
+  <div class="medium-7">
+    <% if user_signed_in? %>
+    	<!-- Connecté en tant que <%= current_user.email %> -->
+      <a data-method="delete" href="<%= destroy_user_session_path %>"><button type="button" class="vertical-center float-right success button small">Déconnexion</button></a>
+    <% else %>
+      <a href="<%= new_user_session_path %>"><button type="button" class="vertical-center float-right success button small">Se connecter</button></a>
     <% end %>
   </div>
 

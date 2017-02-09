@@ -50,10 +50,10 @@ document.addEventListener("turbolinks:load", function() {
       window.location.reload(true);
     });
 
-    $( ".box a").hover(function() {
-      $(this).css( "opacity", "0.5");
+    $( ".enfant a").hover(function() {
+      $(this).parent().parent().css( "opacity", "0.5");
       }, function(){
-      $(this).css( "opacity", "1");
+      $(this).parent().parent().css( "opacity", "1");
     });
 
 });

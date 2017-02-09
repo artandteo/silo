@@ -58,11 +58,11 @@
 		<div class="box color<%= (i-1) % 5 %>">
 			<div class="enfant">
 				<a href="<%= draw_path(params[:desk], dir) %>"><%= dir %></a>
-				<div class="box_buttons">
-					<a class="" data-open="rename_desk"><i class="fa fa-file-text" aria-hidden="true"></i></a>
-					<a class="" href="<%= draw_path(params[:desk], dir) %>" data-method="delete" data-confirm="Souhaitez-vous supprimer le dossier <%= dir %> ? Cette action est irréversible et ne peux être annuler."><i class="fa fa-trash" aria-hidden="true"></i></a>
-				</div>
 				<% i = i + 1 %>
+			</div>
+			<div class="box_buttons">
+				<a class="float-left" data-open="rename_desk"><i class="fa fa-file-text" aria-hidden="true"></i></a>
+				<a class="float-right" href="<%= draw_path(params[:desk], dir) %>" data-method="delete" data-confirm="Souhaitez-vous supprimer le dossier <%= dir %> ? Cette action est irréversible et ne peux être annuler."><i class="fa fa-trash" aria-hidden="true"></i></a>
 			</div>
 		</div>
 		<div class="reveal" id="rename_desk" data-reveal>
