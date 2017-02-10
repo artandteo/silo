@@ -12,6 +12,7 @@ $col5: #FFDA8C;
 $gris_pale: #F2F2F2;
 $vert_silo: #7ED321;
 $blanc: #FFFFFF;
+$switch-background-active: #3adb76;
 
 .row {
 	max-width: 100%;
@@ -221,6 +222,7 @@ p {
 	background: $col4;
 	padding-top: 5px;
 	padding-bottom: 5px;
+	margin-bottom: 20px;
 	a, h4 {
 		color: $blanc;
 	}

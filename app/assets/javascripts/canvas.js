@@ -9,11 +9,11 @@ var toggle = sessionStorage.getItem("toggle");
 
 document.addEventListener("turbolinks:load", function() {
 
-    sessionStorage.setItem("couleur0",color0);
-    sessionStorage.setItem("couleur1",color1);
-    sessionStorage.setItem("couleur2",color2);
-    sessionStorage.setItem("couleur3",color3);
-    sessionStorage.setItem("couleur4",color4);
+    sessionStorage.setItem("couleur0",'#'+color0);
+    sessionStorage.setItem("couleur1",'#'+color1);
+    sessionStorage.setItem("couleur2",'#'+color2);
+    sessionStorage.setItem("couleur3",'#'+color3);
+    sessionStorage.setItem("couleur4",'#'+color4);
 
     $( ".top-bar" ).css( "background-color", col2 );
     $( "footer" ).css( "background-color", col2 );

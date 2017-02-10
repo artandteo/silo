@@ -15,14 +15,6 @@
 
   <body>
 
-    <%= javascript_tag do %>
-      window.color0 = '<%= j @color0.to_s %>';
-      window.color1 = '<%= j @color1.to_s %>';
-      window.color2 = '<%= j @color2.to_s %>';
-      window.color3 = '<%= j @color3.to_s %>';
-      window.color4 = '<%= j @color4.to_s %>';
-    <% end %>
-
     <div class="off-canvas position-left" id="offCanvas" data-off-canvas>
       <%= render 'layouts/canvas' %>
     </div>

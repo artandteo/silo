@@ -21,8 +21,10 @@
 					<li class=<% if i == 0 %>"tabs-title is-active"<% else %>"tabs-title"<% end %>">
 						<a href="#<%= @arr[i] %>"><%= a %></a>
 					</li>
-					<a data-open="rename_desk-<%= a %>"><i class="fa fa-file-text" aria-hidden="true"></i></a>
-					<a href="<%= draws_path(params[:desk], params[:draw], a) %>" data-method="delete" data-confirm="Souhaitez-vous supprimer le dossier <%= a %> ? Cette action est irréversible et ne peux être annuler."><i class="fa fa-trash" aria-hidden="true"></i></a>
+					<div class="toggle_admin">
+						<a data-open="rename_desk-<%= a %>"><i class="fa fa-file-text" aria-hidden="true"></i></a>
+						<a href="<%= draws_path(params[:desk], params[:draw], a) %>" data-method="delete" data-confirm="Souhaitez-vous supprimer le dossier <%= a %> ? Cette action est irréversible et ne peux être annuler."><i class="fa fa-trash" aria-hidden="true"></i></a>
+					</div>
 					<div class="reveal" id="rename_desk-<%= a %>" data-reveal>
 					  <%= form_for :rename, method: 'put' do |f| %>
 						<%= f.label :nom, 'Nouveau nom ' %>
@@ -39,7 +41,7 @@
 
 			    <% end %>
 			    </ul>
-					<div class="draw_add">
+					<div class="draw_add toggle_admin">
 						<a data-open="creer_dossier"><i class="fa fa-plus-circle" aria-hidden="true"></i></a>
 					</div>
 			  </div>

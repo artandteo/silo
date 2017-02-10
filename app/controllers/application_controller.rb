@@ -20,22 +20,6 @@ class ApplicationController < ActionController::Base
 
   def desk
 
-    if @color0 == nil
-      @color0 = '#FFFF00'
-    end
-    if @color1 == nil
-      @color1 = '#FFFF00'
-    end
-    if @color2 == nil
-      @color2 = '#FFFF00'
-    end
-    if @color3 == nil
-      @color3 = '#FFFF00'
-    end
-    if @color4 == nil
-      @color4 = '#FFFF00'
-    end
-
     @compte = Compte.where(user_id: current_user.id)
     @pref = Preference.where(compte_id: @compte).take
 

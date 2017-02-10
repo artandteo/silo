@@ -9,7 +9,7 @@
     <% end %>
   </div>
 
-  <div class="medium-7">
+  <div class="medium-9">
     <% if user_signed_in? %>
       <a class="float-left" href="<%= root_path %>"><h1><%= current_user.nom %></h1></a>
     <% else %>
@@ -18,24 +18,24 @@
   </div>
 
   <% if user_signed_in? %>
-    <div class="medium-2">
-      <div class="switch small vertical-center">
+    <div class="medium-1">
+      <div class="switch tiny vertical-center">
 
         <input class="switch-input" id="yes-no" type="checkbox" checked="true" name="adminSwitch">
         <label class="switch-paddle" for="yes-no">
           <span class="show-for-sr">Admin</span>
-          <span class="switch-active" aria-hidden="true">1</span>
-          <span class="switch-inactive" aria-hidden="true">0</span>
+          <span class="switch-active" aria-hidden="true"></span>
+          <span class="switch-inactive" aria-hidden="true"></span>
         </label>
 
       </div>
     </div>
   <% end %>
 
-  <div class="medium-2">
+  <div class="medium-1">
     <% if user_signed_in? %>
     	<!-- Connecté en tant que <%= current_user.email %> -->
-      <a data-method="delete" href="<%= destroy_user_session_path %>"><button type="button" class="vertical-center float-right success button small">Déconnexion</button></a>
+      <a data-method="delete" href="<%= destroy_user_session_path %>"><button type="button" class="vertical-center success button small">Déconnexion</button></a>
     <% else %>
       <a href="<%= new_user_session_path %>"><button type="button" class="vertical-center float-right success button small">Se connecter</button></a>
     <% end %>
