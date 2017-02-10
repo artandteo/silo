@@ -177,7 +177,7 @@ p {
 
 // -------- Préférences et Config Admin ------------
 
-@mixin col {
+.col {
 	width: 20px;
 	height: 20px;
 	display: inline-block;
@@ -187,34 +187,34 @@ p {
 	padding-left: 20px;
 }
 
-.col_config_1:hover, .col_config_2:hover, .col_config_3:hover {
-	opacity: 0.5;
-}
+// .col_config_1:hover, .col_config_2:hover, .col_config_3:hover {
+// 	opacity: 0.5;
+// }
 
-.col_config_1 {
-	@include col_config;
-	.col1 { @include col; background-color: $col1; }
-	.col2 { @include col; background-color: $col2; }
-	.col3 { @include col; background-color: $col3; }
-	.col4 { @include col; background-color: $col4; }
-	.col5 { @include col; background-color: $col5; }
-}
-.col_config_2 {
-	@include col_config;
-	.col1 { @include col; background-color: #FFF200; }
-	.col2 { @include col; background-color: #E8860C; }
-	.col3 { @include col; background-color: #FF0000; }
-	.col4 { @include col; background-color: #780CE8; }
-	.col5 { @include col; background-color: #0D8AFF; }
-}
-.col_config_3 {
-	@include col_config;
-	.col1 { @include col; background-color: #8AFF80; }
-	.col2 { @include col; background-color: #E8D280; }
-	.col3 { @include col; background-color: #FF9680; }
-	.col4 { @include col; background-color: #BC80E8; }
-	.col5 { @include col; background-color: #80D8FF; }
-}
+// .col_config_1 {
+// 	@include col_config;
+// 	.col1 { @include col; background-color: $col1; }
+// 	.col2 { @include col; background-color: $col2; }
+// 	.col3 { @include col; background-color: $col3; }
+// 	.col4 { @include col; background-color: $col4; }
+// 	.col5 { @include col; background-color: $col5; }
+// }
+// .col_config_2 {
+// 	@include col_config;
+// 	.col1 { @include col; background-color: #FFF200; }
+// 	.col2 { @include col; background-color: #E8860C; }
+// 	.col3 { @include col; background-color: #FF0000; }
+// 	.col4 { @include col; background-color: #780CE8; }
+// 	.col5 { @include col; background-color: #0D8AFF; }
+// }
+// .col_config_3 {
+// 	@include col_config;
+// 	.col1 { @include col; background-color: #8AFF80; }
+// 	.col2 { @include col; background-color: #E8D280; }
+// 	.col3 { @include col; background-color: #FF9680; }
+// 	.col4 { @include col; background-color: #BC80E8; }
+// 	.col5 { @include col; background-color: #80D8FF; }
+// }
 
 // ------------------  DRAW -------------------
 

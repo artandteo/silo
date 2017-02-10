@@ -20,7 +20,9 @@ class ApplicationController < ActionController::Base
   end
 
   def desk
-    @compte = Compte.where(user_id: current_user.id)
+
+    # optimisation possible
+    @compte = Compte.where(user_id: current_user.id).take
     @pref = Preference.where(compte_id: @compte).take
 
     if params[:desk] == current_user.nom
@@ -54,7 +56,7 @@ class ApplicationController < ActionController::Base
       redirect_to draw_path(current_user.nom)
     else
       authorized_ext = [".pdf", ".jpg", ".jpeg"]
-      if params.include?(:nouv_dossier) && !params[:nouv_fichier][:fichier].blank?
+      if params.include?(:nouv_fichier) && !params[:nouv_fichier][:fichier].blank?
         filename = params[:nouv_fichier][:fichier].original_filename
         directory = "public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:nouv_fichier][:dossier_courant]}/"
         path = File.join(directory, filename)
@@ -114,8 +116,10 @@ class ApplicationController < ActionController::Base
   def config_pref
     if params.include?(:preferences) 
       @palette = Palette.where(ref: params[:preferences][:color]).take
-      puts @pref.inspect
-      Preference.update(color1)
+      @compte = Compte.where(user_id: current_user.id)
+      @pref = Preference.where(compte_id: @compte).take
+      @pref.update(color1: @palette.c1, color2: @palette.c2, color3: @palette.c3, color4: @palette.c4, color5: @palette.c5)
+      redirect_to desk_path
     end
   end
 
