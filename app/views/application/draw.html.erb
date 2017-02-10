@@ -1,3 +1,14 @@
+<!-- ////////// BREADCRUMB /////////// -->
+
+<div id="breadcrumb" class="row">
+	<div class="small-4 medium-7 columns bread_home">
+		<a href="<%= root_path %>"><h4>HOME</h4></a>
+	</div>
+	<div class="small-8 medium-5 columns bread_title">
+		<h4><%= @breadcrumb %></h4>
+	</div>
+</div>
+
 <!-- affichage des liens -->
 	<div class="row">
 		<div class="medium-12 columns">
@@ -25,7 +36,7 @@
 					  </button>
 					</div>
 					<% i = i + 1 %>
-					
+
 			    <% end %>
 			    </ul>
 					<div class="draw_add">

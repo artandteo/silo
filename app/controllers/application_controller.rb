@@ -21,7 +21,23 @@ class ApplicationController < ActionController::Base
   def desk
 
     @prefs = Preference.where(comptes_id: current_user.id)
-    
+    if @color0 == nil
+      @color0 = '#FFFF00'
+    end
+    if @color1 == nil
+      @color1 = '#FFFF00'
+    end
+    if @color2 == nil
+      @color2 = '#FFFF00'
+    end
+    if @color3 == nil
+      @color3 = '#FFFF00'
+    end
+    if @color4 == nil
+      @color4 = '#FFFF00'
+    end
+
+
     if params[:desk] == current_user.name
       liste_d("./public/folders/#{current_user.name}/")
     else
@@ -31,6 +47,7 @@ class ApplicationController < ActionController::Base
 
   def draw
       @table = Array.new { Array.new }
+      @breadcrumb = params[:draw]
       i = 0
       liste_d("./public/folders/#{current_user.name}/#{params[:draw]}/").each do |a|
 

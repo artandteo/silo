@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170206144622) do
+ActiveRecord::Schema.define(version: 20170203145218) do
 
   create_table "comptes", force: :cascade do |t|
     t.string  "nom"
@@ -29,48 +29,6 @@ ActiveRecord::Schema.define(version: 20170206144622) do
     t.string  "color6"
     t.integer "comptes_id"
     t.index ["comptes_id"], name: "index_preferences_on_comptes_id"
-  end
-
-  create_table "rm_repo_items", force: :cascade do |t|
-    t.string  "owner_type"
-    t.integer "owner_id"
-    t.string  "sender_type"
-    t.integer "sender_id"
-    t.string  "ancestry"
-    t.integer "ancestry_depth", default: 0
-    t.string  "name"
-    t.float   "file_size"
-    t.string  "content_type"
-    t.string  "file"
-    t.string  "type"
-    t.index ["owner_type", "owner_id"], name: "index_rm_repo_items_on_owner_type_and_owner_id"
-    t.index ["sender_type", "sender_id"], name: "index_rm_repo_items_on_sender_type_and_sender_id"
-  end
-
-  create_table "rm_sharings", force: :cascade do |t|
-    t.string  "owner_type"
-    t.integer "owner_id"
-    t.string  "creator_type"
-    t.integer "creator_id"
-    t.integer "repo_item_id"
-    t.boolean "can_create",   default: false
-    t.boolean "can_read",     default: false
-    t.boolean "can_update",   default: false
-    t.boolean "can_delete",   default: false
-    t.boolean "can_share",    default: false
-    t.index ["creator_type", "creator_id"], name: "index_rm_sharings_on_creator_type_and_creator_id"
-    t.index ["owner_type", "owner_id"], name: "index_rm_sharings_on_owner_type_and_owner_id"
-    t.index ["repo_item_id"], name: "index_rm_sharings_on_repo_item_id"
-  end
-
-  create_table "rm_sharings_members", force: :cascade do |t|
-    t.integer "sharing_id"
-    t.string  "member_type"
-    t.integer "member_id"
-    t.boolean "can_add",     default: false
-    t.boolean "can_remove",  default: false
-    t.index ["member_type", "member_id"], name: "index_rm_sharings_members_on_member_type_and_member_id"
-    t.index ["sharing_id"], name: "index_rm_sharings_members_on_sharing_id"
   end
 
   create_table "users", force: :cascade do |t|

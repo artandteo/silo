@@ -52,7 +52,6 @@
 
 </div>-->
 
-<%= @prefs.inspect %>
 <div class="main_desk">
 	<% i = 1 %>
 	<% @arr.each do |dir| %>
@@ -61,7 +60,7 @@
 				<a href="<%= draw_path(params[:desk], dir) %>"><%= dir %></a>
 				<% i = i + 1 %>
 			</div>
-			<div class="box_buttons">
+			<div class="box_buttons toggle_admin">
 				<a class="float-left" data-open="rename_desk-<%= i %>"><i class="fa fa-file-text" aria-hidden="true"></i></a>
 				<a class="float-right" href="<%= draw_path(params[:desk], dir) %>" data-method="delete" data-confirm="Souhaitez-vous supprimer le dossier <%= dir %> ? Cette action est irréversible et ne peux être annuler."><i class="fa fa-trash" aria-hidden="true"></i></a>
 			</div>
@@ -81,7 +80,7 @@
 	<% end %>
 
 	<% if @arr.count != 12 %>
-	<div class="box_add">
+	<div class="box_add toggle_admin">
 		<div class="enfant">
 			<a data-open="nouveau_desk"><i class="fa fa-plus-circle" aria-hidden="true"></i></a>
 		</div>

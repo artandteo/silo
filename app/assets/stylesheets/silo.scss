@@ -214,3 +214,31 @@ p {
 	.col4 { @include col; background-color: #BC80E8; }
 	.col5 { @include col; background-color: #80D8FF; }
 }
+
+// ------------------  DRAW -------------------
+
+#breadcrumb {
+	background: $col4;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	a, h4 {
+		color: $blanc;
+	}
+}
+
+.bread_home {
+	border-width: 0 1px 0 0;
+	border-style: solid;
+	border-color: $blanc;
+}
+
+.bread_home h4 {
+	text-align: right;
+	margin-right: 30px;
+	margin-top: 8px;
+}
+
+.bread_title h4 {
+	text-align: center;
+	margin-top: 11px;
+}

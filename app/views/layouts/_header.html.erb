@@ -3,20 +3,22 @@
 
   <div class="medium-1">
     <% if user_signed_in? %>
+    <div class="toggle_admin">
       <button type="button" data-toggle="offCanvas"><img class="config-logo" src="/img/logo_silo_ico.png" alt="Icone de menu Silo" /></button>
+    </div>
     <% end %>
   </div>
 
-  <div class="medium-2">
+  <div class="medium-7">
     <% if user_signed_in? %>
-      <a href="<%= root_path %>"><h1><%= current_user.name %></h1></a>
+      <a class="float-left" href="<%= root_path %>"><h1><%= current_user.name %></h1></a>
     <% else %>
-      <a href="<%= root_path %>"><img class="top-logo" src="/img/logo_silo_small.png" alt="Logo de Silo by artandteo" /></a>
+      <a class="float-left" href="<%= root_path %>"><img class="top-logo" src="/img/logo_silo_small.png" alt="Logo de Silo by artandteo" /></a>
     <% end %>
   </div>
 
   <% if user_signed_in? %>
-    <div class="medium-2 medium-offset-5">
+    <div class="medium-2">
       <div class="switch small vertical-center">
 
         <input class="switch-input" id="yes-no" type="checkbox" checked="true" name="adminSwitch">
