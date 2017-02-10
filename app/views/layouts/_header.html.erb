@@ -9,7 +9,7 @@
 
   <div class="medium-2">
     <% if user_signed_in? %>
-      <a href="<%= root_path %>"><h1><%= current_user.name %></h1></a>
+      <a href="<%= root_path %>"><h1><%= current_user.nom %></h1></a>
     <% else %>
       <a href="<%= root_path %>"><img class="top-logo" src="/img/logo_silo_small.png" alt="Logo de Silo by artandteo" /></a>
     <% end %>

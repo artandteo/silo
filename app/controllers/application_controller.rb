@@ -14,46 +14,47 @@ class ApplicationController < ActionController::Base
 
   def accueil
     if user_signed_in?
-      redirect_to desk_path(current_user.name)
+      redirect_to desk_path(current_user.nom)
     end
   end
 
   def desk
 
-    @prefs = Preference.where(comptes_id: current_user.id)
-    
-    if params[:desk] == current_user.name
-      liste_d("./public/folders/#{current_user.name}/")
+    @compte = Compte.where(user_id: current_user.id)
+    @pref = Preference.where(compte_id: @compte).take
+
+    if params[:desk] == current_user.nom
+      liste_d("./public/folders/#{current_user.nom}/")
     else
-      redirect_to desk_path(current_user.name)
+      redirect_to desk_path(current_user.nom)
     end
   end
 
   def draw
       @table = Array.new { Array.new }
       i = 0
-      liste_d("./public/folders/#{current_user.name}/#{params[:draw]}/").each do |a|
+      liste_d("./public/folders/#{current_user.nom}/#{params[:draw]}/").each do |a|
 
-        b = liste_f("./public/folders/#{current_user.name}/#{params[:draw]}/#{a}/")
+        b = liste_f("./public/folders/#{current_user.nom}/#{params[:draw]}/#{a}/")
         @table.push(b)
         @length = @table.length
       i = i + 1
       end
 
-      liste_d("./public/folders/#{current_user.name}/#{params[:draw]}/")
-      liste_f("./public/folders/#{current_user.name}/#{params[:draw]}/")
+      liste_d("./public/folders/#{current_user.nom}/#{params[:draw]}/")
+      liste_f("./public/folders/#{current_user.nom}/#{params[:draw]}/")
   end
 
   def draw_add
     if params.include?(:nouv_dossier)
       path = "./public/folders/#{params[:desk]}/#{params[:draw]}/"
       Dir.mkdir(File.join(path, params[:nouv_dossier][:nom]), 0777)
-      redirect_to draw_path(current_user.name)
+      redirect_to draw_path(current_user.nom)
     else
       authorized_ext = [".pdf", ".jpg", ".jpeg"]
       if !params[:nouv_fichier][:fichier].blank?
         filename = params[:nouv_fichier][:fichier].original_filename
-        directory = "public/folders/#{current_user.name}/#{params[:draw]}/#{params[:nouv_fichier][:dossier_courant]}/"
+        directory = "public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:nouv_fichier][:dossier_courant]}/"
         path = File.join(directory, filename)
         if authorized_ext.include? File.extname(path)
           File.open(path, "wb") { |f| f.write(params[:nouv_fichier][:fichier].read) }
@@ -78,7 +79,7 @@ class ApplicationController < ActionController::Base
   end
 
   def desk_rename
-    FileUtils.mv("./public/folders/#{current_user.name}/#{params[:rename][:last_name]}", "./public/folders/#{current_user.name}/#{params[:rename][:new_name]}")
+    FileUtils.mv("./public/folders/#{current_user.nom}/#{params[:rename][:last_name]}", "./public/folders/#{current_user.nom}/#{params[:rename][:new_name]}")
     redirect_to desk_path
   end
 
@@ -88,15 +89,26 @@ class ApplicationController < ActionController::Base
   end
 
   def draw_rename
-    FileUtils.mv("./public/folders/#{current_user.name}/#{params[:draw]}/#{params[:rename][:last_name]}", "./public/folders/#{current_user.name}/#{params[:draw]}/#{params[:rename][:new_name]}")
-    redirect_to desk_path
+    FileUtils.mv("./public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:rename][:last_name]}", "./public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:rename][:new_name]}")
+    redirect_to draw_path
   end
 
+
+  def file_delete
+    file = "./public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:source]}/#{params[:file]}"
+    File.delete(file) if File.exist?(file)
+    redirect_to draw_path
+  end
+
+  def file_rename
+    FileUtils.mv("./public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:source]}/#{params[:file_rename][:last_filename]}", "./public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:source]}/#{params[:file_rename][:new_filename]}")
+    redirect_to draw_path
+  end
 
   private
 
   def configure_devise_parameters
-    devise_parameter_sanitizer.permit(:sign_up) { |u| u.permit(:name, :email, :password, :password_confirmation) }
+    devise_parameter_sanitizer.permit(:sign_up) { |u| u.permit(:nom, :email, :password, :password_confirmation) }
   end
 
 
