@@ -10,12 +10,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170203145218) do
+ActiveRecord::Schema.define(version: 20170210101324) do
 
   create_table "comptes", force: :cascade do |t|
     t.string  "nom"
-    t.integer "users_id"
-    t.index ["users_id"], name: "index_comptes_on_users_id"
+    t.integer "user_id"
+    t.index ["user_id"], name: "index_comptes_on_user_id"
   end
 
   create_table "preferences", force: :cascade do |t|
@@ -27,8 +27,8 @@ ActiveRecord::Schema.define(version: 20170203145218) do
     t.string  "color4"
     t.string  "color5"
     t.string  "color6"
-    t.integer "comptes_id"
-    t.index ["comptes_id"], name: "index_preferences_on_comptes_id"
+    t.integer "compte_id"
+    t.index ["compte_id"], name: "index_preferences_on_compte_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -48,13 +48,11 @@ ActiveRecord::Schema.define(version: 20170203145218) do
     t.string   "unconfirmed_email"
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
-    t.string   "name",                   default: "", null: false
-    t.string   "identifiant"
-    t.integer  "visites"
+    t.string   "nom"
+    t.string   "identifiant_eleve"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
-    t.index ["identifiant"], name: "index_users_on_identifiant", unique: true
-    t.index ["name"], name: "index_users_on_name", unique: true
+    t.index ["identifiant_eleve"], name: "index_users_on_identifiant_eleve", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 

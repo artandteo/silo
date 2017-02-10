@@ -11,6 +11,10 @@ Rails.application.routes.draw do
   put '/:desk', to: 'application#desk_rename'
   delete '/:desk/:draw', to: 'application#desk_delete'
 
+  get '/:desk/:draw/:source/:file', to: 'application#draw', :constraints => { :file => /.*/ }, as: :delete_file
+  put '/:desk/:draw/:source/:file', to: 'application#file_rename', :constraints => { :file => /.*/ }
+  delete '/:desk/:draw/:source/:file', to: 'application#file_delete', :constraints => { :file => /.*/ }
+
   put '/:desk/:draw', to: 'application#draw_rename'
 
   get '/:desk/:draw', to: 'application#draw', as: :draw

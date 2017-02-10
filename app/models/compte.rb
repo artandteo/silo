@@ -1,3 +1,4 @@
 class Compte < ApplicationRecord
-	has_one :user
+	has_many :user
+	has_many :preference
 end
