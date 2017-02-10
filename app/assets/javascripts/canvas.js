@@ -25,7 +25,7 @@ document.addEventListener("turbolinks:load", function() {
     $( ".color4" ).css( "background-color", col4 );
     $( "h1, h2, h3, h4, h5, h6, p, li, a" ).css( "font-family", police );
 
-    
+
     // $( ".col_config_1" ).click(function() {
     //   sessionStorage.setItem("couleur0","#FF5B2B");
     //   sessionStorage.setItem("couleur1","#B1221C");
@@ -44,7 +44,7 @@ document.addEventListener("turbolinks:load", function() {
     //   window.location.reload(true);
     // });
 
-    
+
     // $( ".col_config_3" ).click(function() {
     //   sessionStorage.setItem("couleur0","#8AFF80");
     //   sessionStorage.setItem("couleur1","#E8D280");
