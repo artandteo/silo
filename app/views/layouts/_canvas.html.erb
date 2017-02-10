@@ -1,38 +1,36 @@
+<% if user_signed_in? %>
+  <%= form_for :preferences do |f| %>
+  <h4 class="text-center">Préférences administrateur</h4>
+  <ul class="tabs vertical"  data-active-collapse="true" data-tabs id="example-tabs">
+    <li class="tabs-title is-active"><a href="#panel1" aria-selected="true">Couleurs</a></li>
+    <li class="tabs-title"><a href="#panel2">Police</a></li>
+    <li class="tabs-title"><a href="#panel3">Image</a></li>
+    <li class="tabs-title"><a href="#panel4">Layout</a></li>
+  </ul>
 
-<h4 class="text-center">Préférences administrateur</h4>
-<ul class="tabs vertical"  data-active-collapse="true" data-tabs id="example-tabs">
-  <li class="tabs-title is-active"><a href="#panel1" aria-selected="true">Couleurs</a></li>
-  <li class="tabs-title"><a href="#panel2">Police</a></li>
-  <li class="tabs-title"><a href="#panel3">Image</a></li>
-  <li class="tabs-title"><a href="#panel4">Layout</a></li>
-</ul>
-
-<div class="tabs-content" data-tabs-content="example-tabs">
-  <div class="tabs-panel is-active" id="panel1">
-    <p>Couleurs</p>
-    <a href="#">
-      <div class="col_config_1">
-        <div class="col1"></div><div class="col2"></div><div class="col3"></div><div class="col4"></div><div class="col5"></div>
-      </div>
-    </a>
-    <div class="col_config_2">
-      <div class="col1"></div><div class="col2"></div><div class="col3"></div><div class="col4"></div><div class="col5"></div>
+  <div class="tabs-content" data-tabs-content="example-tabs">
+    <div class="tabs-panel is-active" id="panel1">
+      <p>Couleurs</p>
+        <% @palette.each do |p| %>
+          <div class="col_config_<%= p.ref %>">
+            <%= f.radio_button :color, p.ref  %><div class="col1"></div><div class="col2"></div><div class="col3"></div><div class="col4"></div><div class="col5"></div>
+          </div>
+        <% end %>
     </div>
-    <div class="col_config_3">
-      <div class="col1"></div><div class="col2"></div><div class="col3"></div><div class="col4"></div><div class="col5"></div>
+    <div class="tabs-panel" id="panel2">
+      <p>Police</p>
+      <ul>
+        <li class="pol_1">Lato</li>
+        <li class="pol_2">Roboto</li>
+      </ul>
+    </div>
+    <div class="tabs-panel" id="panel3">
+      <p>Image</p>
+    </div>
+    <div class="tabs-panel" id="panel4">
+      <p>Layout</p>
     </div>
   </div>
-  <div class="tabs-panel" id="panel2">
-    <p>Police</p>
-    <ul>
-      <li class="pol_1">Lato</li>
-      <li class="pol_2">Roboto</li>
-    </ul>
-  </div>
-  <div class="tabs-panel" id="panel3">
-    <p>Image</p>
-  </div>
-  <div class="tabs-panel" id="panel4">
-    <p>Layout</p>
-  </div>
-</div>
+  <%= f.submit :valider %>
+  <% end %>
+<% end %>

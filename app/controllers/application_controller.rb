@@ -2,7 +2,8 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   before_action :set_locale
   before_action :configure_devise_parameters, if: :devise_controller?
-  before_action :authenticate_user!, only: [:index]
+  before_action :authenticate_user!, only: [:desk, :draw, :desk_add, :desk_rename, :desk_delete, :draw_add, :draw_rename]
+  before_action :palettes, :config_pref, only: [:desk, :draw, :desk_add, :draw_add]
 
   def set_locale
     I18n.locale = params[:locale] || I18n.default_locale
@@ -19,7 +20,6 @@ class ApplicationController < ActionController::Base
   end
 
   def desk
-
     @compte = Compte.where(user_id: current_user.id)
     @pref = Preference.where(compte_id: @compte).take
 
@@ -54,7 +54,7 @@ class ApplicationController < ActionController::Base
       redirect_to draw_path(current_user.nom)
     else
       authorized_ext = [".pdf", ".jpg", ".jpeg"]
-      if !params[:nouv_fichier][:fichier].blank?
+      if params.include?(:nouv_dossier) && !params[:nouv_fichier][:fichier].blank?
         filename = params[:nouv_fichier][:fichier].original_filename
         directory = "public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:nouv_fichier][:dossier_courant]}/"
         path = File.join(directory, filename)
@@ -72,7 +72,7 @@ class ApplicationController < ActionController::Base
 
   end
 
-  def desk_add
+  def desk_add 
     if params.include?(:nouv_desk)
       path = "./public/folders/#{params[:desk]}/"
       Dir.mkdir(File.join(path, params[:nouv_desk][:nom]), 0777)
@@ -105,6 +105,18 @@ class ApplicationController < ActionController::Base
   def file_rename
     FileUtils.mv("./public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:source]}/#{params[:file_rename][:last_filename]}", "./public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:source]}/#{params[:file_rename][:new_filename]}")
     redirect_to draw_path
+  end
+
+  def palettes
+    @palette = Palette.all
+  end
+
+  def config_pref
+    if params.include?(:preferences) 
+      @palette = Palette.where(ref: params[:preferences][:color]).take
+      puts @pref.inspect
+      Preference.update(color1)
+    end
   end
 
   private

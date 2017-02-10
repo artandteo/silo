@@ -8,7 +8,7 @@ class CreatePreferences < ActiveRecord::Migration[5.0]
       t.string :color3
       t.string :color4
       t.string :color5
-      t.string :color6
+      t.string :layout
     end
   end
 end

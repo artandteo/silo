@@ -10,12 +10,38 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170210101324) do
+ActiveRecord::Schema.define(version: 20170210133708) do
 
   create_table "comptes", force: :cascade do |t|
     t.string  "nom"
     t.integer "user_id"
     t.index ["user_id"], name: "index_comptes_on_user_id"
+  end
+
+  create_table "images", force: :cascade do |t|
+    t.string "ref"
+    t.string "nom"
+  end
+
+  create_table "layouts", force: :cascade do |t|
+    t.string "ref"
+    t.string "margin"
+    t.string "minwidth"
+    t.string "radius"
+  end
+
+  create_table "palettes", force: :cascade do |t|
+    t.string "ref"
+    t.string "c1"
+    t.string "c2"
+    t.string "c3"
+    t.string "c4"
+    t.string "c5"
+  end
+
+  create_table "polices", force: :cascade do |t|
+    t.string "ref"
+    t.string "nom"
   end
 
   create_table "preferences", force: :cascade do |t|
@@ -26,7 +52,7 @@ ActiveRecord::Schema.define(version: 20170210101324) do
     t.string  "color3"
     t.string  "color4"
     t.string  "color5"
-    t.string  "color6"
+    t.string  "layout"
     t.integer "compte_id"
     t.index ["compte_id"], name: "index_preferences_on_compte_id"
   end
