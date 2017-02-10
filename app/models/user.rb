@@ -12,7 +12,7 @@ class User < ApplicationRecord
 
     @compte = Compte.new(nom: @last.nom, user_id: @last.id)
     @compte.save
-  	@preference = Preference.new(:polices => "1", :img_header => "", :color1 => "FF5B2B", :color2 => "B1221C", :color3 => "34393E", :color4 => "BCV6D7", :color5 => "FFDA8C", :color6 => "FFFFFF", :compte_id => @compte.id)
+  	@preference = Preference.new(:polices => "1", :img_header => "", :color1 => "FF5B2B", :color2 => "B1221C", :color3 => "34393E", :color4 => "BCV6D7", :color5 => "FFDA8C",  :compte_id => @compte.id)
   	@preference.save
   end
 

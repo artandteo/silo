@@ -1,19 +1,19 @@
 
-var col0 = sessionStorage.getItem("couleur0");
-var col1 = sessionStorage.getItem("couleur1");
-var col2 = sessionStorage.getItem("couleur2");
-var col3 = sessionStorage.getItem("couleur3");
-var col4 = sessionStorage.getItem("couleur4");
+var col0;
+var col1;
+var col2;
+var col3;
+var col4;
 var police = sessionStorage.getItem("police");
 var toggle = sessionStorage.getItem("toggle");
 
 document.addEventListener("turbolinks:load", function() {
 
-    sessionStorage.setItem("couleur0",'#'+color0);
-    sessionStorage.setItem("couleur1",'#'+color1);
-    sessionStorage.setItem("couleur2",'#'+color2);
-    sessionStorage.setItem("couleur3",'#'+color3);
-    sessionStorage.setItem("couleur4",'#'+color4);
+    col0='#'+color0;
+    col1='#'+color1;
+    col2='#'+color2;
+    col3='#'+color3;
+    col4='#'+color4;
 
     $( ".top-bar" ).css( "background-color", col2 );
     $( "footer" ).css( "background-color", col2 );
