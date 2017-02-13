@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
   before_action :configure_devise_parameters, if: :devise_controller?
   before_action :authenticate_user!, only: [:desk, :draw, :desk_add, :desk_rename, :desk_delete, :draw_add, :draw_rename]
   before_action :palettes, :config_pref, only: [:desk, :draw, :desk_add, :draw_add]
+  before_action :load_pref
 
   def set_locale
     I18n.locale = params[:locale] || I18n.default_locale
@@ -20,10 +21,6 @@ class ApplicationController < ActionController::Base
   end
 
   def desk
-
-    # optimisation possible
-    @compte = Compte.where(user_id: current_user.id).take
-    @pref = Preference.where(compte_id: @compte).take
 
     if params[:desk] == current_user.nom
       liste_d("./public/folders/#{current_user.nom}/")
@@ -111,6 +108,11 @@ class ApplicationController < ActionController::Base
 
   def palettes
     @palette = Palette.all
+  end 
+
+  def load_pref 
+    @compte = Compte.where(user_id: current_user.id).take
+    @pref = Preference.where(compte_id: @compte).take
   end
 
   def config_pref
