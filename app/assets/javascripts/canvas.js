@@ -1,4 +1,8 @@
-
+var color0;
+var color1;
+var color2;
+var color3;
+var color4;
 var col0;
 var col1;
 var col2;

@@ -13,6 +13,19 @@ $gris_pale: #F2F2F2;
 $vert_silo: #7ED321;
 $blanc: #FFFFFF;
 $switch-background-active: #3adb76;
+$tab-background: $gris_pale;
+$tab-color: #000000;
+$tab-background-active: $col3;
+$tab-content-background: $col3;
+$tab-content-border: $col3;
+$tab-active-color: $blanc;
+$tab-content-color: $blanc;
+$tab-item-font-size: 18px;
+
+$primary-color: $col3;
+
+
+
 
 .row {
 	max-width: 100%;
@@ -243,4 +256,30 @@ p {
 .bread_title h4 {
 	text-align: center;
 	margin-top: 11px;
+}
+
+div .edition {
+	display: none;
+	background-color: $col3;
+	padding-bottom: 5px;
+}
+
+.is-active + .edition {
+	display: block;
+	background-color: $col3;
+	padding-bottom: 5px;
+	a {
+		color: $blanc;
+		padding-left: 25px;
+	}
+}
+
+
+.draw_add {
+	a {
+		color: $col3;
+	}
+	a:hover {
+		opacity: 0.5;
+	}
 }
