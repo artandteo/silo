@@ -13,6 +13,7 @@ document.addEventListener("turbolinks:load", function() {
     col2='#'+color2;
     col3='#'+color3;
     col4='#'+color4;
+    
 
     $( ".top-bar" ).css( "background-color", col2 );
     $( "footer" ).css( "background-color", col2 );
@@ -23,6 +24,7 @@ document.addEventListener("turbolinks:load", function() {
     $( ".color3" ).css( "background-color", col3 );
     $( ".color4" ).css( "background-color", col4 );
     $( "h1, h2, h3, h4, h5, h6, p, li, a" ).css( "font-family", police );
+
 
 
     // $( ".col_config_1" ).click(function() {
@@ -76,4 +78,18 @@ document.addEventListener("turbolinks:load", function() {
     //  document.getElementById("yes-no").value = message;
     });
 
+
+    // Formulaire élèves
+
+    $("#eleve_liste").change(function(){
+        if ($(this).val() === "") {
+            $(".hidden_field").fadeOut('fast'); 
+            $(".hidden_field").css("display", "none")
+        }
+        else {
+            $('input[type=hidden]#eleve_ancien_nom').val(this.value);
+            $('input[type=text]#eleve_identifiant_eleve').val(this.value);
+            $(".hidden_field").fadeIn('fast'); 
+        }
+    });        
 });
