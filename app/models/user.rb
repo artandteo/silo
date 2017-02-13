@@ -1,10 +1,21 @@
 class User < ApplicationRecord
 
-  # belongs_to :compte
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable and :omniauthable
+  attr_accessor :login
+
+
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable, :confirmable
+         :recoverable, :rememberable, :trackable, :confirmable
+
+  validates :identifiant_eleve, uniqueness: true, presence: true, on: :desk_add
+
+  def self.find_first_by_auth_conditions(warden_conditions)
+    conditions = warden_conditions.dup
+    if login = conditions.delete(:login)
+      where(conditions.to_hash).where("lower(identifiant_eleve) = :value OR lower(email) = :value", value: login.downcase).first
+    else
+      where(conditions.to_hash).first
+    end
+  end
 
   def after_confirmation
   	@last = User.last
@@ -15,5 +26,4 @@ class User < ApplicationRecord
   	@preference = Preference.new(:polices => "1", :img_header => "", :color1 => "FF5B2B", :color2 => "B1221C", :color3 => "34393E", :color4 => "BCV6D7", :color5 => "FFDA8C",  :compte_id => @compte.id)
   	@preference.save
   end
-
 end

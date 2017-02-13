@@ -1,7 +1,6 @@
-
 <div class="expanded row top-bar">
   <div class="medium-1">
-    <% if current_user.is_admin? %>
+    <% if user_signed_in? && current_user.is_admin? %>
     <div class="toggle_admin">
       <button type="button" data-toggle="offCanvas"><img class="config-logo" src="/img/logo_silo_ico.png" alt="Icone de menu Silo" /></button>
     </div>
@@ -16,7 +15,7 @@
     <% end %>
   </div>
 
-  <% if current_user.is_admin? %>
+  <% if user_signed_in? && current_user.is_admin? %>
     <div class="medium-1">
       <div class="switch tiny vertical-center">
 
@@ -41,7 +40,7 @@
   </div>
 
   <div class="medium-1">
-    <% if user_signed_in? %>
+    <% if user_signed_in? && current_user.is_admin? %>
     <div class="toggle_admin">
       <button type="button" data-toggle="offCanvas_r"><img class="config-logo" src="/img/logo_silo_ico.png" alt="Icone droit de menu Silo" /></button>
     </div>

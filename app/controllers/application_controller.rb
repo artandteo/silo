@@ -22,7 +22,6 @@ class ApplicationController < ActionController::Base
   end
 
   def desk
-
     if params[:desk] == current_user.nom
       liste_d("./public/folders/#{current_user.nom}/")
 
@@ -73,6 +72,33 @@ class ApplicationController < ActionController::Base
   end
 
   def desk_add
+    #==================================================
+    #          TRAITEMENT DU FORMULAIRE
+    #             AJOUT D'UN ELEVE
+    #==================================================
+    if params.include?(:eleve)
+      @eleve = User.new(eleve_params)
+      @eleve.nom = current_user.nom
+      @eleve.is_admin = false
+      @eleve.confirmed_at = DateTime.now.to_date
+      @eleve.created_at = DateTime.now.to_date
+
+      puts "========="
+      puts @eleve.valid?
+      if @eleve.valid?
+        @eleve.save
+        redirect_to :back
+      else
+        redirect_to :back, notice: "Il y a déjà un élève avec cette idenfifiant."
+      end
+      #@eleve = User.new(:email => "", :created_at => DateTime.now.to_date, :nom => current_user.nom, :identifiant_eleve => params[:identifiant_eleve], :is_admin => false)
+      #puts @eleve.inspect
+      #@eleve.save
+    end
+    #==================================================
+    #          TRAITEMENT DU FORMULAIRE
+    #             AJOUT D'UN DESK
+    #==================================================
     if params.include?(:nouv_desk)
       path = "./public/folders/#{params[:desk]}/"
       Dir.mkdir(File.join(path, params[:nouv_desk][:nom]), 0777)
@@ -81,17 +107,37 @@ class ApplicationController < ActionController::Base
   end
 
   def desk_rename
-    FileUtils.mv("./public/folders/#{current_user.nom}/#{params[:rename][:last_name]}", "./public/folders/#{current_user.nom}/#{params[:rename][:new_name]}")
-    redirect_to desk_path
+    if params.include?(:rename)
+      FileUtils.mv("./public/folders/#{current_user.nom}/#{params[:rename][:last_name]}", "./public/folders/#{current_user.nom}/#{params[:rename][:new_name]}")
+      redirect_to desk_path
+    end
+    #==================================================
+    #          TRAITEMENT DU FORMULAIRE
+    #             EDITION D'UN ELEVE
+    #==================================================
+    if params.include?(:eleve)
+      @eleve = User.where(identifiant_eleve: params[:eleve][:ancien_nom]).take
+      @eleve.update(identifiant_eleve: params[:eleve][:identifiant_eleve])
+      redirect_to :back
+    end
+  end
+
+  def eleve_delete
+
   end
 
   def desk_delete
-    FileUtils.rm_rf("./public/folders/#{params[:desk]}/#{params[:draw]}/#{params[:dossier]}")
-    redirect_to desk_path
+      FileUtils.rm_rf("./public/folders/#{params[:desk]}/#{params[:draw]}/#{params[:dossier]}")
+      redirect_to desk_path
   end
 
   def draw_rename
     FileUtils.mv("./public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:rename][:last_name]}", "./public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:rename][:new_name]}")
+    redirect_to draw_path
+  end
+
+  def draw_source_delete
+    FileUtils.rm_rf("./public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:source]}")
     redirect_to draw_path
   end
 
@@ -115,9 +161,13 @@ class ApplicationController < ActionController::Base
     @police = Polices.all
   end
 
+  def liste_eleves
+    @eleves = User.where(nom: current_user.nom).where.not(identifiant_eleve: nil)
+  end
+
   def load_pref
     if user_signed_in?
-      @compte = Compte.where(user_id: current_user.id).take
+      @compte = Compte.where(nom: current_user.nom).take
       @pref = Preference.where(compte_id: @compte).take
     end
   end
@@ -139,6 +189,10 @@ class ApplicationController < ActionController::Base
   end
 
   private
+
+  def eleve_params
+      params.require(:eleve).permit(:identifiant_eleve, :password)
+  end
 
   def configure_devise_parameters
     devise_parameter_sanitizer.permit(:sign_up) { |u| u.permit(:nom, :email, :password, :password_confirmation, :is_admin) }

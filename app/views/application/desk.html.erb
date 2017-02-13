@@ -81,7 +81,7 @@
 		</div>
 	<% end %>
 
-	<% if @arr.count != 12 %>
+	<% if @arr.count != 12 && current_user.is_admin?  %>
 	<div class="box_add toggle_admin">
 		<div class="enfant">
 			<a data-open="nouveau_desk"><i class="fa fa-plus-circle" aria-hidden="true"></i></a>
