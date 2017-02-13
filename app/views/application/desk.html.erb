@@ -60,10 +60,12 @@
 				<a href="<%= draw_path(params[:desk], dir) %>"><%= dir %></a>
 				<% i = i + 1 %>
 			</div>
-			<div class="box_buttons toggle_admin">
-				<a class="float-left" data-open="rename_desk-<%= i %>"><i class="fa fa-file-text" aria-hidden="true"></i></a>
-				<a class="float-right" href="<%= draw_path(params[:desk], dir) %>" data-method="delete" data-confirm="Souhaitez-vous supprimer le dossier <%= dir %> ? Cette action est irréversible et ne peux être annuler."><i class="fa fa-trash" aria-hidden="true"></i></a>
-			</div>
+			<% if current_user.is_admin? %>
+				<div class="box_buttons toggle_admin">
+					<a class="float-left" data-open="rename_desk-<%= i %>"><i class="fa fa-file-text" aria-hidden="true"></i></a>
+					<a class="float-right" href="<%= draw_path(params[:desk], dir) %>" data-method="delete" data-confirm="Souhaitez-vous supprimer le dossier <%= dir %> ? Cette action est irréversible et ne peux être annuler."><i class="fa fa-trash" aria-hidden="true"></i></a>
+				</div>
+			<% end %>
 		</div>
 		<div class="reveal" id="rename_desk-<%= i %>" data-reveal>
 		  <%= form_for :rename, method: 'put' do |f| %>

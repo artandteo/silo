@@ -111,8 +111,10 @@ class ApplicationController < ActionController::Base
   end 
 
   def load_pref 
-    @compte = Compte.where(user_id: current_user.id).take
-    @pref = Preference.where(compte_id: @compte).take
+    if user_signed_in? 
+      @compte = Compte.where(user_id: current_user.id).take
+      @pref = Preference.where(compte_id: @compte).take
+    end
   end
 
   def config_pref
@@ -128,7 +130,7 @@ class ApplicationController < ActionController::Base
   private
 
   def configure_devise_parameters
-    devise_parameter_sanitizer.permit(:sign_up) { |u| u.permit(:nom, :email, :password, :password_confirmation) }
+    devise_parameter_sanitizer.permit(:sign_up) { |u| u.permit(:nom, :email, :password, :password_confirmation, :is_admin) }
   end
 
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170210133708) do
+ActiveRecord::Schema.define(version: 20170213085009) do
 
   create_table "comptes", force: :cascade do |t|
     t.string  "nom"
@@ -76,6 +76,7 @@ ActiveRecord::Schema.define(version: 20170210133708) do
     t.datetime "updated_at",                          null: false
     t.string   "nom"
     t.string   "identifiant_eleve"
+    t.boolean  "is_admin"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["identifiant_eleve"], name: "index_users_on_identifiant_eleve", unique: true

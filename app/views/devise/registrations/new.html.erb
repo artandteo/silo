@@ -17,6 +17,8 @@
             <% end %>
             <%= f.password_field :password, autocomplete: "off" %>
 
+            <%= f.hidden_field :is_admin, value: true %>
+
             <%= f.label :password_confirmation, t('accueil.confirmer_mdp') %>
             <%= f.password_field :password_confirmation, autocomplete: "off" %>
             <div class="text-center">
