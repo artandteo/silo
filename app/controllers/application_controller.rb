@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
   before_action :configure_devise_parameters, if: :devise_controller?
   before_action :authenticate_user!, only: [:desk, :draw, :desk_add, :desk_rename, :desk_delete, :draw_add, :draw_rename]
   before_action :palettes, :config_pref, only: [:desk, :draw, :desk_add, :draw_add]
+  before_action :polices, :config_pref, only: [:desk, :draw, :desk_add, :draw_add]
   before_action :load_pref
 
   def set_locale
@@ -71,7 +72,7 @@ class ApplicationController < ActionController::Base
 
   end
 
-  def desk_add 
+  def desk_add
     if params.include?(:nouv_desk)
       path = "./public/folders/#{params[:desk]}/"
       Dir.mkdir(File.join(path, params[:nouv_desk][:nom]), 0777)
@@ -108,21 +109,31 @@ class ApplicationController < ActionController::Base
 
   def palettes
     @palette = Palette.all
-  end 
+  end
 
-  def load_pref 
-    if user_signed_in? 
+  def polices
+    @police = Polices.all
+  end
+
+  def load_pref
+    if user_signed_in?
       @compte = Compte.where(user_id: current_user.id).take
       @pref = Preference.where(compte_id: @compte).take
     end
   end
 
   def config_pref
-    if params.include?(:preferences) 
+    if params.include?(:preferences)
       @palette = Palette.where(ref: params[:preferences][:color]).take
+      @police = Polices.where(ref: params[:preferences][:police]).take
       @compte = Compte.where(user_id: current_user.id)
       @pref = Preference.where(compte_id: @compte).take
-      @pref.update(color1: @palette.c1, color2: @palette.c2, color3: @palette.c3, color4: @palette.c4, color5: @palette.c5)
+      if @police != nil
+        @pref.update(polices: @police.nom)
+      end
+      if @palette != nil
+        @pref.update(color1: @palette.c1, color2: @palette.c2, color3: @palette.c3, color4: @palette.c4, color5: @palette.c5)
+      end
       redirect_to desk_path
     end
   end

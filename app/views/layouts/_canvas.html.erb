@@ -12,22 +12,31 @@
     <div class="tabs-panel is-active" id="panel1">
       <p>Couleurs</p>
         <% @palette.each do |p| %>
-          <div class="col_config_<%= p.ref %>">
-            <%= f.radio_button :color, p.ref  %>
-            <div class="col" style="background-color: #<%= p.c1 %>"></div>
-            <div class="col" style="background-color: #<%= p.c2 %>"></div>
-            <div class="col" style="background-color: #<%= p.c3 %>"></div>
-            <div class="col" style="background-color: #<%= p.c4 %>"></div>
-            <div class="col" style="background-color: #<%= p.c5 %>"></div>
+          <div class="col_config">
+            <div class="check-palette">
+              <%= f.radio_button :color, p.ref  %>
+            </div>
+            <div class="div-palette">
+              <div class="col" style="background-color: #<%= p.c1 %>"></div>
+              <div class="col" style="background-color: #<%= p.c2 %>"></div>
+              <div class="col" style="background-color: #<%= p.c3 %>"></div>
+              <div class="col" style="background-color: #<%= p.c4 %>"></div>
+              <div class="col" style="background-color: #<%= p.c5 %>"></div>
+            </div>
           </div>
         <% end %>
     </div>
     <div class="tabs-panel" id="panel2">
       <p>Police</p>
-      <ul>
+      <% @police.each do |p| %>
+        <div class="pol_config">
+            <%= f.radio_button :police, p.ref  %><%= p.nom %>
+        </div>
+      <% end %>
+      <!-- <ul>
         <li class="pol_1">Lato</li>
         <li class="pol_2">Roboto</li>
-      </ul>
+      </ul> -->
     </div>
     <div class="tabs-panel" id="panel3">
       <p>Image</p>
@@ -36,6 +45,9 @@
       <p>Layout</p>
     </div>
   </div>
-  <%= f.submit :valider %>
+  <br />
+  <div class="text-center">
+    <%= f.submit :valider, value: "Valider", class: "button success small" %>
+  </div>
   <% end %>
 <% end %>

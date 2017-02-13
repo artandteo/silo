@@ -1,0 +1,3 @@
+class Polices < ApplicationRecord
+
+end

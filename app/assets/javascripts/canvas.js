@@ -5,6 +5,7 @@ var color2;
 var color3;
 var color4;
 var police;
+var col_onglet;
 
 document.addEventListener("turbolinks:load", function() {
 
@@ -14,16 +15,15 @@ document.addEventListener("turbolinks:load", function() {
     col3='#'+color3;
     col4='#'+color4;
 
-    $( ".top-bar" ).css( "background-color", col2 );
-    $( "footer" ).css( "background-color", col2 );
+    $( ".top-bar, .footer, .tabs-content, .edition" ).css( "background-color", col2 );
     $( "#breadcrumb").css( "background-color", col3);
     $( ".color0" ).css( "background-color", col0 );
     $( ".color1" ).css( "background-color", col1 );
     $( ".color2" ).css( "background-color", col2 );
-    $( ".color3" ).css( "background-color", col3 );
+    $( ".draw_add i" ).css( "color", col2 );
+    $( ".color3, .switch-paddle, .success" ).css( "background-color", col3 );
     $( ".color4" ).css( "background-color", col4 );
     $( "h1, h2, h3, h4, h5, h6, p, li, a" ).css( "font-family", police );
-
 
     // $( ".col_config_1" ).click(function() {
     //   sessionStorage.setItem("couleur0","#FF5B2B");
@@ -61,11 +61,19 @@ document.addEventListener("turbolinks:load", function() {
     //   window.location.reload(true);
     // });
 
-    $( ".enfant a").hover(function() {
+    $( ".enfant a, button").hover(function() {
       $(this).parent().parent().css( "opacity", "0.5" );
       }, function(){
       $(this).parent().parent().css( "opacity", "1" );
     });
+
+    $('.is-active').foundation('selectTab');
+
+    // $( ".is-active").click(function() {
+    //   $(".active").css( "background-color", col2 );
+    //   }, function(){
+    //   $(".active").css( "background-color", "#F2F2F2" );
+    // });
 
     $('.switch :checkbox').change(function(e){
       $(this).prop('checked') ?

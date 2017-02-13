@@ -17,7 +17,7 @@ $tab-background: $gris_pale;
 $tab-color: #000000;
 $tab-background-active: $col3;
 $tab-content-background: $col3;
-$tab-content-border: $col3;
+$tab-content-border: none;
 $tab-active-color: $blanc;
 $tab-content-color: $blanc;
 $tab-item-font-size: 18px;
@@ -32,6 +32,15 @@ $primary-color: $col3;
 }
 
 // GENERAL
+
+[type='radio'] {
+	margin-right: 10px;
+	padding-bottom: 10px;
+}
+
+.success.button.tiny, .success.button.small {
+	color: $blanc;
+}
 
 .vertical-center {
 	margin: auto;
@@ -196,38 +205,21 @@ p {
 	display: inline-block;
 }
 
-@mixin col_config {
+.col_config {
+	display: inline-block;
+	vertical-align: middle;
 	padding-left: 20px;
+	margin: auto;
 }
 
-// .col_config_1:hover, .col_config_2:hover, .col_config_3:hover {
-// 	opacity: 0.5;
-// }
-
-// .col_config_1 {
-// 	@include col_config;
-// 	.col1 { @include col; background-color: $col1; }
-// 	.col2 { @include col; background-color: $col2; }
-// 	.col3 { @include col; background-color: $col3; }
-// 	.col4 { @include col; background-color: $col4; }
-// 	.col5 { @include col; background-color: $col5; }
-// }
-// .col_config_2 {
-// 	@include col_config;
-// 	.col1 { @include col; background-color: #FFF200; }
-// 	.col2 { @include col; background-color: #E8860C; }
-// 	.col3 { @include col; background-color: #FF0000; }
-// 	.col4 { @include col; background-color: #780CE8; }
-// 	.col5 { @include col; background-color: #0D8AFF; }
-// }
-// .col_config_3 {
-// 	@include col_config;
-// 	.col1 { @include col; background-color: #8AFF80; }
-// 	.col2 { @include col; background-color: #E8D280; }
-// 	.col3 { @include col; background-color: #FF9680; }
-// 	.col4 { @include col; background-color: #BC80E8; }
-// 	.col5 { @include col; background-color: #80D8FF; }
-// }
+.check-palette, .div-palette {
+	display: inline-block;
+	margin: auto;
+	vertical-align: middle;
+}
+.check-palette {
+	padding-top: 5px;
+}
 
 // ------------------  DRAW -------------------
 
@@ -259,6 +251,7 @@ p {
 }
 
 div .edition {
+	float: right;
 	display: none;
 	background-color: $col3;
 	padding-bottom: 5px;
@@ -270,7 +263,8 @@ div .edition {
 	padding-bottom: 5px;
 	a {
 		color: $blanc;
-		padding-left: 25px;
+		padding-left: 20px;
+		padding-right: 20px;
 	}
 }
 
