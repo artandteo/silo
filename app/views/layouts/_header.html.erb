@@ -9,7 +9,7 @@
     <% end %>
   </div>
 
-  <div class="medium-9">
+  <div class="medium-8">
     <% if user_signed_in? %>
       <a class="float-left" href="<%= root_path %>"><h1><%= current_user.nom %></h1></a>
     <% else %>
@@ -38,6 +38,14 @@
       <a data-method="delete" href="<%= destroy_user_session_path %>"><button type="button" class="vertical-center success button small">Déconnexion</button></a>
     <% else %>
       <a href="<%= new_user_session_path %>"><button type="button" class="vertical-center float-right success button small">Se connecter</button></a>
+    <% end %>
+  </div>
+
+  <div class="medium-1">
+    <% if user_signed_in? %>
+    <div class="toggle_admin">
+      <button type="button" data-toggle="offCanvas_r"><img class="config-logo" src="/img/logo_silo_ico.png" alt="Icone droit de menu Silo" /></button>
+    </div>
     <% end %>
   </div>
 

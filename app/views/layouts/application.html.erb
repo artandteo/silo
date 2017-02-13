@@ -15,14 +15,17 @@
 
   <body>
     <%= javascript_tag do %>
-    window.color0 = '<%= j @pref.color1.to_s %>';
-    window.color1 = '<%= j @pref.color2.to_s %>';
-    window.color2 = '<%= j @pref.color3.to_s %>';
-    window.color3 = '<%= j @pref.color4.to_s %>';
-    window.color4 = '<%= j @pref.color5.to_s %>';
-  <% end %>
+      window.color0 = '<%= j @pref.color1.to_s %>';
+      window.color1 = '<%= j @pref.color2.to_s %>';
+      window.color2 = '<%= j @pref.color3.to_s %>';
+      window.color3 = '<%= j @pref.color4.to_s %>';
+      window.color4 = '<%= j @pref.color5.to_s %>';
+    <% end %>
     <div class="off-canvas position-left" id="offCanvas" data-off-canvas>
       <%= render 'layouts/canvas' %>
+    </div>
+    <div class="off-canvas position-right" id="offCanvas_r" data-off-canvas>
+      <%= render 'layouts/canvas_r' %>
     </div>
 
     <div class="off-canvas-content" data-off-canvas-content>

@@ -4,6 +4,7 @@ var color1;
 var color2;
 var color3;
 var color4;
+var police;
 
 document.addEventListener("turbolinks:load", function() {
 
