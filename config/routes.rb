@@ -5,6 +5,7 @@ Rails.application.routes.draw do
 
     	devise_for :users, path: '', path_names: { sign_in: 'connexion', sign_out: 'deconnexion', sign_up: 'inscription'}
 
+      
   get '/:desk', to: 'application#desk', as: :desk
   post '/:desk', to: 'application#desk_add'
   put '/:desk', to: 'application#desk_rename'

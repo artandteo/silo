@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
   before_action :set_locale
   before_action :configure_devise_parameters, if: :devise_controller?
   before_action :authenticate_user!, only: [:desk, :draw, :desk_add, :desk_rename, :desk_delete, :draw_add, :draw_rename]
-  before_action :palettes, :config_pref, only: [:desk, :draw, :desk_add, :draw_add]
+  before_action :palettes, :config_pref, :liste_eleves, only: [:desk, :draw, :desk_add, :draw_add]
   before_action :polices, :config_pref, only: [:desk, :draw, :desk_add, :draw_add]
   before_action :load_pref
 
@@ -162,7 +162,7 @@ class ApplicationController < ActionController::Base
   end
 
   def liste_eleves
-    @eleves = User.where(nom: current_user.nom).where.not(identifiant_eleve: nil)
+      @eleves = User.where(nom: current_user.nom).where.not(identifiant_eleve: nil)
   end
 
   def load_pref
