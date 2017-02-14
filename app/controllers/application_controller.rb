@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   before_action :set_locale
   before_action :configure_devise_parameters, if: :devise_controller?
-  before_action :authenticate_user!, only: [:desk, :draw, :desk_add, :desk_rename, :desk_delete, :draw_add, :draw_rename]
+  before_action :authenticate_user!, only: [:desk, :draw, :desk_add, :desk_rename, :draw_add, :draw_rename]
   
   before_action :liste_eleves, only: [:desk, :draw]
 
@@ -160,17 +160,12 @@ class ApplicationController < ActionController::Base
 
   # Supprimer un desk
   def draw_delete
-    if params.include?(:hidden)
-      User.destroy(params[:mesEleves])
-      redirect_to :back
-    else
       if Dir.exists?("./public/folders/#{params[:desk]}/#{params[:draw]}")
         FileUtils.rm_rf("./public/folders/#{params[:desk]}/#{params[:draw]}")
         redirect_to desk_path
       else
         redirect_to :back, notice: "Le dossier n'existe pas !"
       end
-    end 
   end
 
   #==============================================================
@@ -217,6 +212,13 @@ class ApplicationController < ActionController::Base
   def liste_eleves
       # Liste des élèves d'un professeur
       @eleves = User.where(nom: current_user.nom).where.not(identifiant_eleve: nil)
+  end
+
+  def eleve_delete
+    if params.include?(:hidden)
+      User.destroy(params[:mesEleves])
+      redirect_to :back
+    end
   end
 
   # Chargement des palettes
