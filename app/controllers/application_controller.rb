@@ -5,6 +5,8 @@ class ApplicationController < ActionController::Base
   before_action :authenticate_user!, only: [:desk, :draw, :desk_add, :desk_rename, :desk_delete, :draw_add, :draw_rename]
   before_action :palettes, :config_pref, :liste_eleves, only: [:desk, :draw, :desk_add, :draw_add]
   before_action :polices, :config_pref, only: [:desk, :draw, :desk_add, :draw_add]
+  before_action :layouts, :config_pref, only: [:desk, :draw, :desk_add, :draw_add]
+  before_action :images, :config_pref, only: [:desk, :draw, :desk_add, :draw_add]
   before_action :load_pref
 
   def set_locale
@@ -161,6 +163,14 @@ class ApplicationController < ActionController::Base
     @police = Polices.all
   end
 
+  def layouts
+    @layout = Layout.all
+  end
+
+  def images
+    @image = Image.all
+  end
+
   def liste_eleves
       @eleves = User.where(nom: current_user.nom).where.not(identifiant_eleve: nil)
   end
@@ -176,6 +186,8 @@ class ApplicationController < ActionController::Base
     if params.include?(:preferences)
       @palette = Palette.where(ref: params[:preferences][:color]).take
       @police = Polices.where(ref: params[:preferences][:police]).take
+      @layout = Layout.where(ref: params[:preferences][:layout]).take
+      @image = Image.where(ref: params[:preferences][:image]).take
       @compte = Compte.where(user_id: current_user.id)
       @pref = Preference.where(compte_id: @compte).take
       if @police != nil
@@ -183,6 +195,12 @@ class ApplicationController < ActionController::Base
       end
       if @palette != nil
         @pref.update(color1: @palette.c1, color2: @palette.c2, color3: @palette.c3, color4: @palette.c4, color5: @palette.c5)
+      end
+      if @layout != nil
+        @pref.update(layout: @layout.ref)
+      end
+      if @image != nil
+        @pref.update(img_header: @image.nom)
       end
       redirect_to desk_path
     end

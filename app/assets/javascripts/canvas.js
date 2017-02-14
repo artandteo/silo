@@ -5,7 +5,7 @@ var color2;
 var color3;
 var color4;
 var police;
-var col_onglet;
+var image;
 
 document.addEventListener("turbolinks:load", function() {
 
@@ -14,6 +14,7 @@ document.addEventListener("turbolinks:load", function() {
     col2='#'+color2;
     col3='#'+color3;
     col4='#'+color4;
+    img="/img/"+image;
 
 
     $( ".top-bar, .footer, .tabs-content, .edition" ).css( "background-color", col2 );
@@ -25,6 +26,13 @@ document.addEventListener("turbolinks:load", function() {
     $( ".color3, .switch-paddle, .success" ).css( "background-color", col3 );
     $( ".color4" ).css( "background-color", col4 );
     $( "h1, h2, h3, h4, h5, h6, p, li, a" ).css( "font-family", police );
+    $( "#bandeau img" ).attr({
+      'src' : img,
+      width : '100%',
+      height : '100%'
+    });
+
+    if(image == '') { $("#bandeau").css("max-height", "0"); }
 
     $( ".enfant a, button").hover(function() {
       $(this).parent().parent().css( "opacity", "0.5" );
@@ -46,7 +54,6 @@ document.addEventListener("turbolinks:load", function() {
     //  var message = $(this).prop('checked') ? 'on' : 'off';
     //  document.getElementById("yes-no").value = message;
     });
-
 
     // Formulaire élèves
 

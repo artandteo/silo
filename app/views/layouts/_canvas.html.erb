@@ -33,16 +33,27 @@
             <%= f.radio_button :police, p.ref  %><%= p.nom %>
         </div>
       <% end %>
-      <!-- <ul>
-        <li class="pol_1">Lato</li>
-        <li class="pol_2">Roboto</li>
-      </ul> -->
     </div>
     <div class="tabs-panel" id="panel3">
       <p>Image</p>
+      <% @image.each do |p| %>
+        <div class="img_config">
+            <%= f.radio_button :image, p.ref  %>
+            <% if p.nom == '' %>
+              aucune image
+            <% else %>
+              <img src="img/small_<%= p.nom %>" alt="<%= p.nom %>">
+            <% end %>
+        </div>
+      <% end %>
     </div>
     <div class="tabs-panel" id="panel4">
       <p>Layout</p>
+      <% @layout.each do |p| %>
+        <div class="pol_config">
+            <%= f.radio_button :layout, p.ref  %><%= p.ref %>
+        </div>
+      <% end %>
     </div>
   </div>
   <br />
