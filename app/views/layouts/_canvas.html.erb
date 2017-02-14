@@ -48,10 +48,9 @@
       <% end %>
     </div>
     <div class="tabs-panel" id="panel4">
-      <p>Layout</p>
-      <% @layout.each do |p| %>
-        <div class="pol_config">
-            <%= f.radio_button :layout, p.ref  %><%= p.ref %>
+      <% @layouts.each do |p| %>
+        <div class="layout_config">
+            <%= f.radio_button :layout, p.ref  %><img src="img/layout_<%= p.ref %>.jpg" alt="layout_<%= p.ref %>">
         </div>
       <% end %>
     </div>

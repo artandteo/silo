@@ -231,7 +231,7 @@ class ApplicationController < ActionController::Base
 
   # Chargement des layouts
   def layouts
-    @layout = Layout.all
+    @layouts = Layout.all
   end
 
   # Chargement des images
@@ -240,10 +240,15 @@ class ApplicationController < ActionController::Base
   end
 
   # Chargement des préférences
+  def liste_eleves
+    @eleves = User.where(nom: current_user.nom).where.not(identifiant_eleve: nil)
+  end
+
   def load_pref
     if user_signed_in?
       @compte = Compte.where(nom: current_user.nom).take
       @pref = Preference.where(compte_id: @compte).take
+      @layout = Layout.where(ref: @pref.layout).take
     end
   end
 
