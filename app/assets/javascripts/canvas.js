@@ -57,7 +57,7 @@ document.addEventListener("turbolinks:load", function() {
 
     // Extension du a href des box à toute la div enfant
 
-    $(".enfant").on("click", function() {
+    $(".box > .enfant").on("click", function() {
         window.location = $(this).children("a").attr("href");
     });
 

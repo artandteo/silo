@@ -145,7 +145,6 @@ footer{
 	-webkit-box-flex: 1 0 auto;
 	-ms-flex: 1 0 auto;
 	flex:1 0 auto;
-	z-index: 1;
 	a {
 		color: $blanc;
 		font-size: 2em;
@@ -188,7 +187,6 @@ footer{
 }
 
 .box_buttons {
-	z-index: 2;
 	i {
 		padding: 0 20px 0 20px;
 		font-size: 0.7em;
