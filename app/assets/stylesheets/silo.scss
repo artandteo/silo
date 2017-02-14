@@ -145,6 +145,7 @@ footer{
 	-webkit-box-flex: 1 0 auto;
 	-ms-flex: 1 0 auto;
 	flex:1 0 auto;
+	z-index: 1;
 	a {
 		color: $blanc;
 		font-size: 2em;
@@ -157,11 +158,18 @@ footer{
 }
 .box_add{
 	@include box;
+	margin: auto;
 	background-color: $gris_pale;
 	i {
 		font-size: 3em;
 	}
 }
+
+// .enfant a {
+// 	padding: 2em;
+// }
+// .enfant a:focus {
+// }
 
 .draw_add {
 	text-align: center;
@@ -174,15 +182,17 @@ footer{
 .enfant{
 	text-align: center;
 	margin: auto;
+	a {
+		padding: 1em 0 1em 0;
+	}
 }
 
 .box_buttons {
-	width: 100%;
-	margin-top:auto;
-	text-align: center;
+	z-index: 2;
 	i {
-		padding: 0 5px 0 5px;
+		padding: 0 20px 0 20px;
 		font-size: 0.7em;
+		color: $blanc;
 	}
 }
 
@@ -227,6 +237,10 @@ p {
 	padding-top: 5px;
 }
 
+.layout_config {
+	padding-bottom: 10px;
+}
+
 // ------------------  DRAW -------------------
 
 #breadcrumb {
@@ -257,10 +271,12 @@ p {
 }
 
 div .edition {
+	position: relative;
 	float: right;
 	display: none;
 	background-color: $col3;
 	padding-bottom: 5px;
+	top: -32px;
 }
 
 .is-active + .edition {
@@ -269,8 +285,11 @@ div .edition {
 	padding-bottom: 5px;
 	a {
 		color: $blanc;
-		padding-left: 20px;
-		padding-right: 20px;
+		padding-left: 15px;
+		padding-right: 15px;
+	}
+	a:hover{
+		opacity: 0.5;
 	}
 }
 

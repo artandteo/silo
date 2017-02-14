@@ -22,4 +22,5 @@ Image.create(:ref => "2", :nom => "bandeau_music.jpg")
 Image.create(:ref => "3", :nom => "bandeau_cahier.jpg")
 
 Layout.create(:ref => "1", :margin => "20px", :minwidth => "250px", :radius => "5px")
-Layout.create(:ref => "2", :margin => "0", :minwidth => "100px", :radius => "0")
+Layout.create(:ref => "2", :margin => "0", :minwidth => "320px", :radius => "0")
+Layout.create(:ref => "3", :margin => "30px", :minwidth => "200px", :radius => "30px")

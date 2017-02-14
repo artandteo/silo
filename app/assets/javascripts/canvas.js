@@ -6,6 +6,9 @@ var color3;
 var color4;
 var police;
 var image;
+var margin;
+var minwidth;
+var radius;
 
 document.addEventListener("turbolinks:load", function() {
 
@@ -16,6 +19,7 @@ document.addEventListener("turbolinks:load", function() {
     col4='#'+color4;
     img="/img/"+image;
 
+    // --------- MODIFICATION DOM EN FONCTION DES PREFERENCES -----------
 
     $( ".top-bar, .footer, .tabs-content, .edition" ).css( "background-color", col2 );
     $( "#breadcrumb").css( "background-color", col3);
@@ -31,28 +35,42 @@ document.addEventListener("turbolinks:load", function() {
       width : '100%',
       height : '100%'
     });
-
     if(image == '') { $("#bandeau").css("max-height", "0"); }
+    $( ".box, .box_add" ).css ({
+      margin : margin,
+      'min-width' : minwidth,
+      'border-radius' : radius
+    });
+
+    // Modification de l'opacity sur les élèments cliquables
 
     $( ".enfant a, button").hover(function() {
       $(this).parent().parent().css( "opacity", "0.5" );
       }, function(){
       $(this).parent().parent().css( "opacity", "1" );
     });
+    $( ".box").hover(function() {
+      $(this).css( "opacity", "0.5" );
+      }, function(){
+      $(this).css( "opacity", "1" );
+    });
 
-    // $( ".is-active").click(function() {
-    //   $(".active").css( "background-color", col2 );
-    //   }, function(){
-    //   $(".active").css( "background-color", "#F2F2F2" );
-    // });
+    // Extension du a href des box à toute la div enfant
+
+    $(".enfant").on("click", function() {
+        window.location = $(this).children("a").attr("href");
+    });
+
+    // Action du bouton switch toggle_admin
 
     $('.switch :checkbox').change(function(e){
-      $(this).prop('checked') ?
-      $('.toggle_admin').css( "display", "block" )
-      :
-      $('.toggle_admin').css( "display", "none" );
-    //  var message = $(this).prop('checked') ? 'on' : 'off';
-    //  document.getElementById("yes-no").value = message;
+      if ($(this).prop('checked') == true) {
+        $('.toggle_admin').css( "display", "block" );
+        $('.box_add').css( "display", "flex" );
+      }
+      else {
+        $('.toggle_admin').css( "display", "none" );
+      }
     });
 
     // Formulaire élèves
@@ -60,7 +78,7 @@ document.addEventListener("turbolinks:load", function() {
     $("#eleve_liste").change(function(){
         if ($(this).val() === "") {
             $(".hidden_field").fadeOut('fast');
-            $(".hidden_field").css("display", "none")
+            $(".hidden_field").css("display", "none");
         }
         else {
             $('input[type=hidden]#eleve_ancien_nom').val(this.value);
