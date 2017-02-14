@@ -6,6 +6,11 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :confirmable
 
+  validates :nom, :email, :password, :password_confirmation, presence: { message: " doit être rempli !" }, on: :registration
+  validates :password, length: { minimum: 6, message: " doit être plus grand (6 caratères minimum)" }, on: :registration
+  validates :nom, uniqueness: { message: " est déjà pris !" }, on: :registration
+  validates_confirmation_of :password, on: :registration
+
   validates :identifiant_eleve, uniqueness: true, presence: true, on: :desk_add
 
   def self.find_first_by_auth_conditions(warden_conditions)

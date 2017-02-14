@@ -1,13 +1,14 @@
 class ApplicationController < ActionController::Base
+
   protect_from_forgery with: :exception
   before_action :set_locale
   before_action :configure_devise_parameters, if: :devise_controller?
   before_action :authenticate_user!, only: [:desk, :draw, :desk_add, :desk_rename, :desk_delete, :draw_add, :draw_rename]
-  before_action :palettes, :config_pref, :liste_eleves, only: [:desk, :draw, :desk_add, :draw_add]
-  before_action :polices, :config_pref, only: [:desk, :draw, :desk_add, :draw_add]
-  before_action :layouts, :config_pref, only: [:desk, :draw, :desk_add, :draw_add]
-  before_action :images, :config_pref, only: [:desk, :draw, :desk_add, :draw_add]
-  before_action :load_pref
+  
+  before_action :liste_eleves, only: [:desk, :draw]
+
+  before_action :palettes, :polices, :layouts, :images, only: [:desk, :draw, :desk_add, :draw_add]
+  before_action :load_pref, :config_pref
 
   def set_locale
     I18n.locale = params[:locale] || I18n.default_locale
@@ -23,15 +24,67 @@ class ApplicationController < ActionController::Base
     end
   end
 
+#==============================================================
+#                     DESK
+#==============================================================
+  # Affichage des desks
   def desk
     if params[:desk] == current_user.nom
       liste_d("./public/folders/#{current_user.nom}/")
-
     else
       redirect_to desk_path(current_user.nom)
     end
   end
 
+  def desk_add
+    #-------------------------------------------
+    #          TRAITEMENT DU FORMULAIRE
+    #             AJOUT D'UN ELEVE
+    #-------------------------------------------
+    if params.include?(:eleve)
+      @user = User.exists?(identifiant_eleve: params[:eleve][:identifiant_eleve])
+
+      @eleve = User.new(eleve_params)
+      @eleve.nom = current_user.nom
+      @eleve.is_admin = false
+      @eleve.confirmed_at = DateTime.now.to_date
+      @eleve.created_at = DateTime.now.to_date
+
+      if !@user && !params[:eleve][:password].empty?
+        @eleve.save
+        redirect_to :back
+      else
+        redirect_to :back, notice: "Une erreur est survenue !"
+      end
+      #if @eleve.identifiant_eleve == 
+        #@eleve.save
+        #redirect_to :back
+      #end
+      #@eleve = User.new(:email => "", :created_at => DateTime.now.to_date, :nom => current_user.nom, :identifiant_eleve => params[:identifiant_eleve], :is_admin => false)
+      #puts @eleve.inspect
+      #@eleve.save
+    end
+    #-------------------------------------------
+    #          TRAITEMENT DU FORMULAIRE
+    #             AJOUT D'UN DESK
+    #-------------------------------------------
+    if params.include?(:nouv_desk)
+
+      path = "./public/folders/#{params[:desk]}/"
+      if !Dir.exists?(File.join(path, params[:nouv_desk][:nom]))
+        Dir.mkdir(File.join(path, params[:nouv_desk][:nom]), 0777)
+        redirect_to desk_path
+      else 
+        redirect_to :back, notice: "Le nom de dossier existe déjà !"
+      end
+    end
+  end
+
+#==============================================================
+#                     DRAW
+#==============================================================
+  # Affichage des draw
+  # Route : GET/:desk/:draw
   def draw
       @table = Array.new { Array.new }
       @breadcrumb = params[:draw]
@@ -48,11 +101,17 @@ class ApplicationController < ActionController::Base
       liste_f("./public/folders/#{current_user.nom}/#{params[:draw]}/")
   end
 
+  # Ajouter un draw
+  # Route : POST/:desk/:draw
   def draw_add
     if params.include?(:nouv_dossier)
       path = "./public/folders/#{params[:desk]}/#{params[:draw]}/"
-      Dir.mkdir(File.join(path, params[:nouv_dossier][:nom]), 0777)
-      redirect_to draw_path(current_user.nom)
+      if !Dir.exists?(File.join(path, params[:nouv_dossier][:nom]))
+        Dir.mkdir(File.join(path, params[:nouv_dossier][:nom]), 0777)
+        redirect_to draw_path(current_user.nom)
+      else
+        redirect_to :back, notice: "Le dossier existe déjà !"
+      end
     else
       authorized_ext = [".pdf", ".jpg", ".jpeg"]
       if params.include?(:nouv_fichier) && !params[:nouv_fichier][:fichier].blank?
@@ -68,113 +127,119 @@ class ApplicationController < ActionController::Base
       else
         redirect_to draw_path, notice: 'Aucun fichier téléchargé'
       end
-
-    end
-
-  end
-
-  def desk_add
-    #==================================================
-    #          TRAITEMENT DU FORMULAIRE
-    #             AJOUT D'UN ELEVE
-    #==================================================
-    if params.include?(:eleve)
-      @eleve = User.new(eleve_params)
-      @eleve.nom = current_user.nom
-      @eleve.is_admin = false
-      @eleve.confirmed_at = DateTime.now.to_date
-      @eleve.created_at = DateTime.now.to_date
-
-      puts "========="
-      puts @eleve.valid?
-      if @eleve.valid?
-        @eleve.save
-        redirect_to :back
-      else
-        redirect_to :back, notice: "Il y a déjà un élève avec cette idenfifiant."
-      end
-      #@eleve = User.new(:email => "", :created_at => DateTime.now.to_date, :nom => current_user.nom, :identifiant_eleve => params[:identifiant_eleve], :is_admin => false)
-      #puts @eleve.inspect
-      #@eleve.save
-    end
-    #==================================================
-    #          TRAITEMENT DU FORMULAIRE
-    #             AJOUT D'UN DESK
-    #==================================================
-    if params.include?(:nouv_desk)
-      path = "./public/folders/#{params[:desk]}/"
-      Dir.mkdir(File.join(path, params[:nouv_desk][:nom]), 0777)
-      redirect_to desk_path
     end
   end
 
-  def desk_rename
-    if params.include?(:rename)
-      FileUtils.mv("./public/folders/#{current_user.nom}/#{params[:rename][:last_name]}", "./public/folders/#{current_user.nom}/#{params[:rename][:new_name]}")
-      redirect_to desk_path
-    end
-    #==================================================
-    #          TRAITEMENT DU FORMULAIRE
-    #             EDITION D'UN ELEVE
-    #==================================================
-    if params.include?(:eleve)
-      @eleve = User.where(identifiant_eleve: params[:eleve][:ancien_nom]).take
-      @eleve.update(identifiant_eleve: params[:eleve][:identifiant_eleve])
-      redirect_to :back
-    end
-  end
+  # # Renommer le nom d'un desk
+  # def draw_rename
+  #   if params.include?(:rename)
+  #     FileUtils.mv("./public/folders/#{current_user.nom}/#{params[:rename][:last_name]}", "./public/folders/#{current_user.nom}/#{params[:rename][:new_name]}")
+  #     redirect_to desk_path
+  #   end
+  #   #-------------------------------------------
+  #   #          TRAITEMENT DU FORMULAIRE
+  #   #             EDITION D'UN ELEVE
+  #   #-------------------------------------------
+  #   if params.include?(:eleve)
+  #     @eleve = User.where(identifiant_eleve: params[:eleve][:ancien_nom]).take
+  #     @eleve.update(identifiant_eleve: params[:eleve][:identifiant_eleve])
+  #     redirect_to :back
+  #   end
+  # end
 
-  def eleve_delete
-
-  end
-
-  def desk_delete
-      FileUtils.rm_rf("./public/folders/#{params[:desk]}/#{params[:draw]}/#{params[:dossier]}")
-      redirect_to desk_path
-  end
-
+  # Renommer le nom d'un draw
+  # Route : PUT/:desk/:draw
   def draw_rename
-    FileUtils.mv("./public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:rename][:last_name]}", "./public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:rename][:new_name]}")
-    redirect_to draw_path
+    if !Dir.exists?("./public/folders/#{current_user.nom}/#{params[:rename][:new_name]}")
+      FileUtils.mv("./public/folders/#{current_user.nom}/#{params[:rename][:last_name]}", "./public/folders/#{current_user.nom}/#{params[:rename][:new_name]}")
+      redirect_to :back
+    else 
+      redirect_to :back, notice: "Le dossier existe déjà, impossible de renommer"
+    end
   end
 
-  def draw_source_delete
-    FileUtils.rm_rf("./public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:source]}")
-    redirect_to draw_path
+  # Supprimer un desk
+  def draw_delete
+    if params.include?(:hidden)
+      User.destroy(params[:mesEleves])
+      redirect_to :back
+    else
+      if Dir.exists?("./public/folders/#{params[:desk]}/#{params[:draw]}")
+        FileUtils.rm_rf("./public/folders/#{params[:desk]}/#{params[:draw]}")
+        redirect_to desk_path
+      else
+        redirect_to :back, notice: "Le dossier n'existe pas !"
+      end
+    end 
   end
 
+  #==============================================================
+  #                     FOLDERS
+  #==============================================================
+  # Supprimer un folder situé dans un draw
+  # Route : DELETE/:desk/:draw/:folder
+  def folder_delete
+    FileUtils.rm_rf("./public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:folder]}")
+    redirect_to :back
+  end
 
+  # Renommer le nom d'un folder
+  # Route : PUT/:desk/:draw
+  def folder_rename
+    if !Dir.exists?("./public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:renommer_folder][:new_name]}")
+      FileUtils.mv("./public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:renommer_folder][:last_name]}", "./public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:renommer_folder][:new_name]}")
+      redirect_to :back
+    else
+      redirect_to :back, notice: "le dossier existe déjà, impossible de renommer"
+    end
+  end
+
+  # Suppresion d'un fichier
+  # Route : DELETE/:desk/:draw/:folder/:file
   def file_delete
-    file = "./public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:source]}/#{params[:file]}"
+    file = "./public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:folder]}/#{params[:file]}"
     File.delete(file) if File.exist?(file)
     redirect_to draw_path
   end
 
+  # Renommer un fichier
+  # Route : PUT/:desk/:draw/:folder/:file
   def file_rename
-    FileUtils.mv("./public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:source]}/#{params[:file_rename][:last_filename]}", "./public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:source]}/#{params[:file_rename][:new_filename]}")
+    FileUtils.mv("./public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:folder]}/#{params[:file_rename][:last_filename]}", "./public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:folder]}/#{params[:file_rename][:new_filename]}")
     redirect_to draw_path
   end
 
+#==============================================================
+#                     ELEVES
+#==============================================================
+
+  # Affiche la liste des elèves
+  def liste_eleves
+      # Liste des élèves d'un professeur
+      @eleves = User.where(nom: current_user.nom).where.not(identifiant_eleve: nil)
+  end
+
+  # Chargement des palettes
   def palettes
     @palette = Palette.all
   end
 
+  # Chargement des polices
   def polices
     @police = Polices.all
   end
 
+  # Chargement des layouts
   def layouts
     @layout = Layout.all
   end
 
+  # Chargement des images
   def images
     @image = Image.all
   end
 
-  def liste_eleves
-      @eleves = User.where(nom: current_user.nom).where.not(identifiant_eleve: nil)
-  end
-
+  # Chargement des préférences
   def load_pref
     if user_signed_in?
       @compte = Compte.where(nom: current_user.nom).take
@@ -182,6 +247,7 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  # Configuration des préférences
   def config_pref
     if params.include?(:preferences)
       @palette = Palette.where(ref: params[:preferences][:color]).take
@@ -202,9 +268,13 @@ class ApplicationController < ActionController::Base
       if @image != nil
         @pref.update(img_header: @image.nom)
       end
-      redirect_to desk_path
+      redirect_to :back
     end
   end
+
+#==============================================================
+#                     PRIVATE
+#==============================================================
 
   private
 
@@ -233,7 +303,6 @@ class ApplicationController < ActionController::Base
   end
 
   def liste_f(dir)
-    puts dir
     d = Dir.open(dir)
     liste_exclus = [".", ".."]
     liste_dir = d.sort - liste_exclus

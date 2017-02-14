@@ -26,16 +26,23 @@
     <div class="tabs-panel" id="panel2r">
       <p>Edition</p>
       <ul>
-        <% @eleves.each do |e| %>
-          <li><%= e.identifiant_eleve %> <a href="#" data-method="delete"><i class="fa fa-trash" aria-hidden="true"></i></a></li>
+        <%= form_tag desk_path, method: :delete do %>
+          <%= hidden_field_tag :hidden, value: "delete_eleve" %>
+          <% @eleves.each do |e| %>
+            <li><%= e.identifiant_eleve %> <%= check_box_tag "mesEleves[]", e.id %></li>
+          <% end %>
+          <%= submit_tag :supprimer %>
         <% end %>
+        
       </ul>
     </div>
 
     <div class="tabs-panel" id="panel3r">
       <p>Statistiques</p>
+      <p>Stockage : <%= @size %></p>
+      <p>Espace de stockage partagé avec <%= @eleves.count %> élèves</p>
     </div>
-
+    
   </div>
 
   <h4 class="text-center">Stockage: <%= %> %</h4>
