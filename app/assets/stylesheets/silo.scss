@@ -91,6 +91,12 @@ header{
 	padding: 40px 50px 40px 50px;
 }
 
+#bandeau {
+	max-height: 200px;
+	width: 100%;
+	overflow: hidden;
+}
+
 .main_desk {
 			display: -webkit-box;
 	    display: -ms-flexbox;

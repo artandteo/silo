@@ -1,0 +1,3 @@
+class Layout < ApplicationRecord
+
+end

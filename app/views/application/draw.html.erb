@@ -67,9 +67,11 @@
 					        	<% for j in 0..@table[i].length-1 %>
 		        					<li>
 		        					<a target="_blank"><i class="fi-page-export-pdf size-36 step"></i><%= @table[i][j] %></a> <br/>
-		        					<a class="toggle_admin" href="<%= delete_file_path(params[:desk], params[:draw], @arr[i], @table[i][j]) %>" data-method="delete" data-confirm="Souhaitez-vous supprimer le fichier <%= @table[i][j] %> ? Cette action est irréversible et ne peux être annuler."><i class="fa fa-trash" aria-hidden="true"></i></a>
-		        					</li>
-		        					<a class="toggle_admin" data-open="rename_file-<%= i %>"><i class="fa fa-file-text" aria-hidden="true"></i></a>
+											<% if current_user.is_admin? %>
+			        					<a class="toggle_admin" href="<%= delete_file_path(params[:desk], params[:draw], @arr[i], @table[i][j]) %>" data-method="delete" data-confirm="Souhaitez-vous supprimer le fichier <%= @table[i][j] %> ? Cette action est irréversible et ne peux être annuler."><i class="fa fa-trash" aria-hidden="true"></i></a>
+			        					</li>
+			        					<a class="toggle_admin" data-open="rename_file-<%= i %>"><i class="fa fa-file-text" aria-hidden="true"></i></a>
+											<% end %>
 		        					<div class="reveal" id="rename_file-<%= i %>" data-reveal>
 											  <%= form_for :file_rename, url: "/#{params[:desk]}/#{params[:draw]}/#{URI.parse URI.encode(@arr[i])}/#{@table[i][j]}/", method: 'put' do |f| %>
 												<%= f.label :nom, 'Nouveau nom ' %>
