@@ -32,8 +32,6 @@ document.addEventListener("turbolinks:load", function() {
       $(this).parent().parent().css( "opacity", "1" );
     });
 
-    $('.is-active').foundation('selectTab');
-
     // $( ".is-active").click(function() {
     //   $(".active").css( "background-color", col2 );
     //   }, function(){
