@@ -12,10 +12,10 @@
       <p>Création</p>
       <%= form_for :eleve, url: "#{desk_path}" do |f| %>
 
-        <%= f.label :identifiant_eleve, "Identifiant de l'élève" %>
+        <%= f.label :identifiant_eleve, "Identifiant utilisateur" %>
         <%= f.text_field :identifiant_eleve %>
 
-        <%= f.label :password, "Mot de l'élève" %>
+        <%= f.label :password, "Mot de passe" %>
         <%= f.password_field :password %>
 
         <%= f.submit :valider, value: "Valider", class: "button primary" %>
