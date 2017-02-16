@@ -9,6 +9,7 @@ class ApplicationController < ActionController::Base
 
   before_action :palettes, :polices, :layouts, :images, only: [:desk, :draw, :desk_add, :draw_add]
   before_action :load_pref, :config_pref
+  before_action :is_PDF?
 
   def set_locale
     I18n.locale = params[:locale] || I18n.default_locale
@@ -208,6 +209,10 @@ class ApplicationController < ActionController::Base
     else 
       redirect_to :back, notice: "Un fichier avec le même nom existe déjà !"
     end
+  end
+
+  def is_PDF?
+    File.extname(self.to_s) == ".pdf"
   end
 
 #==============================================================
