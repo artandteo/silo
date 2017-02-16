@@ -99,6 +99,10 @@ class ApplicationController < ActionController::Base
 
       liste_d("./public/folders/#{current_user.nom}/#{params[:draw]}/")
       liste_f("./public/folders/#{current_user.nom}/#{params[:draw]}/")
+
+      #pdf_filename = File.join(Rails.root, "public/folders/kevin/A/Test/CV-Kevin-Cadieu.pdf")
+      #get_file(pdf_filename, :filename => "CV-Kevin-Cadieu.pdf", :disposition => 'inline', :type => "application/pdf")
+
   end
 
   # Ajouter un draw
@@ -200,8 +204,16 @@ class ApplicationController < ActionController::Base
   # Renommer un fichier
   # Route : PUT/:desk/:draw/:folder/:file
   def file_rename
-    FileUtils.mv("./public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:folder]}/#{params[:file_rename][:last_filename]}", "./public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:folder]}/#{params[:file_rename][:new_filename]}")
-    redirect_to draw_path
+
+    if !File.exist?("./public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:folder]}/#{params[:file_rename][:new_filename]}")
+      FileUtils.mv("./public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:folder]}/#{params[:file_rename][:last_filename]}", "./public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:folder]}/#{params[:file_rename][:new_filename]}")
+      redirect_to draw_path
+    else 
+      redirect_to :back, notice: "Un fichier avec le même nom existe déjà !"
+    end
+  end
+
+  def download
   end
 
 #==============================================================
