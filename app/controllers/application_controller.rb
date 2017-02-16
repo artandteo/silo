@@ -9,6 +9,7 @@ class ApplicationController < ActionController::Base
 
   before_action :palettes, :polices, :layouts, :images, only: [:desk, :draw, :desk_add, :draw_add]
   before_action :load_pref, :config_pref
+  helper_method :is_PDF?, :is_MP3?
 
   def set_locale
     I18n.locale = params[:locale] || I18n.default_locale
@@ -74,10 +75,10 @@ class ApplicationController < ActionController::Base
     #             AJOUT D'UN DESK
     #-------------------------------------------
     if params.include?(:nouv_desk)
-
+      desk = params[:nouv_desk][:nom].to_s.gsub(/\s+/, '_')
       path = "./public/folders/#{params[:desk]}/"
-      if !Dir.exists?(File.join(path, params[:nouv_desk][:nom]))
-        Dir.mkdir(File.join(path, params[:nouv_desk][:nom]), 0777)
+      if !Dir.exists?(File.join(path, desk))
+        Dir.mkdir(File.join(path, desk), 0777)
         redirect_to desk_path
       else
         flash[:alert] = 'Le nom de dossier existe déjà !'
@@ -92,6 +93,9 @@ class ApplicationController < ActionController::Base
   # Affichage des draw
   # Route : GET/:desk/:draw
   def draw
+      url = "/#{params[:desk]}/#{params[:draw]}/é"
+      puts url 
+      puts "=========="
       @table = Array.new { Array.new }
       @breadcrumb = params[:draw]
       i = 0
@@ -106,37 +110,36 @@ class ApplicationController < ActionController::Base
       liste_d("./public/folders/#{current_user.nom}/#{params[:draw]}/")
       liste_f("./public/folders/#{current_user.nom}/#{params[:draw]}/")
 
-      #pdf_filename = File.join(Rails.root, "public/folders/kevin/A/Test/CV-Kevin-Cadieu.pdf")
-      #get_file(pdf_filename, :filename => "CV-Kevin-Cadieu.pdf", :disposition => 'inline', :type => "application/pdf")
-
   end
 
   # Ajouter un draw
   # Route : POST/:desk/:draw
   def draw_add
     if params.include?(:nouv_dossier)
+      draw = params[:nouv_dossier][:nom].to_s.gsub(/\s+/, '_')
       path = "./public/folders/#{params[:desk]}/#{params[:draw]}/"
-      if !Dir.exists?(File.join(path, params[:nouv_dossier][:nom]))
-        Dir.mkdir(File.join(path, params[:nouv_dossier][:nom]), 0777)
+      if !Dir.exists?(File.join(path, draw))
+        Dir.mkdir(File.join(path, draw), 0777)
         redirect_to draw_path(current_user.nom)
       else
         flash[:alert] = 'Le dossier existe déjà !'
         redirect_to :back
       end
     else
-      authorized_ext = [".pdf", ".jpg", ".jpeg"]
-      if params.include?(:nouv_fichier) && !params[:nouv_fichier][:fichier].blank?
-        filename = params[:nouv_fichier][:fichier].original_filename
-        directory = "public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:nouv_fichier][:dossier_courant]}/"
-        path = File.join(directory, filename)
-        if authorized_ext.include? File.extname(path)
-          File.open(path, "wb") { |f| f.write(params[:nouv_fichier][:fichier].read) }
-          flash[:success] = 'Fichier téléchargé'
-          redirect_to draw_path
-        else
-          flash[:alert] = 'Extension non autorisé'
-          redirect_to draw_path
+      authorized_ext = [".pdf", ".jpg", ".jpeg", ".mp3"]
+      if params.include?(:fichiers)
+        params[:fichiers].each do |file|
+          filename = file.original_filename
+          directory = "public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:dossier_courant]}/"
+          path = File.join(directory, filename)
+          if authorized_ext.include? File.extname(path)
+            File.open(path, "wb") { |f| f.write(file.read) }
+            flash[:success] = 'Fichier téléchargé'
+          else
+            flash[:alert] = 'Extension non autorisé'
+          end
         end
+        redirect_to :back
       else
         flash[:alert] = 'Aucun fichier téléchargé'
         redirect_to draw_path
@@ -231,7 +234,12 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def download
+  def is_PDF?(file)
+    File.extname(file.to_s) == ".pdf"
+  end
+
+  def is_MP3?(file)
+    File.extname(file.to_s) == ".mp3"
   end
 
 #==============================================================

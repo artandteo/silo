@@ -1,6 +1,3 @@
-
-
-
 <!-- affichage des liens -->
 
 
@@ -27,7 +24,7 @@
 								<% end %> <!-- end if -->
 
 							<div class="reveal" id="renommer-folder-<%= a %>" data-reveal>
-							  <%= form_for :renommer_folder, method: 'put', url: "/#{params[:desk]}/#{params[:draw]}/#{a}" do |f| %>
+							  <%= form_for :renommer_folder, method: "put",  url: URI.escape("/#{params[:desk]}/#{params[:draw]}/#{a}") do |f| %>
 								<%= f.label :nom, 'Nouveau nom ' %>
 								<%= f.text_field :new_name, value: a %>
 								<%= f.hidden_field :last_name, value: a %>
@@ -69,14 +66,23 @@
 													<% end %> <!-- end if -->
 												</div>
 												<div class="medium-10">
-													<iframe src="/folders/<%= files_path(params[:desk], params[:draw], @arr[i], @table[i][j]) %>" width="100%" height="600px"></iframe>
+													<% if is_PDF?(@table[i][j]) %>
+													<iframe src="/folders/<%= files_path(params[:desk], params[:draw], @arr[i], @table[i][j]) %>"  width="100%" height="600px"></iframe>
+													<% end %>
+
+													<% if is_MP3?(@table[i][j]) %>
+														<audio controls="controls"> 
+															<source src="/folders/<%= files_path(params[:desk], params[:draw], @arr[i], @table[i][j]) %>" />
+														</audio>
+													<% end %>
 												</div>
 											</div>
 
 		        					<div class="reveal" id="rename_file-<%= i %>" data-reveal>
-											  <%= form_for :file_rename, url: "/#{params[:desk]}/#{params[:draw]}/#{URI.parse URI.encode(@arr[i])}/#{@table[i][j]}/", method: 'put' do |f| %>
+
+											  <%= form_for :file_rename, url:  URI.escape("/#{params[:desk]}/#{params[:draw]}/#{@arr[i]}/#{@table[i][j]}/"), method: 'put' do |f| %>
 												<%= f.label :nom, 'Nouveau nom ' %>
-												<%= f.text_field :new_filename, value: @table[i][j] %>
+												<%= f.text_field :new_filename, value: @table[i][j], onkeypress: "return verif(event);"  %>
 												<%= f.hidden_field :last_filename, value: @table[i][j] %>
 												<%= f.submit :go, value: "Valider", class: "button success" %>
 											  <% end %> <!-- end form -->
@@ -100,7 +106,7 @@
 <div class="reveal" id="creer_dossier" data-reveal>
   <%= form_for :nouv_dossier do |f| %>
 	<%= f.label :nom, 'Nom du dossier' %>
-	<%= f.text_field :nom %>
+	<%= f.text_field :nom, onkeypress: "return verif(event);"  %>
 	<%= f.submit :valider, value: "Valider", class: "button success tiny" %>
   <% end %>
   <button class="close-button" data-close aria-label="Close modal" type="button">
@@ -110,11 +116,11 @@
 
 <% @arr.each do |a| %>
 	<div class="reveal" id="telech_fichier-<%= a %>" data-reveal>
-		<%= form_for :nouv_fichier do |f| %>
-		<%= f.label :nom, 'Nom du dossier' %>
-		<%= f.file_field :fichier %>
-		<%= f.hidden_field :dossier_courant, value: a %>
-		<%= f.submit :envoyer, value: "Télécharger", class: "button success tiny" %>
+		<%= form_tag draw_path, method: "post", multipart: true do %>
+		<%= label_tag :nom, 'Nom du dossier' %>
+		<%= file_field_tag "fichiers[]",  multiple: "true" %>
+		<%= hidden_field_tag :dossier_courant, a %>
+		<%= submit_tag :envoyer, value: "Télécharger", class: "button success tiny" %>
 		<% end %>
 		<button class="close-button" data-close aria-label="Close modal" type="button">
 			<span aria-hidden="true">&times;</span>
