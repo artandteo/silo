@@ -94,6 +94,7 @@ class ApplicationController < ActionController::Base
   def desk_size
     size = 0
     path = "./public/folders/#{current_user.nom}/"
+    puts path
     Dir.glob(File.join(path, '**', '*')) { |file| size+=File.size(file) }
     
     puts size
