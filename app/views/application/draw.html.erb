@@ -68,7 +68,12 @@
 												<div class="medium-10">
 													<% if is_PDF?(@table[i][j]) %>
 													<iframe src="/folders/<%= files_path(params[:desk], params[:draw], @arr[i], @table[i][j]) %>"  width="100%" height="600px"></iframe>
+													<% end %>
 
+													<% if is_MP3?(@table[i][j]) %>
+														<audio controls="controls"> 
+															<source src="/folders/<%= files_path(params[:desk], params[:draw], @arr[i], @table[i][j]) %>" />
+														</audio>
 													<% end %>
 												</div>
 											</div>
@@ -110,11 +115,11 @@
 
 <% @arr.each do |a| %>
 	<div class="reveal" id="telech_fichier-<%= a %>" data-reveal>
-		<%= form_for :nouv_fichier do |f| %>
-		<%= f.label :nom, 'Nom du dossier' %>
-		<%= f.file_field :fichier %>
-		<%= f.hidden_field :dossier_courant, value: a %>
-		<%= f.submit :envoyer, value: "Télécharger", class: "button success tiny" %>
+		<%= form_tag draw_path, method: "post", multipart: true do %>
+		<%= label_tag :nom, 'Nom du dossier' %>
+		<%= file_field_tag "fichiers[]",  multiple: "true" %>
+		<%= hidden_field_tag :dossier_courant, a %>
+		<%= submit_tag :envoyer, value: "Télécharger", class: "button success tiny" %>
 		<% end %>
 		<button class="close-button" data-close aria-label="Close modal" type="button">
 			<span aria-hidden="true">&times;</span>

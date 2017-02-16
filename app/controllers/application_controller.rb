@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
 
   before_action :palettes, :polices, :layouts, :images, only: [:desk, :draw, :desk_add, :draw_add]
   before_action :load_pref, :config_pref
-  before_action :is_PDF?
+  helper_method :is_PDF?, :is_MP3?
 
   def set_locale
     I18n.locale = params[:locale] || I18n.default_locale
@@ -119,18 +119,21 @@ class ApplicationController < ActionController::Base
       end
     else
       authorized_ext = [".pdf", ".jpg", ".jpeg", ".mp3"]
-      if params.include?(:nouv_fichier) && !params[:nouv_fichier][:fichier].blank?
-        filename = params[:nouv_fichier][:fichier].original_filename
-        directory = "public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:nouv_fichier][:dossier_courant]}/"
-        path = File.join(directory, filename)
-        if authorized_ext.include? File.extname(path)
-          File.open(path, "wb") { |f| f.write(params[:nouv_fichier][:fichier].read) }
-          flash[:success] = 'Fichier téléchargé'
-          redirect_to draw_path
-        else
-          flash[:alert] = 'Extension non autorisé'
-          redirect_to draw_path
+      if params.include?(:fichiers)
+        params[:fichiers].each do |file|
+          filename = file.original_filename
+          directory = "public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:dossier_courant]}/"
+          path = File.join(directory, filename)
+          puts "=========== DEBUG"
+          puts path
+          #if authorized_ext.include? File.extname(path)
+          #  File.open(path, "wb") { |f| f.write(file.read) }
+          #  flash[:success] = 'Fichier téléchargé'
+          #else
+          #  flash[:alert] = 'Extension non autorisé'
+          #end
         end
+        redirect_to :back
       else
         flash[:alert] = 'Aucun fichier téléchargé'
         redirect_to draw_path
@@ -225,8 +228,12 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def is_PDF?
-    File.extname(self.to_s) == ".pdf"
+  def is_PDF?(file)
+    File.extname(file.to_s) == ".pdf"
+  end
+
+  def is_MP3?(file)
+    File.extname(file.to_s) == ".mp3"
   end
 
 #==============================================================
