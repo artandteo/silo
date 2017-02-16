@@ -100,9 +100,6 @@ class ApplicationController < ActionController::Base
       liste_d("./public/folders/#{current_user.nom}/#{params[:draw]}/")
       liste_f("./public/folders/#{current_user.nom}/#{params[:draw]}/")
 
-      #pdf_filename = File.join(Rails.root, "public/folders/kevin/A/Test/CV-Kevin-Cadieu.pdf")
-      #get_file(pdf_filename, :filename => "CV-Kevin-Cadieu.pdf", :disposition => 'inline', :type => "application/pdf")
-
   end
 
   # Ajouter un draw
@@ -117,7 +114,7 @@ class ApplicationController < ActionController::Base
         redirect_to :back, notice: "Le dossier existe déjà !"
       end
     else
-      authorized_ext = [".pdf", ".jpg", ".jpeg"]
+      authorized_ext = [".pdf", ".jpg", ".jpeg", ".mp3"]
       if params.include?(:nouv_fichier) && !params[:nouv_fichier][:fichier].blank?
         filename = params[:nouv_fichier][:fichier].original_filename
         directory = "public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:nouv_fichier][:dossier_courant]}/"
@@ -211,9 +208,6 @@ class ApplicationController < ActionController::Base
     else 
       redirect_to :back, notice: "Un fichier avec le même nom existe déjà !"
     end
-  end
-
-  def download
   end
 
 #==============================================================
