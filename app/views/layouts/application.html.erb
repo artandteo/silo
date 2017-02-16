@@ -41,9 +41,10 @@
         </header>
 
         <main class="">
+          <% flash.each do |key, value| %>
+             <div class="callout <%= key %>" style="margin-top: 7px"><%= value %></div>
+          <% end %>
           <%= yield %>
-          <p class="notice"><%= notice %></p>
-          <p class="alert"><%= alert %></p>
         </main>
 
       <% if !signed_in? %>
