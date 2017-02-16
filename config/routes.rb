@@ -18,6 +18,7 @@
   put '/:desk', to: 'application#draw_rename'
   post '/:desk/:draw',to: 'application#draw_add'
   delete '/:desk/:draw', to: 'application#draw_delete'
+
   #==============================================================
   #                            FOLDER
   #==============================================================
@@ -28,7 +29,7 @@
   #==============================================================
   #                        FILES MANAGEMENT
   #==============================================================
-  put '/:desk/:draw/:folder/:file', to: 'application#file_rename', :constraints => { :file => /.*/ }
   get '/:desk/:draw/:folder/:file', to: 'application#draw', :constraints => { :file => /.*/ }, as: :files
+  put '/:desk/:draw/:folder/:file', to: 'application#file_rename', :constraints => { :file => /.*/ }
   delete '/:desk/:draw/:folder/:file', to: 'application#file_delete', :constraints => { :file => /.*/ }
 end
