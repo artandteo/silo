@@ -71,10 +71,10 @@ class ApplicationController < ActionController::Base
     #             AJOUT D'UN DESK
     #-------------------------------------------
     if params.include?(:nouv_desk)
-
+      desk = params[:nouv_desk][:nom].to_s.gsub(/\s+/, '_')
       path = "./public/folders/#{params[:desk]}/"
-      if !Dir.exists?(File.join(path, params[:nouv_desk][:nom]))
-        Dir.mkdir(File.join(path, params[:nouv_desk][:nom]), 0777)
+      if !Dir.exists?(File.join(path, desk))
+        Dir.mkdir(File.join(path, desk), 0777)
         redirect_to desk_path
       else
         flash[:alert] = 'Le nom de dossier existe déjà !'
@@ -89,6 +89,9 @@ class ApplicationController < ActionController::Base
   # Affichage des draw
   # Route : GET/:desk/:draw
   def draw
+      url = "/#{params[:desk]}/#{params[:draw]}/é"
+      puts url 
+      puts "=========="
       @table = Array.new { Array.new }
       @breadcrumb = params[:draw]
       i = 0
@@ -109,9 +112,10 @@ class ApplicationController < ActionController::Base
   # Route : POST/:desk/:draw
   def draw_add
     if params.include?(:nouv_dossier)
+      draw = params[:nouv_dossier][:nom].to_s.gsub(/\s+/, '_')
       path = "./public/folders/#{params[:desk]}/#{params[:draw]}/"
-      if !Dir.exists?(File.join(path, params[:nouv_dossier][:nom]))
-        Dir.mkdir(File.join(path, params[:nouv_dossier][:nom]), 0777)
+      if !Dir.exists?(File.join(path, draw))
+        Dir.mkdir(File.join(path, draw), 0777)
         redirect_to draw_path(current_user.nom)
       else
         flash[:alert] = 'Le dossier existe déjà !'
@@ -124,14 +128,12 @@ class ApplicationController < ActionController::Base
           filename = file.original_filename
           directory = "public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:dossier_courant]}/"
           path = File.join(directory, filename)
-          puts "=========== DEBUG"
-          puts path
-          #if authorized_ext.include? File.extname(path)
-          #  File.open(path, "wb") { |f| f.write(file.read) }
-          #  flash[:success] = 'Fichier téléchargé'
-          #else
-          #  flash[:alert] = 'Extension non autorisé'
-          #end
+          if authorized_ext.include? File.extname(path)
+            File.open(path, "wb") { |f| f.write(file.read) }
+            flash[:success] = 'Fichier téléchargé'
+          else
+            flash[:alert] = 'Extension non autorisé'
+          end
         end
         redirect_to :back
       else

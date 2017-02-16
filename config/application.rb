@@ -14,7 +14,7 @@ module Silo
 
     
 
-
+  config.encoding = "utf-8"
 	# config/initializers/locale.rb
 	 
 	I18n.enforce_available_locales = false
