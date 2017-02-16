@@ -42,7 +42,7 @@
             <% if p.nom == '' %>
               aucune image
             <% else %>
-              <img src="img/small_<%= p.nom %>" alt="<%= p.nom %>">
+              <img src="/img/small_<%= p.nom %>" alt="<%= p.nom %>">
             <% end %>
         </div>
       <% end %>
@@ -50,7 +50,7 @@
     <div class="tabs-panel" id="panel4">
       <% @layouts.each do |p| %>
         <div class="layout_config">
-            <%= f.radio_button :layout, p.ref  %><img src="img/layout_<%= p.ref %>.jpg" alt="layout_<%= p.ref %>">
+            <%= f.radio_button :layout, p.ref  %><img src="/img/layout_<%= p.ref %>.jpg" alt="layout_<%= p.ref %>">
         </div>
       <% end %>
     </div>

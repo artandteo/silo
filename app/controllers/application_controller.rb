@@ -18,6 +18,10 @@ class ApplicationController < ActionController::Base
     { :locale => I18n.locale == I18n.default_locale ? nil : I18n.locale  }
   end
 
+  def mentions
+
+  end
+
   def accueil
     if user_signed_in?
       redirect_to desk_path(current_user.nom)

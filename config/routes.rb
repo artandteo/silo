@@ -32,4 +32,6 @@
   get '/:desk/:draw/:folder/:file', to: 'application#draw', :constraints => { :file => /.*/ }, as: :files
   put '/:desk/:draw/:folder/:file', to: 'application#file_rename', :constraints => { :file => /.*/ }
   delete '/:desk/:draw/:folder/:file', to: 'application#file_delete', :constraints => { :file => /.*/ }
+
+  get '/mentions', to: 'application#mentions', as: :mentions
 end

@@ -24,8 +24,9 @@ $tab-item-font-size: 18px;
 
 $primary-color: $col3;
 
+h4 { font-size: 20px; }
 
-
+label { color:$blanc; }
 
 .row {
 	max-width: 100%;
@@ -44,6 +45,8 @@ a:hover {
 	margin-right: 10px;
 	padding-bottom: 10px;
 }
+
+.callout { text-align: center; }
 
 .success.button.tiny, .success.button.small {
 	color: $blanc;
@@ -87,6 +90,17 @@ header{
 }
 .top-logo:hover, .config-logo:hover {
 	filter: grayscale(0%);
+}
+
+.sections {
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+}
+
+
+.section_1, .section_2, .section_3 {
+	flex-basis: 33%;
 }
 
 .bandeau {
