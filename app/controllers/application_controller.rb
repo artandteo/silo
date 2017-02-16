@@ -92,10 +92,17 @@ class ApplicationController < ActionController::Base
   end
 
   def desk_size
+    size = 0
+    path = "./public/folders/#{current_user.nom}/"
+    Dir.glob(File.join(path, '**', '*')) { |file| size+=File.size(file) }
     
-     size = File.size("./public/folders/kevin/") 
-    puts "================"
     puts size
+    ko = size / 1024
+    puts "== ko #{ko}"
+    mo = ko.round(2) / 1024
+    puts "== mo #{mo.round(2)}"
+    @total = mo / 500 * 100
+    puts @total.round(3)
   end
 
 #==============================================================
