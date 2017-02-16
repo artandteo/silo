@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   before_action :set_locale
   before_action :configure_devise_parameters, if: :devise_controller?
   before_action :authenticate_user!, only: [:desk, :draw, :desk_add, :desk_rename, :draw_add, :draw_rename]
-  
+
   before_action :liste_eleves, only: [:desk, :draw]
 
   before_action :palettes, :polices, :layouts, :images, only: [:desk, :draw, :desk_add, :draw_add]
@@ -54,9 +54,10 @@ class ApplicationController < ActionController::Base
         @eleve.save
         redirect_to :back
       else
-        redirect_to :back, notice: "Une erreur est survenue !"
+        flash[:alert] = 'Une erreur est survenue !'
+        redirect_to :back
       end
-      #if @eleve.identifiant_eleve == 
+      #if @eleve.identifiant_eleve ==
         #@eleve.save
         #redirect_to :back
       #end
@@ -74,8 +75,9 @@ class ApplicationController < ActionController::Base
       if !Dir.exists?(File.join(path, params[:nouv_desk][:nom]))
         Dir.mkdir(File.join(path, params[:nouv_desk][:nom]), 0777)
         redirect_to desk_path
-      else 
-        redirect_to :back, notice: "Le nom de dossier existe déjà !"
+      else
+        flash[:alert] = 'Le nom de dossier existe déjà !'
+        redirect_to :back
       end
     end
   end
@@ -114,7 +116,8 @@ class ApplicationController < ActionController::Base
         Dir.mkdir(File.join(path, params[:nouv_dossier][:nom]), 0777)
         redirect_to draw_path(current_user.nom)
       else
-        redirect_to :back, notice: "Le dossier existe déjà !"
+        flash[:alert] = 'Le dossier existe déjà !'
+        redirect_to :back
       end
     else
       authorized_ext = [".pdf", ".jpg", ".jpeg"]
@@ -124,12 +127,15 @@ class ApplicationController < ActionController::Base
         path = File.join(directory, filename)
         if authorized_ext.include? File.extname(path)
           File.open(path, "wb") { |f| f.write(params[:nouv_fichier][:fichier].read) }
-          redirect_to draw_path, notice: 'Fichier téléchargé'
+          flash[:success] = 'Fichier téléchargé'
+          redirect_to draw_path
         else
-          redirect_to draw_path, notice: 'extension non autorisé'
+          flash[:alert] = 'Extension non autorisé'
+          redirect_to draw_path
         end
       else
-        redirect_to draw_path, notice: 'Aucun fichier téléchargé'
+        flash[:alert] = 'Aucun fichier téléchargé'
+        redirect_to draw_path
       end
     end
   end
@@ -157,8 +163,9 @@ class ApplicationController < ActionController::Base
     if !Dir.exists?("./public/folders/#{current_user.nom}/#{params[:rename][:new_name]}")
       FileUtils.mv("./public/folders/#{current_user.nom}/#{params[:rename][:last_name]}", "./public/folders/#{current_user.nom}/#{params[:rename][:new_name]}")
       redirect_to :back
-    else 
-      redirect_to :back, notice: "Le dossier existe déjà, impossible de renommer"
+    else
+      flash[:alert] = 'Le dossier existe déjà, impossible de renommer'
+      redirect_to :back
     end
   end
 
@@ -168,7 +175,8 @@ class ApplicationController < ActionController::Base
         FileUtils.rm_rf("./public/folders/#{params[:desk]}/#{params[:draw]}")
         redirect_to desk_path
       else
-        redirect_to :back, notice: "Le dossier n'existe pas !"
+        flash[:alert] = 'Le dossier n\'existe pas !'
+        redirect_to :back
       end
   end
 
@@ -179,6 +187,7 @@ class ApplicationController < ActionController::Base
   # Route : DELETE/:desk/:draw/:folder
   def folder_delete
     FileUtils.rm_rf("./public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:folder]}")
+
     redirect_to :back
   end
 
@@ -187,9 +196,11 @@ class ApplicationController < ActionController::Base
   def folder_rename
     if !Dir.exists?("./public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:renommer_folder][:new_name]}")
       FileUtils.mv("./public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:renommer_folder][:last_name]}", "./public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:renommer_folder][:new_name]}")
+      flash[:success] = 'Votre dossier a bien été renommé'
       redirect_to :back
     else
-      redirect_to :back, notice: "le dossier existe déjà, impossible de renommer"
+      flash[:alert] = 'Une erreur s\'est produite'
+      redirect_to :back
     end
   end
 
@@ -198,6 +209,7 @@ class ApplicationController < ActionController::Base
   def file_delete
     file = "./public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:folder]}/#{params[:file]}"
     File.delete(file) if File.exist?(file)
+    flash[:success] = 'Votre fichier a bien été supprimé'
     redirect_to draw_path
   end
 
@@ -207,9 +219,11 @@ class ApplicationController < ActionController::Base
 
     if !File.exist?("./public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:folder]}/#{params[:file_rename][:new_filename]}")
       FileUtils.mv("./public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:folder]}/#{params[:file_rename][:last_filename]}", "./public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:folder]}/#{params[:file_rename][:new_filename]}")
+      flash[:success] = 'Votre fichier a bien été renommé'
       redirect_to draw_path
-    else 
-      redirect_to :back, notice: "Un fichier avec le même nom existe déjà !"
+    else
+      flash[:alert] = 'Un fichier avec le même nom existe déjà !'
+      redirect_to :back
     end
   end
 
@@ -229,6 +243,7 @@ class ApplicationController < ActionController::Base
   def eleve_delete
     if params.include?(:hidden)
       User.destroy(params[:mesEleves])
+      flash[:success] = 'Utilisateur effacé'
       redirect_to :back
     end
   end

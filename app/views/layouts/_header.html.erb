@@ -48,3 +48,15 @@
   </div>
 
 </div>
+
+<!-- ////////// BREADCRUMB DRAW /////////// -->
+<% if params[:draw] %>
+<div id="breadcrumb" class="row">
+	<div class="small-4 medium-7 columns bread_home">
+		<a href="<%= root_path %>"><h4>ACCUEIL</h4></a>
+	</div>
+	<div class="small-8 medium-5 columns bread_title">
+		<h4><%= @breadcrumb %></h4>
+	</div>
+</div>
+<% end %>
