@@ -3,7 +3,7 @@
 
 <div id="breadcrumb" class="row">
 	<div class="small-4 medium-7 columns bread_home">
-		<a href="<%= root_path %>"><h4>HOME</h4></a>
+		<a href="<%= root_path %>"><h4>ACCUEIL</h4></a>
 	</div>
 	<div class="small-8 medium-5 columns bread_title">
 		<h4><%= @breadcrumb %></h4>
@@ -11,110 +11,100 @@
 </div>
 
 <!-- affichage des liens -->
-	<div class="row">
-		<div class="medium-12 columns">
-			<div id="content_onglet" class="row collapse">
-			  <div class="medium-3 columns">
-			    <ul class="tabs vertical" id="vert-tabs" data-tabs>
-			      <!-- <li class="tabs-title is-active"><a href="#panel1v" aria-selected="true">exemple</a></li>-->
-				  <% i = 0 %>
-			    <% @arr.each do |a| %>
-					<li class=<% if i == 0 %>"tabs-title is-active"<% else %>"tabs-title"<% end %>">
-						<a href="#<%= @arr[i] %>"><%= a %></a>
-					</li>
-					<% if current_user.is_admin? %>
-					<div class="edition">
-						<div class="toggle_admin">
-							<a data-open="renommer-folder-<%= a %>"><i class="fa fa-file-text" aria-hidden="true"></i></a>
-							<a href="<%= folder_path(params[:desk], params[:draw], a) %>" data-method="delete" data-confirm="Souhaitez-vous supprimer le dossier <%= a %> ? Cette action est irréversible et ne peux être annuler."><i class="fa fa-trash" aria-hidden="true"></i></a>
-						</div>
-					</div>
-					<% end %>
 
-					<div class="reveal" id="renommer-folder-<%= a %>" data-reveal>
-					  <%= form_for :renommer_folder, method: 'put', url: "/#{params[:desk]}/#{params[:draw]}/#{a}" do |f| %>
-						<%= f.label :nom, 'Nouveau nom ' %>
-						<%= f.text_field :new_name, value: a %>
-						<%= f.hidden_field :last_name, value: a %>
-						<%= f.submit :go, value: "Valider", class: "button success" %>
-					  <% end %>
 
-					  <button class="close-button" data-close aria-label="Close modal" type="button">
-					    <span aria-hidden="true">&times;</span>
-					  </button>
-					</div>
-					<% i = i + 1 %>
+<div id="content_onglet" class="row collapse">
+		<div class="medium-3 columns">
+			    <ul class="tabs vertical"  data-active-collapse="true" id="tabs_draw" data-tabs>
+				      <!-- <li class="tabs-title is-active"><a href="#panel1v" aria-selected="true">exemple</a></li>-->
+					  <% i = 0 %>
+				    <% @arr.each do |a| %>
+							<% if i == 0 %>
+								<li class="tabs-title is-active">
+							<% else %>
+								<li class="tabs-title">
+							<% end %> <!-- end if -->
+								<a href="#<%= @arr[i] %>"><%= a %></a>
+								</li>
+								<% if current_user.is_admin? %>
+									<div class="edition">
+										<div class="toggle_admin">
+											<a data-open="renommer-folder-<%= a %>"><i class="fa fa-file-text" aria-hidden="true"></i></a>
+											<a href="<%= folder_path(params[:desk], params[:draw], a) %>" data-method="delete" data-confirm="Souhaitez-vous supprimer le dossier <%= a %> ? Cette action est irréversible et ne peux être annuler."><i class="fa fa-trash" aria-hidden="true"></i></a>
+										</div>
+									</div>
+								<% end %> <!-- end if -->
 
-			    <% end %>
+							<div class="reveal" id="renommer-folder-<%= a %>" data-reveal>
+							  <%= form_for :renommer_folder, method: 'put', url: "/#{params[:desk]}/#{params[:draw]}/#{a}" do |f| %>
+								<%= f.label :nom, 'Nouveau nom ' %>
+								<%= f.text_field :new_name, value: a %>
+								<%= f.hidden_field :last_name, value: a %>
+								<%= f.submit :go, value: "Valider", class: "button success" %>
+							  <% end %> <!-- end form -->
+
+							  <button class="close-button" data-close aria-label="Close modal" type="button">
+							    <span aria-hidden="true">&times;</span>
+							  </button>
+							</div>
+								<% i = i + 1 %>
+					  <% end %> <!-- end each -->
+
+						<% if @arr.count != 7 && current_user.is_admin? %>
+							<div class="draw_add toggle_admin">
+								<a data-open="creer_dossier"><i class="fa fa-plus-circle" aria-hidden="true"></i></a>
+							</div>
+						<% end %>
 			    </ul>
-			    	<% if @arr.count != 7 && current_user.is_admin? %>
-						<div class="draw_add toggle_admin">
-							<a data-open="creer_dossier"><i class="fa fa-plus-circle" aria-hidden="true"></i></a>
-						</div>
-					<% end %>
-			  </div>
-
-
+		</div> <!-- div medium-3 -->
 <!-- contenu des onglets -->
-
-			    <div class="medium-9 columns">
-			    <div class="tabs-content vertical" data-tabs-content="vert-tabs">
+		<div class="medium-9 columns">
+			    <div class="tabs-content vertical" data-tabs-content="tabs_draw">
 			      <%
 			      for i in 0..@arr.count %>
-				      <div class="tabs-panel" id="<%= @arr[i] %>">
-				        <ul>
+						<% if i == 0 %>
+							<div class="tabs-panel is-active" id="<%= @arr[i] %>">
+						<% else %>
+							<div class="tabs-panel" id="<%= @arr[i] %>">
+						<% end %>
 				        	<% if @table[i] != nil %>
 					        	<% for j in 0..@table[i].length-1 %>
-		        					<li>
-		        					<a target="_blank"><i class="fi-page-export-pdf size-36 step"></i><%= @table[i][j] %></a> <br/>
-											<% if current_user.is_admin? %>
-			        					<a class="toggle_admin" href="<%= files_path(params[:desk], params[:draw], @arr[i], @table[i][j]) %>" data-method="delete" data-confirm="Souhaitez-vous supprimer le fichier <%= @table[i][j] %> ? Cette action est irréversible et ne peux être annuler."><i class="fa fa-trash" aria-hidden="true"></i></a>
-			        					</li>
-			        					<a class="toggle_admin" data-open="rename_file-<%= i %>"><i class="fa fa-file-text" aria-hidden="true"></i></a>
-											<% end %>
+
+											<div class="row">
+												<div class="medium-2">
+													<a href="/folders/<%= files_path(params[:desk], params[:draw], @arr[i], @table[i][j]) %>" target="_blank"><i class="fa fa-file-pdf-o size-36 step" aria-hidden="true"></i><%= @table[i][j] %></a>
+													<% if current_user.is_admin? %>
+					        					<a class="toggle_admin" href="<%= files_path(params[:desk], params[:draw], @arr[i], @table[i][j]) %>" data-method="delete" data-confirm="Souhaitez-vous supprimer le fichier <%= @table[i][j] %> ? Cette action est irréversible et ne peux être annuler."><i class="fa fa-trash" aria-hidden="true"></i></a>
+														<a class="toggle_admin" data-open="rename_file-<%= i %>"><i class="fa fa-file-text" aria-hidden="true"></i></a>
+													<% end %> <!-- end if -->
+												</div>
+												<div class="medium-10">
+													<iframe src="/folders/<%= files_path(params[:desk], params[:draw], @arr[i], @table[i][j]) %>" width="100%" height="600px"></iframe>
+												</div>
+											</div>
+
 		        					<div class="reveal" id="rename_file-<%= i %>" data-reveal>
 											  <%= form_for :file_rename, url: "/#{params[:desk]}/#{params[:draw]}/#{URI.parse URI.encode(@arr[i])}/#{@table[i][j]}/", method: 'put' do |f| %>
 												<%= f.label :nom, 'Nouveau nom ' %>
 												<%= f.text_field :new_filename, value: @table[i][j] %>
 												<%= f.hidden_field :last_filename, value: @table[i][j] %>
 												<%= f.submit :go, value: "Valider", class: "button success" %>
-											  <% end %>
+											  <% end %> <!-- end form -->
 
-									  <button class="close-button" data-close aria-label="Close modal" type="button">
-									    <span aria-hidden="true">&times;</span>
-									  </button>
-									</div>
-		        				<% end %>
-	        				<% end %>
-				        </ul>
+											  <button class="close-button" data-close aria-label="Close modal" type="button">
+											    <span aria-hidden="true">&times;</span>
+											  </button>
+											</div>
+		        				<% end %> <!-- end for j -->
+	        				<% end %> <!-- end if -->
+
 				        <% if current_user.is_admin? %>
 				        	<a class="toggle_admin" data-open="telech_fichier-<%= @arr[i] %>"><button type="button" class="button success tiny">Envoyer un nouveau fichier</button></a>
-				        <% end %>
+				        <% end %> <!-- end if -->
 				      </div>
-			      <% end %>
-
-			      <!--
-			      <div class="tabs-panel is-active" id="panel2v">
-			        <ul>
-                <li><a target="_blank" href=""><i class="fi-page-export-pdf size-36 step"></i>exemple PDF</a></li>
-			        </ul>
-			      </div>
-
-			      <div class="tabs-panel" id="panel3v">
-			        <ul>
-			        	<li><a target="_blank" href=""><i class="fi-page-export-pdf size-36 step"></i>exemple PDF</a></li>
-			        </ul>
-			      </div>
-
-				-->
-
-			    </div>
-
-			  </div>
-		</div>
-	</div>
-	</div>
-
+			      <% end %> <!-- end for i -->
+		</div> <!-- div medium-9 -->
+</div> <!-- div content_onglet -->
 
 
 <div class="reveal" id="creer_dossier" data-reveal>
@@ -129,15 +119,15 @@
 </div>
 
 <% @arr.each do |a| %>
-<div class="reveal" id="telech_fichier-<%= a %>" data-reveal>
-	<%= form_for :nouv_fichier do |f| %>
-	<%= f.label :nom, 'Nom du dossier' %>
-	<%= f.file_field :fichier %>
-	<%= f.hidden_field :dossier_courant, value: a %>
-	<%= f.submit :envoyer, value: "Télécharger", class: "button success tiny" %>
-	<% end %>
-	<button class="close-button" data-close aria-label="Close modal" type="button">
-		<span aria-hidden="true">&times;</span>
-	</button>
-</div>
+	<div class="reveal" id="telech_fichier-<%= a %>" data-reveal>
+		<%= form_for :nouv_fichier do |f| %>
+		<%= f.label :nom, 'Nom du dossier' %>
+		<%= f.file_field :fichier %>
+		<%= f.hidden_field :dossier_courant, value: a %>
+		<%= f.submit :envoyer, value: "Télécharger", class: "button success tiny" %>
+		<% end %>
+		<button class="close-button" data-close aria-label="Close modal" type="button">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
 <% end %>

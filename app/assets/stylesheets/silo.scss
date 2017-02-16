@@ -33,6 +33,13 @@ $primary-color: $col3;
 
 // GENERAL
 
+a {
+	color: $col3;
+}
+a:hover {
+	opacity: 0.5;
+}
+
 [type='radio'] {
 	margin-right: 10px;
 	padding-bottom: 10px;
@@ -241,6 +248,10 @@ p {
 
 // ------------------  DRAW -------------------
 
+#content_onglet {
+	display: block;
+}
+
 #breadcrumb {
 	background: $col4;
 	padding-top: 5px;
@@ -291,6 +302,17 @@ div .edition {
 	}
 }
 
+.size-12 { font-size: 12px; }
+.size-14 { font-size: 14px; }
+.size-16 { font-size: 16px; }
+.size-18 { font-size: 18px; }
+.size-21 { font-size: 21px; }
+.size-24 { font-size: 24px; }
+.size-36 { font-size: 36px; }
+.size-48 { font-size: 48px; }
+.size-60 { font-size: 60px; }
+.size-72 { font-size: 72px; }
+.step { margin-right: 20px; }
 
 .draw_add {
 	a {
@@ -301,7 +323,15 @@ div .edition {
 	}
 }
 
-
 .hidden_field {
 	display: none;
+}
+
+.tabs-panel {
+	a {
+		color: $blanc;
+	}
+	li {
+		list-style: none;
+	}
 }

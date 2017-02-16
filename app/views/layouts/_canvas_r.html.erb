@@ -1,20 +1,20 @@
 <% if user_signed_in? && current_user.is_admin? %>
   <h4 class="text-center">Administration des utilisateurs</h4>
-  <ul class="tabs vertical"  data-active-collapse="true" data-tabs id="example-tabs">
+  <ul class="tabs vertical"  data-active-collapse="true" data-tabs id="tabs_right">
     <li class="tabs-title is-active"><a href="#panel1r" aria-selected="true">Création d'un utilisateur</a></li>
     <li class="tabs-title"><a href="#panel2r">Edition des utilisateurs</a></li>
     <li class="tabs-title"><a href="#panel3r">Statistiques</a></li>
   </ul>
 
-  <div class="tabs-content" data-tabs-content="example-tabs">
+  <div class="tabs-content" data-tabs-content="tabs_right">
 
     <div class="tabs-panel is-active" id="panel1r">
       <p>Création</p>
       <%= form_for :eleve, url: "#{desk_path}" do |f| %>
-        
+
         <%= f.label :identifiant_eleve, "Identifiant de l'élève" %>
         <%= f.text_field :identifiant_eleve %>
-        
+
         <%= f.label :password, "Mot de l'élève" %>
         <%= f.password_field :password %>
 
@@ -33,7 +33,7 @@
           <% end %>
           <%= submit_tag :supprimer %>
         <% end %>
-        
+
       </ul>
     </div>
 
@@ -42,7 +42,7 @@
       <p>Stockage : <%= @size %></p>
       <p>Espace de stockage partagé avec <%= @eleves.count %> élèves</p>
     </div>
-    
+
   </div>
 
   <h4 class="text-center">Stockage: <%= %> %</h4>
