@@ -1,4 +1,6 @@
 class ApplicationController < ActionController::Base
+  require 'find'
+
 
   protect_from_forgery with: :exception
   before_action :set_locale
@@ -7,8 +9,10 @@ class ApplicationController < ActionController::Base
 
   before_action :liste_eleves, only: [:desk, :draw]
 
-  before_action :palettes, :polices, :layouts, :images, only: [:desk, :draw, :desk_add, :draw_add]
+  before_action :palettes, :polices, :layouts, :images, :desk_size, only: [:desk, :draw, :desk_add, :draw_add]
   before_action :load_pref, :config_pref
+
+
   helper_method :is_PDF?, :is_MP3?
 
   def set_locale
@@ -83,15 +87,19 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def desk_size
+    
+     size = File.size("./public/folders/kevin/") 
+    puts "================"
+    puts size
+  end
+
 #==============================================================
 #                     DRAW
 #==============================================================
   # Affichage des draw
   # Route : GET/:desk/:draw
   def draw
-      url = "/#{params[:desk]}/#{params[:draw]}/é"
-      puts url 
-      puts "=========="
       @table = Array.new { Array.new }
       @breadcrumb = params[:draw]
       i = 0
