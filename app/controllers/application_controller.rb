@@ -59,11 +59,14 @@ class ApplicationController < ActionController::Base
       @eleve.confirmed_at = DateTime.now.to_date
       @eleve.created_at = DateTime.now.to_date
 
-      if !@user && !params[:eleve][:password].empty?
-        @eleve.save
+      if @user 
+        flash[:alert] = 'User existe !'
+        redirect_to :back
+      elsif params[:eleve][:password].empty?
+        flash[:alert] = 'Mdp obligatoire !'
         redirect_to :back
       else
-        flash[:alert] = 'Une erreur est survenue !'
+        @eleve.save
         redirect_to :back
       end
       #if @eleve.identifiant_eleve ==
