@@ -39,13 +39,19 @@
 
     <div class="tabs-panel" id="panel3r">
       <p>Statistiques</p>
-      <p>Stockage : <%= @size %></p>
+      <p>Stockage : </p>
       <p>Espace de stockage partagé avec <%= @eleves.count %> élèves</p>
     </div>
 
   </div>
 
-  <h4 class="text-center">Stockage: <%= %> %</h4>
+  <h4 class="text-center">
+    <div class="success progress" role="progressbar" tabindex="0" aria-valuenow="<%= @total.round(2) %>" aria-valuemin="0" aria-valuemax="100">
+      <div class="progress-meter" style="width: <%= @total.round(2) %>%">
+        <p class="progress-meter-text"><%= @total.round(2) %>%</p>
+      </div>
+    </div>
+  </h4>
 
   </div>
 <% end %>
