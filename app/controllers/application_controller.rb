@@ -102,9 +102,10 @@ class ApplicationController < ActionController::Base
       ko = size / 1024
       puts "== ko #{ko}"
       mo = ko.round(2) / 1024
-      puts "== mo #{mo.round(2)}"
       @total = mo / 500 * 100
-      puts @total.round(3)
+      @mo_used = mo
+      @mo_used = mo.round(2)
+      @total = @total.round(2)
     end   
   end
 
