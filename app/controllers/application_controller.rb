@@ -7,13 +7,13 @@ class ApplicationController < ActionController::Base
   before_action :configure_devise_parameters, if: :devise_controller?
   before_action :authenticate_user!, only: [:desk, :draw, :desk_add, :desk_rename, :draw_add, :draw_rename]
 
-  before_action :liste_eleves, only: [:desk, :draw]
+  before_action :liste_eleves, only: [:mentions, :desk, :draw]
 
-  before_action :palettes, :polices, :layouts, :images, :desk_size, only: [:desk, :draw, :desk_add, :draw_add]
+  before_action :palettes, :polices, :layouts, :images, :desk_size, only: [:mentions, :desk, :draw, :desk_add, :draw_add]
   before_action :load_pref, :config_pref
 
 
-  helper_method :is_PDF?, :is_MP3?
+  helper_method :is_PDF?, :is_MP3?, :is_JPG?
 
   def set_locale
     I18n.locale = params[:locale] || I18n.default_locale
@@ -24,7 +24,7 @@ class ApplicationController < ActionController::Base
   end
 
   def mentions
-
+    puts "mentions légale"
   end
 
   def accueil
@@ -39,7 +39,7 @@ class ApplicationController < ActionController::Base
   # Affichage des desks
   def desk
     if params[:desk] == current_user.nom
-      liste_d("./public/folders/#{current_user.nom}/")
+      liste_d("./public/folders/#{params[:desk]}/")
     else
       redirect_to desk_path(current_user.nom)
     end
@@ -92,18 +92,20 @@ class ApplicationController < ActionController::Base
   end
 
   def desk_size
-    size = 0
-    path = "./public/folders/#{current_user.nom}/"
-    puts path
-    Dir.glob(File.join(path, '**', '*')) { |file| size+=File.size(file) }
-    
-    puts size
-    ko = size / 1024
-    puts "== ko #{ko}"
-    mo = ko.round(2) / 1024
-    puts "== mo #{mo.round(2)}"
-    @total = mo / 500 * 100
-    puts @total.round(3)
+    if user_signed_in? && current_user.is_admin?
+      size = 0
+      path = "./public/folders/#{current_user.nom}/"
+      puts path
+      Dir.glob(File.join(path, '**', '*')) { |file| size+=File.size(file) }
+      
+      puts size
+      ko = size / 1024
+      puts "== ko #{ko}"
+      mo = ko.round(2) / 1024
+      puts "== mo #{mo.round(2)}"
+      @total = mo / 500 * 100
+      puts @total.round(3)
+    end   
   end
 
 #==============================================================
@@ -116,15 +118,14 @@ class ApplicationController < ActionController::Base
       @breadcrumb = params[:draw]
       i = 0
       liste_d("./public/folders/#{current_user.nom}/#{params[:draw]}/").each do |a|
-
         b = liste_f("./public/folders/#{current_user.nom}/#{params[:draw]}/#{a}/")
         @table.push(b)
         @length = @table.length
       i = i + 1
       end
 
-      liste_d("./public/folders/#{current_user.nom}/#{params[:draw]}/")
-      liste_f("./public/folders/#{current_user.nom}/#{params[:draw]}/")
+      #liste_d("./public/folders/#{current_user.nom}/#{params[:draw]}/")
+      #liste_f("./public/folders/#{current_user.nom}/#{params[:draw]}/")
 
   end
 
@@ -254,6 +255,11 @@ class ApplicationController < ActionController::Base
     File.extname(file.to_s) == ".pdf"
   end
 
+  def is_JPG?(file)
+    authorized_ext = [".jpg", ".jpeg"]
+    authorized_ext.include? File.extname(file)
+  end
+
   def is_MP3?(file)
     File.extname(file.to_s) == ".mp3"
   end
@@ -264,8 +270,10 @@ class ApplicationController < ActionController::Base
 
   # Affiche la liste des elèves
   def liste_eleves
-      # Liste des élèves d'un professeur
-      @eleves = User.where(nom: current_user.nom).where.not(identifiant_eleve: nil)
+      if user_signed_in? && current_user.is_admin?
+        # Liste des élèves d'un professeur
+        @eleves = User.where(nom: current_user.nom).where.not(identifiant_eleve: nil)
+      end
   end
 
   def eleve_delete
@@ -294,11 +302,6 @@ class ApplicationController < ActionController::Base
   # Chargement des images
   def images
     @image = Image.all
-  end
-
-  # Chargement des préférences
-  def liste_eleves
-    @eleves = User.where(nom: current_user.nom).where.not(identifiant_eleve: nil)
   end
 
   def load_pref

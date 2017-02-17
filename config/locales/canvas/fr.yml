@@ -1,0 +1,12 @@
+fr:
+    canvas_r:
+          admin_titre: "Administration des utilisateurs"
+          creation_utilisateur: "Création d'un utilisateur"
+          edition_utilisateur: "Edition d'un utilisateur"
+          statistiques: "Statistiques"
+
+          nom_utilisateur: "Identifiant"
+          mdp: "Mot de passe"
+          valider: "Valider"
+
+          stockage: "Stockage"
