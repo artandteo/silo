@@ -26,7 +26,7 @@
 							<div class="reveal" id="renommer-folder-<%= a %>" data-reveal>
 							  <%= form_for :renommer_folder, method: "put",  url: URI.escape("/#{params[:desk]}/#{params[:draw]}/#{a}") do |f| %>
 								<%= f.label :nom, 'Nouveau nom ' %>
-								<%= f.text_field :new_name, maxlength: "25", value: a %>
+								<%= f.text_field :new_name, maxlength: "25", value: a, autofocus: true %>
 								<%= f.hidden_field :last_name, value: a %>
 								<%= f.submit :go, value: "Valider", class: "button success" %>
 							  <% end %> <!-- end form -->
@@ -87,7 +87,7 @@
 
 											  <%= form_for :file_rename, url:  URI.escape("/#{params[:desk]}/#{params[:draw]}/#{@arr[i]}/#{@table[i][j]}/"), method: 'put' do |f| %>
 												<%= f.label :nom, 'Nouveau nom ' %>
-												<%= f.text_field :new_filename, value: @table[i][j], onkeypress: "return verif(event);"  %>
+												<%= f.text_field :new_filename, value: @table[i][j], onkeypress: "return verif(event);", autofocus: true  %>
 												<%= f.hidden_field :last_filename, value: @table[i][j] %>
 												<%= f.submit :go, value: "Valider", class: "button success" %>
 											  <% end %> <!-- end form -->
@@ -100,7 +100,9 @@
 	        				<% end %> <!-- end if -->
 
 				        <% if current_user.is_admin? %>
-				        	<a class="toggle_admin" data-open="telech_fichier-<%= @arr[i] %>"><button type="button" class="button success tiny">Envoyer un nouveau fichier</button></a>
+				        	
+				        		<a class="toggle_admin" data-open="telech_fichier-<%= @arr[i] %>"><button type="button" class="button success tiny">Envoyer un nouveau fichier</button></a>
+				        	
 				        <% end %> <!-- end if -->
 				      </div>
 			      <% end %> <!-- end for i -->
@@ -110,7 +112,7 @@
 <div class="reveal" id="creer_dossier" data-reveal>
   <%= form_for :nouv_dossier do |f| %>
 	<%= f.label :nom, 'Nom du dossier' %>
-	<%= f.text_field :nom, maxlength: "25",  onkeypress: "return verif(event);"  %>
+	<%= f.text_field :nom, maxlength: "25",  onkeypress: "return verif(event);", autofocus: true  %>
 	<%= f.submit :valider, value: "Valider", class: "button success tiny" %>
   <% end %>
   <button class="close-button" data-close aria-label="Close modal" type="button">
