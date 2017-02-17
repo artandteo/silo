@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
   require 'find'
-
+  require "google_drive"
 
   protect_from_forgery with: :exception
   before_action :set_locale
@@ -24,7 +24,26 @@ class ApplicationController < ActionController::Base
   end
 
   def mentions
-    puts "mentions légale"
+    # Creates a session. This will prompt the credential via command line for the
+    # first time and save it to config.json file for later usages.
+    # See this document to learn how to create config.json:
+    # https://github.com/gimite/google-drive-ruby/blob/master/doc/authorization.md
+    session = GoogleDrive::Session.from_config("config.json")
+
+    # Gets list of remote files.
+    # session.files.each do |file|
+    #  p file.title
+    # end
+
+    # Uploads a local file.
+    # session.upload_from_file("./public/img/logo_silo.png", "logo_silo.png", convert: false)
+
+    # Downloads to a local file.
+    # file = session.file_by_title("hello.txt")
+    # file.download_to_file("/path/to/hello.txt")
+
+    # Updates content of the remote file.
+    # file.update_from_file("/path/to/hello.txt")
   end
 
   def accueil
@@ -59,7 +78,7 @@ class ApplicationController < ActionController::Base
       @eleve.confirmed_at = DateTime.now.to_date
       @eleve.created_at = DateTime.now.to_date
 
-      if @user 
+      if @user
         flash[:alert] = 'User existe !'
         redirect_to :back
       elsif params[:eleve][:password].empty?

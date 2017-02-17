@@ -345,10 +345,8 @@ div .edition {
 
 // ------------- Canvas ----------------
 
-.stockage {
-	margin: 0 10px 0 10px;
-	text-align: center;
-	.progress-meter p {
-		text-align: center;
+.progress-meter {
+	p {
+		margin-left: 10px;
 	}
 }
