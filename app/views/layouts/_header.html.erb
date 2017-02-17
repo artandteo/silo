@@ -16,7 +16,7 @@
   </div>
 
   <% if user_signed_in? && current_user.is_admin? %>
-    <div class="medium-1">
+    <!-- <div class="medium-1">
       <div class="switch tiny vertical-center">
 
         <input class="switch-input" id="yes-no" type="checkbox" checked="true" name="adminSwitch">
@@ -27,7 +27,7 @@
         </label>
 
       </div>
-    </div>
+    </div> -->
   <% end %>
 
   <div class="medium-1">
@@ -35,7 +35,7 @@
     	<!-- Connecté en tant que <%= current_user.email %> -->
       <a data-method="delete" href="<%= destroy_user_session_path %>"><button type="button" class="vertical-center success button tiny">Déconnexion</button></a>
     <% else %>
-      <a href="<%= new_user_session_path %>"><button type="button" class="vertical-center float-right success button small">Se connecter</button></a>
+      <!-- <a href="<%= new_user_session_path %>"><button type="button" class="vertical-center float-right success button small">Se connecter</button></a> -->
     <% end %>
   </div>
 

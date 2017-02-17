@@ -24,9 +24,13 @@ $tab-item-font-size: 18px;
 
 $primary-color: $col3;
 
+$meter-height: 5em;
+
 h4 { font-size: 20px; }
 
-label { color:$blanc; }
+#offCanvas_r {
+	label { color:$blanc; }
+}
 
 .row {
 	max-width: 100%;
@@ -90,16 +94,6 @@ header{
 }
 .top-logo:hover, .config-logo:hover {
 	filter: grayscale(0%);
-}
-
-.sections {
-	display: flex;
-	flex-direction: column;
-}
-
-
-.section_1, .section_2, .section_3 {
-	flex-basis: 33%;
 }
 
 .bandeau {
