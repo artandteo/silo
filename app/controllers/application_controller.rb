@@ -169,9 +169,16 @@ class ApplicationController < ActionController::Base
           filename = file.original_filename
           directory = "public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:dossier_courant]}/"
           path = File.join(directory, filename)
+          Dir[File.join("public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:dossier_courant]}/", '**', '*')].count
           if authorized_ext.include? File.extname(path)
-            File.open(path, "wb") { |f| f.write(file.read) }
-            flash[:success] = 'Fichier téléchargé'
+            puts Dir[File.join("public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:dossier_courant]}/", '**', '*')].count
+            if Dir[File.join("public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:dossier_courant]}/", '**', '*')].count != 25
+              File.open(path, "wb") { |f| f.write(file.read) }
+              flash[:success] = 'Fichier téléchargé'
+            else
+              flash[:danger] = "Limite de fichier atteinte !"
+
+            end
           else
             flash[:alert] = 'Extension non autorisé'
           end
@@ -368,7 +375,7 @@ class ApplicationController < ActionController::Base
   end
 
   def configure_devise_parameters
-    devise_parameter_sanitizer.permit(:sign_up) { |u| u.permit(:nom, :email, :password, :password_confirmation, :is_admin) }
+    devise_parameter_sanitizer.permit(:sign_up) { |u| u.permit(:nom, :email, :password, :is_admin) }
   end
 
 
