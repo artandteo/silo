@@ -45,19 +45,17 @@
     <div class="tabs-panel" id="panel3r">
       <p><%= t('canvas_r.statistiques') %></p>
       <p><%= t('canvas_r.stockage') %> :</p>
-      <p><%= t('canvas_r.nb_eleve') %></p>
     </div>
 
   </div>
 
-  <div class="stockage">
-      <h4 class="text-center">Espace de Stockage</h4>
-      <div class="success progress" role="progressbar" tabindex="0" aria-valuenow="<%= @total.round(2) %>" aria-valuemin="0" aria-valuemax="100">
-        <div class="progress-meter" style="width: <%= @total.round(2) %>%">
-          <p class="progress-meter-text"><%= @total.round(2) %>%</p>
+      <p><%= t('canvas_r.stockage') %> : <%= @mo_used %> mo sur <strong>500 mo disponible</strong><br/>
+      <div class="text-center success progress" role="progressbar" tabindex="0" aria-valuenow="<%= @total %>" aria-valuemin="0" aria-valuemax="100">
+        <div class="progress-meter" style="width: <%= @total %>%">
+          <p class="progress-meter-text"><%= @total %>%</p>
         </div>
       </div>
-  </div>
 
+    </div>
   </div>
 <% end %>

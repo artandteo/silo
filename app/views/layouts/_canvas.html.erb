@@ -43,7 +43,7 @@
               <% if p.nom == '' %>
                 aucune image
               <% else %>
-                <img src="/img/small_<%= p.nom %>" alt="<%= p.nom %>">
+                <label for="preferences_image_<%= p.ref %>"><img src="/img/small_<%= p.nom %>" alt="<%= p.nom %>"></label>
               <% end %>
           </div>
         <% end %>
@@ -54,7 +54,8 @@
       <div class="accordion-content" data-tab-content>
         <% @layouts.each do |p| %>
           <div class="layout_config">
-              <%= f.radio_button :layout, p.ref  %><img src="/img/layout_<%= p.ref %>.jpg" alt="layout_<%= p.ref %>">
+            <%= f.radio_button :layout, p.ref %>
+              <label for="preferences_layout_<%= p.ref %>"><img src="/img/layout_<%= p.ref %>.jpg" alt="layout_<%= p.ref %>"></label>
           </div>
         <% end %>
       </div>

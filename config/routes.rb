@@ -38,5 +38,7 @@
     delete '/:desk/:draw/:folder/:file', to: 'application#file_delete', :constraints => { :file => /.*/ }
     
   end
+
+  
   
 end
