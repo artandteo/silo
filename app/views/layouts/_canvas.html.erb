@@ -1,60 +1,66 @@
 <% if user_signed_in? %>
   <%= form_for :preferences do |f| %>
   <h4 class="text-center">Préférences administrateur</h4>
-  <ul class="tabs vertical"  data-active-collapse="true" data-tabs id="example-tabs">
-    <li class="tabs-title is-active"><a href="#panel1" aria-selected="true">Couleurs</a></li>
-    <li class="tabs-title"><a href="#panel2">Police</a></li>
-    <li class="tabs-title"><a href="#panel3">Image</a></li>
-    <li class="tabs-title"><a href="#panel4">Layout</a></li>
-  </ul>
-
-  <div class="tabs-content" data-tabs-content="example-tabs">
-    <div class="tabs-panel is-active" id="panel1">
-      <p>Couleurs</p>
-        <% @palette.each do |p| %>
-          <div class="col_config">
-            <div class="check-palette">
-              <%= f.radio_button :color, p.ref  %>
-            </div>
-            <div class="div-palette">
-              <div class="col" style="background-color: #<%= p.c1 %>"></div>
-              <div class="col" style="background-color: #<%= p.c2 %>"></div>
-              <div class="col" style="background-color: #<%= p.c3 %>"></div>
-              <div class="col" style="background-color: #<%= p.c4 %>"></div>
-              <div class="col" style="background-color: #<%= p.c5 %>"></div>
-            </div>
+  <ul class="accordion" data-accordion>
+    <li class="accordion-item is-active" data-accordion-item>
+      <a href="#" class="accordion-title">Couleurs</a>
+        <div class="accordion-content" data-tab-content>
+          <p>Couleurs</p>
+            <% @palette.each do |p| %>
+              <div class="col_config">
+                <div class="check-palette">
+                  <%= f.radio_button :color, p.ref  %>
+                </div>
+                <div class="div-palette">
+                  <div class="col" style="background-color: #<%= p.c1 %>"></div>
+                  <div class="col" style="background-color: #<%= p.c2 %>"></div>
+                  <div class="col" style="background-color: #<%= p.c3 %>"></div>
+                  <div class="col" style="background-color: #<%= p.c4 %>"></div>
+                  <div class="col" style="background-color: #<%= p.c5 %>"></div>
+                </div>
+              </div>
+            <% end %>
+          </div>
+    </li>
+    <li class="accordion-item" data-accordion-item>
+      <a href="#" class="accordion-title">Police</a>
+      <div class="accordion-content" data-tab-content>
+        <p>Police</p>
+        <% @police.each do |p| %>
+          <div class="pol_config">
+              <%= f.radio_button :police, p.ref  %><%= p.nom %>
           </div>
         <% end %>
-    </div>
-    <div class="tabs-panel" id="panel2">
-      <p>Police</p>
-      <% @police.each do |p| %>
-        <div class="pol_config">
-            <%= f.radio_button :police, p.ref  %><%= p.nom %>
-        </div>
-      <% end %>
-    </div>
-    <div class="tabs-panel" id="panel3">
-      <p>Image</p>
-      <% @image.each do |p| %>
-        <div class="img_config">
-            <%= f.radio_button :image, p.ref  %>
-            <% if p.nom == '' %>
-              aucune image
-            <% else %>
-              <img src="/img/small_<%= p.nom %>" alt="<%= p.nom %>">
-            <% end %>
-        </div>
-      <% end %>
-    </div>
-    <div class="tabs-panel" id="panel4">
-      <% @layouts.each do |p| %>
-        <div class="layout_config">
-            <%= f.radio_button :layout, p.ref  %><img src="/img/layout_<%= p.ref %>.jpg" alt="layout_<%= p.ref %>">
-        </div>
-      <% end %>
-    </div>
-  </div>
+      </div>
+    </li>
+    <li class="accordion-item" data-accordion-item>
+      <a href="#" class="accordion-title">Image</a>
+      <div class="accordion-content" data-tab-content>
+        <p>Image</p>
+        <% @image.each do |p| %>
+          <div class="img_config">
+              <%= f.radio_button :image, p.ref  %>
+              <% if p.nom == '' %>
+                aucune image
+              <% else %>
+                <img src="/img/small_<%= p.nom %>" alt="<%= p.nom %>">
+              <% end %>
+          </div>
+        <% end %>
+      </div>
+    </li>
+    <li class="accordion-item" data-accordion-item>
+      <a href="#" class="accordion-title">Layout</a>
+      <div class="accordion-content" data-tab-content>
+        <% @layouts.each do |p| %>
+          <div class="layout_config">
+              <%= f.radio_button :layout, p.ref  %><img src="/img/layout_<%= p.ref %>.jpg" alt="layout_<%= p.ref %>">
+          </div>
+        <% end %>
+      </div>
+    </li>
+  </ul>
+
   <br />
   <div class="text-center">
     <%= f.submit :valider, value: "Valider", class: "button success small" %>

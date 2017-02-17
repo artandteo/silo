@@ -95,17 +95,13 @@ class ApplicationController < ActionController::Base
     if user_signed_in? && current_user.is_admin?
       size = 0
       path = "./public/folders/#{current_user.nom}/"
-      puts path
       Dir.glob(File.join(path, '**', '*')) { |file| size+=File.size(file) }
-      
-      puts size
+
       ko = size / 1024
-      puts "== ko #{ko}"
       mo = ko.round(2) / 1024
-      puts "== mo #{mo.round(2)}"
       @total = mo / 500 * 100
-      puts @total.round(3)
-    end   
+      @total = @total.round(1)
+    end
   end
 
 #==============================================================
