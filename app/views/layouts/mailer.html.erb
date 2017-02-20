@@ -8,6 +8,14 @@
   </head>
 
   <body>
-    <%= yield %>
+    <header class="">
+      <%= render 'layouts/header' %>
+    </header>
+    <main>
+          <%= yield %>
+    </main>
+    <footer class="">
+      <%= render 'layouts/footer' %>
+    </footer>
   </body>
 </html>

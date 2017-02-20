@@ -1,8 +1,60 @@
-<p>Bonjour <%= @email %>!</p>
+<style media="screen">
+footer{
+  text-align: center;
+  margin-top:auto;
+  background: #34393E;
+  height: 70px;
+  padding: 10px 0 10px 0;
+}
+footer p { color: #FFF;}
+header h1 {
+  padding-top: 5px;
+  color: #fff;
+  font-size: 1.7em;
+  font-family: 'Lato', sans-serif;
+}
+header{
+  padding: 10px 0 10px 0;
+	text-align: center;
+}
+.top-bar {
+  background: #34393E;
+  height: 70px;
+  color: #FF5B2B;
+}
+p {
+  color: #34393E;
+  font-family: 'Lato', sans-serif;
+}
+</style>
 
-<p>Pour confirmer votre compte, cliquez sur <%= link_to 'ce lien', confirmation_url(@resource, confirmation_token: @token) %></p>
+<link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
 
-<p><strong>Récapitulatif :</strong></p>
+<header class="">
+  <div class="expanded row top-bar">
+    <div class="medium-8">
+        <img class="top-logo" src="http://silo.artandteo.com/img/logo_silo_small.png" alt="Logo de Silo by artandteo" />
+    </div>
+  </div>
+</header>
+<main>
+  <div class="row">
+    <div class="medium-10 medium-offset-1">
+      <p>Bonjour <%= @email %>!</p>
 
-<p>Votre adresse email : <%= @email %></p>
-<p>Votre espace personnel : <%= @resource.nom %></p>
+      <p>Pour confirmer votre compte, cliquez sur <%= link_to 'ce lien', confirmation_url(@resource, confirmation_token: @token) %></p>
+
+      <p><strong>Récapitulatif :</strong></p>
+
+      <p>Votre adresse email : <%= @email %></p>
+      <p>Votre espace personnel : <%= @resource.nom %></p>
+    </div>
+  </div>
+</main>
+<footer class="">
+  <div class="row">
+    <div class="medium-6 medium-offset-3">
+      <p>© 2017 Silo by artandteo</p>
+    </div>
+  </div>
+</footer>

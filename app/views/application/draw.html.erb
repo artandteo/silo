@@ -1,6 +1,5 @@
 <!-- affichage des liens -->
 
-
 <div id="content_onglet" class="row collapse">
 		<div class="medium-3 columns">
 			    <ul class="tabs vertical"  data-active-collapse="true" id="tabs_draw" data-tabs>
@@ -12,7 +11,7 @@
 							<% else %>
 								<li class="tabs-title">
 							<% end %> <!-- end if -->
-								<a href="#<%= @arr[i] %>"><%= a %></a>
+								<a href="#tab<%= i %>"><%= a %></a>
 								</li>
 								<% if current_user.is_admin? %>
 									<div class="edition">
@@ -51,15 +50,15 @@
 			      <%
 			      for i in 0..@arr.count %>
 						<% if i == 0 %>
-							<div class="tabs-panel is-active" id="<%= @arr[i] %>">
+							<div class="tabs-panel is-active" id="tab<%= i %>">
 						<% else %>
-							<div class="tabs-panel" id="<%= @arr[i] %>">
+							<div class="tabs-panel" id="tab<%= i %>">
 						<% end %>
 				        	<% if @table[i] != nil %>
 					        	<% for j in 0..@table[i].length-1 %>
 											<div class="row">
-												<div class="medium-2">
-													<a href="/folders/<%= params[:desk] %>/<%= params[:draw] %>/<%= @arr[i] %>/<%= @table[i][j] %>" target="_blank">
+												<div class="medium-3">
+													<a class="lk_apercu" href="/folders/<%= params[:desk] %>/<%= params[:draw] %>/<%= @arr[i] %>/<%= @table[i][j] %>" target="_blank">
 														<% if is_PDF?(@table[i][j]) %><i class="fa fa-file-pdf-o size-36 step" aria-hidden="true"></i> <% end %>
 														<% if is_MP3?(@table[i][j]) %><i class="fa fa-file-audio-o size-36 step" aria-hidden="true"></i><% end %>
 														<% if is_JPG?(@table[i][j]) %><i class="fa fa-file-image-o size-36 step" aria-hidden="true"></i><% end %>
@@ -70,15 +69,19 @@
 														<a class="toggle_admin" data-open="rename_file-<%= i %>"><i class="fa fa-file-text" aria-hidden="true"></i></a>
 													<% end %> <!-- end if -->
 												</div>
-												<div class="medium-10">
+												<div class="medium-3">
 													<% if is_PDF?(@table[i][j]) || is_JPG?(@table[i][j]) %>
-													<iframe src="/folders/<%= params[:desk] %>/<%= params[:draw] %>/<%= @arr[i] %>/<%= @table[i][j] %>"  width="100%" height="600px"></iframe>
+													<!-- <iframe src="/folders/<%= params[:desk] %>/<%= params[:draw] %>/<%= @arr[i] %>/<%= @table[i][j] %>"  width="100%" height="600px"></iframe> -->
 													<% end %>
 
 													<% if is_MP3?(@table[i][j]) %>
-														<audio controls="controls"> 
+														<audio controls="controls">
 															<source src="/folders/<%= params[:desk] %>/<%= params[:draw] %>/<%= @arr[i] %>/<%= @table[i][j] %>" />
 														</audio>
+													<% end %>
+
+													<% if j == 0 %>
+
 													<% end %>
 												</div>
 											</div>
@@ -100,12 +103,13 @@
 	        				<% end %> <!-- end if -->
 
 				        <% if current_user.is_admin? %>
-				        	
+
 				        		<a class="toggle_admin" data-open="telech_fichier-<%= @arr[i] %>"><button type="button" class="button success tiny">Envoyer un nouveau fichier</button></a>
-				        	
+
 				        <% end %> <!-- end if -->
 				      </div>
 			      <% end %> <!-- end for i -->
+						<iframe id="apercu" src=""  width="100%" height="600px"></iframe>
 		</div> <!-- div medium-9 -->
 </div> <!-- div content_onglet -->
 

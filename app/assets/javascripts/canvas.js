@@ -54,6 +54,13 @@ document.addEventListener("turbolinks:load", function() {
       $(this).css( "opacity", "1" );
     });
 
+    // Aperçu du lien draw au clic du a href du fichier dans iframe unique
+
+    $( "a.lk_apercu").hover(function() {
+      var src = ($(this).attr('href'));
+      $( "iframe" ).attr('src',src);
+    });
+
     // Extension du a href des box à toute la div enfant
 
     $(".box > .enfant").on("click", function() {
