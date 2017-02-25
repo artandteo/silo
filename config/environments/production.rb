@@ -85,18 +85,28 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
 
   config.action_mailer.default_url_options = { host: 'silo.artandteo.com' }
-  
-  config.action_mailer.delivery_method = :smtp
-  config.action_mailer.smtp_settings = {
-      address:              'smtp.artandteo.com',
-      port:                 587,
-      domain:               'silo.artandteo.com',
-      user_name:            'contact@artandteo.com',
-      password:             'manoukaa&t',
-      authentication:       'plain',
-      openssl_verify_mode: OpenSSL::SSL::VERIFY_NONE,
-      enable_starttls_auto: true  
+
+#  config.action_mailer.delivery_method = :smtp
+#  config.action_mailer.smtp_settings = {
+#      address:              'smtp.artandteo.com',
+#      port:                 587,
+#      domain:               'silo.artandteo.com',
+#      user_name:            'contact@artandteo.com',
+#      password:             'manoukaa&t',
+#      authentication:       'plain',
+#      openssl_verify_mode: OpenSSL::SSL::VERIFY_NONE,
+#      enable_starttls_auto: true
+#  }
+
+  ActionMailer::Base.delivery_method = :smtp
+   ActionMailer::Base.sendmail_settings = {
+          location: "/usr/sbin/sendmail",
+          arguments: '-i -t'
   }
 
+  ActionMailer::Base.delivery_method = :sendmail
+  ActionMailer::Base.perform_deliveries = true
+  ActionMailer::Base.raise_delivery_errors = true
+  ActionMailer::Base.default charset: "utf-8"
 
 end
