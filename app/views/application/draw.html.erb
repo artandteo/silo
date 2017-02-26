@@ -58,7 +58,7 @@
 					        	<% for j in 0..@table[i].length-1 %>
 											<div class="row">
 												<div class="medium-3">
-													<a class="lk_apercu" href="/folders/<%= params[:desk] %>/<%= params[:draw] %>/<%= @arr[i] %>/<%= @table[i][j] %>" target="_blank">
+													<a class="lk_apercu" href="/folders/<%= params[:desk] %>/<%= params[:draw] %>/<%= @arr[i] %>/<%= @table[i][j] %>" target="apercu">
 														<% if is_PDF?(@table[i][j]) %><i class="fa fa-file-pdf-o size-36 step" aria-hidden="true"></i> <% end %>
 														<% if is_MP3?(@table[i][j]) %><i class="fa fa-file-audio-o size-36 step" aria-hidden="true"></i><% end %>
 														<% if is_JPG?(@table[i][j]) %><i class="fa fa-file-image-o size-36 step" aria-hidden="true"></i><% end %>

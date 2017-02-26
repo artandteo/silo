@@ -16,8 +16,8 @@
 
           <%= f.label :password, t('canvas_r.mdp') %>
           <%= f.password_field :password %>
-
-          <%= f.submit :valider, value: t('canvas_r.valider'), class: "button primary" %>
+          <br />
+          <%= f.submit :valider, value: t('canvas_r.valider'), class: "success button small" %>
 
         <% end %>
       </div>
@@ -29,9 +29,11 @@
           <%= form_tag desk_path(current_user.nom), method: :delete do %>
             <%= hidden_field_tag :hidden, value: "delete_eleve" %>
             <% @eleves.each do |e| %>
-              <li><%= e.identifiant_eleve %> <%= check_box_tag "mesEleves[]", e.id %></li>
+              <%= check_box_tag "mesEleves[]", e.id %>   <%= e.identifiant_eleve %>
+              <br />
             <% end %>
-            <%= submit_tag :supprimer %>
+            <hr />
+            <%= submit_tag :supprimer, class: "success button small" %>
           <% end %>
 
         </ul>

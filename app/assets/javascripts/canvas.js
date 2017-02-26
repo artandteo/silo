@@ -10,6 +10,7 @@ var margin;
 var minwidth;
 var radius;
 
+
 document.addEventListener("turbolinks:load", function() {
     col0='#'+color0;
     col1='#'+color1;
@@ -26,6 +27,7 @@ document.addEventListener("turbolinks:load", function() {
     $( ".color1" ).css( "background-color", col1 );
     $( ".color2" ).css( "background-color", col2 );
     $( ".draw_add i" ).css( "color", col2 );
+    $( ".is-active>a" ).css("background", col2);
     $( ".color3, .switch-paddle, .success" ).css( "background-color", col3 );
     $( ".color4" ).css( "background-color", col4 );
     $( "h1, h2, h3, h4, h5, h6, p, li, a" ).css( "font-family", police );
@@ -39,6 +41,23 @@ document.addEventListener("turbolinks:load", function() {
       margin : margin,
       'min-width' : minwidth,
       'border-radius' : radius
+    });
+
+    $('html').fadeTo('slow',1);
+
+    // Action et changement de couleur lors du click sur un draw
+
+    $( ".tabs-title>a" ).click(function() {
+      $( ".tabs-title>a" ).css( "background", "#F2F2F2");
+      $( "iframe" ).attr('src','');
+      $(this).css( "background", col2 );
+    });
+
+    // Action et changement de couleur lors du click sur un accordion des canvas
+
+    $( ".accordion-item>a" ).click(function() {
+      $( ".accordion-item>a" ).css( "background", "#FFF").css("color","#000");
+      $(this).css( "background", col2 ).css("color","#FFF");
     });
 
     // Modification de l'opacity sur les élèments cliquables
@@ -56,7 +75,7 @@ document.addEventListener("turbolinks:load", function() {
 
     // Aperçu du lien draw au clic du a href du fichier dans iframe unique
 
-    $( "a.lk_apercu").hover(function() {
+    $( "a.lk_apercu").click(function() {
       var src = ($(this).attr('href'));
       $( "iframe" ).attr('src',src);
     });
@@ -92,4 +111,14 @@ document.addEventListener("turbolinks:load", function() {
             $(".hidden_field").fadeIn('fast');
         }
     });
+
+    // -------------- HELP -----------------
+
+
+      $(".help>a").click(function(){
+        $("#bandeau").fadeOut(800);
+        alert('pause');
+      });
+
+
 });

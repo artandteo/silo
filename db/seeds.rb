@@ -14,8 +14,8 @@ Palette.create(:ref => "5", :c1 => "8CABBF", :c2 => "5E727F", :c3 => "BBE4FF", :
 
 Polices.create(:ref => "1", :nom => "Lato")
 Polices.create(:ref => "2", :nom => "Roboto")
-Polices.create(:ref => "1", :nom => "sans-serif")
-Polices.create(:ref => "2", :nom => "arial")
+Polices.create(:ref => "3", :nom => "Baloo")
+Polices.create(:ref => "4", :nom => "Bree Serif")
 
 Image.create(:ref => "1", :nom => "")
 Image.create(:ref => "2", :nom => "bandeau_music.jpg")

@@ -5,7 +5,6 @@
     <li class="accordion-item is-active" data-accordion-item>
       <a href="#" class="accordion-title">Couleurs</a>
         <div class="accordion-content" data-tab-content>
-          <p>Couleurs</p>
             <% @palette.each do |p| %>
               <div class="col_config">
                 <div class="check-palette">
@@ -25,10 +24,9 @@
     <li class="accordion-item" data-accordion-item>
       <a href="#" class="accordion-title">Police</a>
       <div class="accordion-content" data-tab-content>
-        <p>Police</p>
         <% @police.each do |p| %>
           <div class="pol_config">
-              <%= f.radio_button :police, p.ref  %><%= p.nom %>
+              <%= f.radio_button :police, p.ref  %><label for="preferences_police_<%= p.ref %>"><%= p.nom %></label>
           </div>
         <% end %>
       </div>
@@ -36,7 +34,6 @@
     <li class="accordion-item" data-accordion-item>
       <a href="#" class="accordion-title">Image</a>
       <div class="accordion-content" data-tab-content>
-        <p>Image</p>
         <% @image.each do |p| %>
           <div class="img_config">
               <%= f.radio_button :image, p.ref  %>
