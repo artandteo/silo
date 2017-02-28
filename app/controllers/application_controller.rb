@@ -221,16 +221,16 @@ class ApplicationController < ActionController::Base
     #            RENOMMER SON ESPACE
     #-------------------------------------------
     if params.include?(:nom_espace)
-      @nom_espace = params[:nom_espace][:nom].to_s.gsub(' ', '_')
+      @new_name = params[:nom_espace][:nom].to_s.gsub(' ', '_')
       if Dir.exists?("./public/folders/#{current_user.nom}")
         if !Dir.exists?("./public/folders/#{@new_name}")
           puts "======= UPDATE ============="
-          if current_user.update_attribute(:nom, @nom_espace)
+          if current_user.update_attribute(:nom, @new_name)
 
-            FileUtils.mv("./public/folders/#{params[:desk]}", "./public/folders/#{@nom_espace}")
+            FileUtils.mv("./public/folders/#{params[:desk]}", "./public/folders/#{@new_name}")
             puts "=======UPDATE==========="
             @compte = Compte.where(user_id: current_user.id).take
-            @compte.update(nom: @nom_espace)
+            @compte.update(nom: @new_name)
             flash[:success] = "Votre espace a bien été renommé !"
             redirect_to desk_path
           end

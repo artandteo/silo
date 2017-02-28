@@ -6,7 +6,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :confirmable
 
-  validates :email, presence: true, uniqueness: { message: "L'adresse email est déjà prise !" }
+  #validates :email, presence: true, uniqueness: { message: "L'adresse email est déjà prise !" }, on: :create
   validates :password, length: { minimum: 6, message: " doit être plus grand (6 caratères minimum)" }, on: :update
   validates_confirmation_of :password, on: :update
 
