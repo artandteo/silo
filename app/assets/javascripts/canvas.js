@@ -63,7 +63,7 @@ document.addEventListener("turbolinks:load", function() {
 
     // Modification de l'opacity sur les élèments cliquables
 
-    $( ".enfant a, button").hover(function() {
+    $( ".enfant a").hover(function() {
       $(this).parent().parent().css( "opacity", "0.5" );
       }, function(){
       $(this).parent().parent().css( "opacity", "1" );

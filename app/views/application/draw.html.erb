@@ -105,6 +105,7 @@
 				        <% if current_user.is_admin? %>
 
 				        		<a class="toggle_admin" data-open="telech_fichier-<%= @arr[i] %>"><button type="button" class="button success tiny">Envoyer un nouveau fichier</button></a>
+										<a class="toggle_admin" data-open="lien_youtube-<%= @arr[i] %>"><button type="button" class="button success tiny">Ajouter un lien YouTube</button></a>
 
 				        <% end %> <!-- end if -->
 				      </div>
@@ -127,10 +128,20 @@
 <% @arr.each do |a| %>
 	<div class="reveal" id="telech_fichier-<%= a %>" data-reveal>
 		<%= form_tag draw_path, method: "post", multipart: true do %>
-		<%= label_tag :nom, 'Nom du dossier' %>
+		<%= label_tag :nom, 'Nom du dossier (pdf, jpg, mp3)' %>
 		<%= file_field_tag "fichiers[]",  multiple: "true" %>
 		<%= hidden_field_tag :dossier_courant, a %>
 		<%= submit_tag :envoyer, value: "Télécharger", class: "button success tiny" %>
+		<% end %>
+		<button class="close-button" data-close aria-label="Close modal" type="button">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+	<div class="reveal" id="lien_youtube-<%= a %>" data-reveal>
+		<%= form_for :nouv_youtube do |f| %>
+		<%= f.label :nom, 'Copiez le lien youtube' %>
+		<%= f.text_field :nom, maxlength: "75" %>
+		<%= f.submit :valider, value: "Ajouter", class: "button success tiny" %>
 		<% end %>
 		<button class="close-button" data-close aria-label="Close modal" type="button">
 			<span aria-hidden="true">&times;</span>
