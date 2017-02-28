@@ -77,7 +77,7 @@ document.addEventListener("turbolinks:load", function() {
     // Aperçu du lien draw au clic du a href du fichier dans iframe unique
 
     $( "a.lk_apercu").click(function() {
-      var src = ($(this).attr('href'));
+      var src = ($(this).attr('data'));
       $( "iframe" ).attr('src',src);
     });
 

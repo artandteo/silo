@@ -11,22 +11,22 @@
 							<% else %>
 								<li class="tabs-title">
 							<% end %> <!-- end if -->
-								<a href="#tab<%= i %>"><%= a %></a>
+								<a href="#tab<%= i %>"><%= a.replace(a.gsub("_", ' ')) %></a>
 								</li>
 								<% if current_user.is_admin? %>
 									<div class="edition">
 										<div class="toggle_admin">
-											<a data-open="renommer-folder-<%= a %>"><i class="fa fa-file-text" aria-hidden="true"></i></a>
-											<a href="<%= folder_path(params[:desk], params[:draw], a) %>" data-method="delete" data-confirm="Souhaitez-vous supprimer le dossier <%= a %> ? Cette action est irréversible et ne peux être annuler."><i class="fa fa-trash" aria-hidden="true"></i></a>
+											<a data-open="renommer-folder-<%= i %> %>"><i class="fa fa-file-text" aria-hidden="true"></i></a>
+											<a href="<%= folder_path(params[:desk], params[:draw], a.replace(a.gsub("_", ' '))) %>" data-method="delete" data-confirm="Souhaitez-vous supprimer le dossier <%= a.replace(a.gsub("_", ' ')) %> ? Cette action est irréversible et ne peux être annuler."><i class="fa fa-trash" aria-hidden="true"></i></a>
 										</div>
 									</div>
 								<% end %> <!-- end if -->
 
-							<div class="reveal" id="renommer-folder-<%= a %>" data-reveal>
+							<div class="reveal" id="renommer-folder-<%= i %>" data-reveal>
 							  <%= form_for :renommer_folder, method: "put",  url: URI.escape("/#{params[:desk]}/#{params[:draw]}/#{a}") do |f| %>
 								<%= f.label :nom, 'Nouveau nom ' %>
-								<%= f.text_field :new_name, maxlength: "25", value: a, autofocus: true %>
-								<%= f.hidden_field :last_name, value: a %>
+								<%= f.text_field :new_name, maxlength: "25", value: a.replace(a.gsub('_', ' ')), onkeypress: "return verif(event);", autofocus: true %>
+								<%= f.hidden_field :last_name, value: a.replace(a.gsub(' ', '_')) %>
 								<%= f.submit :go, value: "Valider", class: "button success" %>
 							  <% end %> <!-- end form -->
 
@@ -58,7 +58,7 @@
 					        	<% for j in 0..@table[i].length-1 %>
 											<div class="row">
 												<div class="medium-3">
-													<a class="lk_apercu" href="/folders/<%= params[:desk] %>/<%= params[:draw] %>/<%= @arr[i] %>/<%= @table[i][j] %>" target="apercu">
+													<a class="lk_apercu" data="/folders/<%= params[:desk] %>/<%= params[:draw] %>/<%= @arr[i] %>/<%= @table[i][j] %>" target="apercu">
 														<% if is_PDF?(@table[i][j]) %><i class="fa fa-file-pdf-o size-36 step" aria-hidden="true"></i> <% end %>
 														<% if is_MP3?(@table[i][j]) %><i class="fa fa-file-audio-o size-36 step" aria-hidden="true"></i><% end %>
 														<% if is_JPG?(@table[i][j]) %><i class="fa fa-file-image-o size-36 step" aria-hidden="true"></i><% end %>
@@ -110,7 +110,7 @@
 				        <% end %> <!-- end if -->
 				      </div>
 			      <% end %> <!-- end for i -->
-						<iframe id="apercu" src=""  width="100%" height="600px"></iframe>
+						<iframe id="apercu" width="100%" height="600px"></iframe>
 		</div> <!-- div medium-9 -->
 </div> <!-- div content_onglet -->
 

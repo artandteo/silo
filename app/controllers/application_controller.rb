@@ -216,8 +216,10 @@ class ApplicationController < ActionController::Base
   # Renommer le nom d'un draw
   # Route : PUT/:desk/:draw
   def draw_rename
-    if !Dir.exists?("./public/folders/#{current_user.nom}/#{params[:rename][:new_name]}")
-      FileUtils.mv("./public/folders/#{current_user.nom}/#{params[:rename][:last_name]}", "./public/folders/#{current_user.nom}/#{params[:rename][:new_name]}")
+    draw = params[:rename][:new_name].to_s.gsub(' ', '_')
+    puts draw
+    if !Dir.exists?("./public/folders/#{current_user.nom}/#{draw}")
+      FileUtils.mv("./public/folders/#{current_user.nom}/#{params[:rename][:last_name]}", "./public/folders/#{current_user.nom}/#{draw}")
       redirect_to :back
     else
       flash[:alert] = 'Le dossier existe déjà, impossible de renommer'
@@ -250,8 +252,9 @@ class ApplicationController < ActionController::Base
   # Renommer le nom d'un folder
   # Route : PUT/:desk/:draw
   def folder_rename
-    if !Dir.exists?("./public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:renommer_folder][:new_name]}")
-      FileUtils.mv("./public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:renommer_folder][:last_name]}", "./public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:renommer_folder][:new_name]}")
+    folder = params[:renommer_folder][:new_name].to_s.gsub(' ', '_')
+    if !Dir.exists?("./public/folders/#{current_user.nom}/#{params[:draw]}/#{folder}")
+      FileUtils.mv("./public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:renommer_folder][:last_name]}", "./public/folders/#{current_user.nom}/#{params[:draw]}/#{folder}")
       flash[:success] = 'Votre dossier a bien été renommé'
       redirect_to :back
     else
