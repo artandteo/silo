@@ -12,6 +12,7 @@ var radius;
 
 
 document.addEventListener("turbolinks:load", function() {
+
     col0='#'+color0;
     col1='#'+color1;
     col2='#'+color2;
