@@ -4,9 +4,26 @@
     <a href="/en<%= request.path %>"><img src="/img/en.png" class="config-logo" alt="Langue anglaise"/></a>
     <a href="#"><img src="/img/br.png" class="config-logo" alt="Langue brésilienne"/></a>
   </p>
+
   <h4 class="text-center"><%= t('canvas_r.admin_titre') %></h4>
   <ul class="accordion" data-accordion>
-    <li class="accordion-item is-active" data-accordion-item>
+    <li class="accordion-item" data-accordion-item>
+      <a href="#" class="accordion-title"><%= t('canvas_r.renommer_espace') %></a>
+      <div class="accordion-content" data-tab-content>
+        <%= form_for :nom_espace, method: "put" do |f| %>
+          <%= f.label :nom, t('canvas_r.nom_espace') %>
+          <%= f.text_field :nom, onkeypress: "return verif(event);" %>
+          <br />
+          <%= f.submit :valider, value: t('canvas_r.valider'), class: "success button small" %>
+
+        <% end %>
+      </div>
+    </li>
+  </ul>
+
+  <h4 class="text-center"><%= t('canvas_r.admin_user_titre') %></h4>
+  <ul class="accordion" data-accordion>
+    <li class="accordion-item" data-accordion-item>
       <a href="#" class="accordion-title"><%= t('canvas_r.creation_utilisateur') %></a>
       <div class="accordion-content" data-tab-content>
         <%= form_for :eleve, url: desk_path(current_user.nom) do |f| %>

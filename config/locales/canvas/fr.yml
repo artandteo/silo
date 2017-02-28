@@ -1,6 +1,7 @@
 fr:
     canvas_r:
-          admin_titre: "Administration des utilisateurs"
+          admin_titre: "Administration de l'espace"
+          admin_user_titre: "Administration des utilisateurs"
           creation_utilisateur: "Création d'un utilisateur"
           edition_utilisateur: "Edition d'un utilisateur"
           statistiques: "Statistiques"
