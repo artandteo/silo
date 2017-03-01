@@ -1,9 +1,9 @@
 <% if user_signed_in? %>
   <%= form_for :preferences do |f| %>
-  <h4 class="text-center">Préférences administrateur</h4>
+  <h4 class="text-center"><%= t('canvas_l.prefs_admin') %></h4>
   <ul class="accordion" data-accordion>
     <li class="accordion-item is-active" data-accordion-item>
-      <a href="#" class="accordion-title">Couleurs</a>
+      <a href="#" class="accordion-title"><%= t('canvas_l.couleurs') %></a>
         <div class="accordion-content" data-tab-content>
             <% @palette.each do |p| %>
               <div class="col_config">
@@ -22,7 +22,7 @@
           </div>
     </li>
     <li class="accordion-item" data-accordion-item>
-      <a href="#" class="accordion-title">Police</a>
+      <a href="#" class="accordion-title"><%= t('canvas_l.polices') %></a>
       <div class="accordion-content" data-tab-content>
         <% @police.each do |p| %>
           <div class="pol_config">
@@ -32,13 +32,13 @@
       </div>
     </li>
     <li class="accordion-item" data-accordion-item>
-      <a href="#" class="accordion-title">Image</a>
+      <a href="#" class="accordion-title"><%= t('canvas_l.images') %></a>
       <div class="accordion-content" data-tab-content>
         <% @image.each do |p| %>
           <div class="img_config">
               <%= f.radio_button :image, p.ref  %>
               <% if p.nom == '' %>
-                aucune image
+                <%= t('canvas_l.no_img') %>
               <% else %>
                 <label for="preferences_image_<%= p.ref %>"><img src="/img/small_<%= p.nom %>" alt="<%= p.nom %>"></label>
               <% end %>
@@ -47,7 +47,7 @@
       </div>
     </li>
     <li class="accordion-item" data-accordion-item>
-      <a href="#" class="accordion-title">Layout</a>
+      <a href="#" class="accordion-title"><%= t('canvas_l.layout') %></a>
       <div class="accordion-content" data-tab-content>
         <% @layouts.each do |p| %>
           <div class="layout_config">
@@ -61,7 +61,7 @@
 
   <br />
   <div class="text-center">
-    <%= f.submit :valider, value: "Valider", class: "button success small" %>
+    <%= f.submit :valider, value: t('canvas_l.btn-valider'), class: "button success small" %>
   </div>
   <% end %>
 <% end %>

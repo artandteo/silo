@@ -36,7 +36,7 @@
   <div class="medium-1">
     <% if user_signed_in? %>
     	<!-- Connecté en tant que <%= current_user.email %> -->
-      <a data-method="delete" href="<%= destroy_user_session_path %>"><button type="button" class="vertical-center success button tiny">Déconnexion</button></a>
+      <a data-method="delete" href="<%= destroy_user_session_path %>"><button type="button" class="vertical-center success button tiny"><%= t('accueil.deconnexion') %></button></a>
     <% else %>
       <!-- <a href="<%= new_user_session_path %>"><button type="button" class="vertical-center float-right success button small">Se connecter</button></a> -->
     <% end %>
@@ -56,7 +56,7 @@
 <% if params[:draw] %>
 <div id="breadcrumb" class="row">
 	<div class="small-4 medium-7 columns bread_home">
-		<a href="<%= root_path %>"><h4>ACCUEIL</h4></a>
+		<a href="<%= root_path %>"><h4><%= t('accueil.root_path') %></h4></a>
 	</div>
 	<div class="small-8 medium-5 columns bread_title">
 		<h4><%= @breadcrumb.gsub(/_/, " ") %></h4>

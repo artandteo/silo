@@ -59,7 +59,7 @@
     <li class="accordion-item" data-accordion-item>
       <a href="#" class="accordion-title"><%= t('canvas_r.statistiques') %></a>
       <div class="accordion-content" data-tab-content>
-        <p><%= t('canvas_r.stockage') %> : <%= @mo_used %> mo sur <strong>500 mo disponible</strong><br/>
+        <p><%= t('canvas_r.stockage') %> : <%= @mo_used %> <%= t('canvas_r.mo_utilise') %> <strong>500 <%= t('canvas_r.mo_dispo') %></strong><br/>
         <div class="text-center success progress" role="progressbar" tabindex="0" aria-valuenow="<%= @total %>" aria-valuemin="0" aria-valuemax="100">
           <div class="progress-meter" style="width: <%= @total %>%">
             <p class="progress-meter-text"><%= @total %>%</p>
