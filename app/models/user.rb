@@ -21,8 +21,13 @@ class User < ApplicationRecord
     end
   end
 
+  def after_sign_up
+    params[:user][:nom] = params[:user][:nom].to_s.gsub(/\s+/, '_')
+  end
+
   def after_confirmation
   	@last = User.last
+    @last.update_attribute(:nom, @last.nom.to_s.gsub(/\s+/, '_'))
     if !Dir.exists?(File.join("./public/folders/", @last.nom))
       Dir.mkdir(File.join("./public/folders/", @last.nom), 0777)
       @compte = Compte.new(nom: @last.nom, user_id: @last.id)
