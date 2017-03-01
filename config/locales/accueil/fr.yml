@@ -9,4 +9,9 @@ fr:
         btn-inscription: "S'inscrire"
         btn-connexion: "Se connecter"
         connexion: "Connexion"
+        deconnexion: "Se déconnecter"
+        contact: "Nous contacter"
+        mentions_legales: "Mentions légales"
+
+        root_path: "ACCUEIL"
 

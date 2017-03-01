@@ -238,14 +238,41 @@ class ApplicationController < ActionController::Base
   # Renommer le nom d'un draw
   # Route : PUT/:desk/:draw
   def draw_rename
-    draw = params[:rename][:new_name].to_s.gsub(' ', '_')
-    puts draw
-    if !Dir.exists?("./public/folders/#{current_user.nom}/#{draw}")
-      FileUtils.mv("./public/folders/#{current_user.nom}/#{params[:rename][:last_name]}", "./public/folders/#{current_user.nom}/#{draw}")
-      redirect_to :back
-    else
-      flash[:alert] = 'Le dossier existe déjà, impossible de renommer'
-      redirect_to :back
+    #-------------------------------------------
+    #          TRAITEMENT DU FORMULAIRE
+    #            RENOMMER SON ESPACE
+    #-------------------------------------------
+    if params.include?(:nom_espace)
+      @new_name = params[:nom_espace][:nom].to_s.gsub(' ', '_')
+      if Dir.exists?("./public/folders/#{current_user.nom}")
+        if !Dir.exists?("./public/folders/#{@new_name}")
+          puts "======= UPDATE ============="
+          if current_user.update_attribute(:nom, @new_name)
+
+            FileUtils.mv("./public/folders/#{params[:desk]}", "./public/folders/#{@new_name}")
+            puts "=======UPDATE==========="
+            @compte = Compte.where(user_id: current_user.id).take
+            @compte.update(nom: @new_name)
+            flash[:success] = "Votre espace a bien été renommé !"
+            redirect_to desk_path
+          end
+        else
+          flash[:danger] = "Le nom de l'espace existe déjà !"
+          redirect_to :back
+        end
+      end
+    end
+
+    if params.include?(:rename)
+      draw = params[:rename][:new_name].to_s.gsub(' ', '_')
+      puts draw
+      if !Dir.exists?("./public/folders/#{current_user.nom}/#{draw}")
+        FileUtils.mv("./public/folders/#{current_user.nom}/#{params[:rename][:last_name]}", "./public/folders/#{current_user.nom}/#{draw}")
+        redirect_to :back
+      else
+        flash[:alert] = 'Le dossier existe déjà, impossible de renommer'
+        redirect_to :back
+      end
     end
   end
 

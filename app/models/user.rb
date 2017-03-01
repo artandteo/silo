@@ -6,7 +6,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :confirmable
 
-  validates :email, presence: true, uniqueness: { message: "L'adresse email est déjà prise !" }
+  #validates :email, presence: true, uniqueness: { message: "L'adresse email est déjà prise !" }, on: :create
   validates :password, length: { minimum: 6, message: " doit être plus grand (6 caratères minimum)" }, on: :update
   validates_confirmation_of :password, on: :update
 
@@ -21,8 +21,13 @@ class User < ApplicationRecord
     end
   end
 
+  def after_sign_up
+    params[:user][:nom] = params[:user][:nom].to_s.gsub(/\s+/, '_')
+  end
+
   def after_confirmation
   	@last = User.last
+    @last.update_attribute(:nom, @last.nom.to_s.gsub(/\s+/, '_'))
     if !Dir.exists?(File.join("./public/folders/", @last.nom))
       Dir.mkdir(File.join("./public/folders/", @last.nom), 0777)
       @compte = Compte.new(nom: @last.nom, user_id: @last.id)

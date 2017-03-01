@@ -1,6 +1,19 @@
 fr:
+    canvas_l: 
+         prefs_admin: "Préferences administratives"
+         couleurs: "Couleurs"
+         polices: "Police d'écriture"
+         images: "Image"
+         no_img: "Aucune image"
+         layout: "Layout"
+         btn-valider: "VALIDER"
+
+
+
     canvas_r:
-          admin_titre: "Administration des utilisateurs"
+          admin_titre: "Administration de l'espace"
+          admin_user_titre: "Administration des utilisateurs"
+          renommer_espace: "Renommer mon espace"
           creation_utilisateur: "Création d'un utilisateur"
           edition_utilisateur: "Edition d'un utilisateur"
           statistiques: "Statistiques"
@@ -10,4 +23,6 @@ fr:
           valider: "Valider"
 
           stockage: "Stockage"
+          mo_utilise: " mo sur "
+          mo_dispo: " mo disponibles"
           nb_eleve: "Nombre d'élèves"
