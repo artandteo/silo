@@ -135,11 +135,25 @@ class ApplicationController < ActionController::Base
   # Route : GET/:desk/:draw
   def draw
       @table = Array.new { Array.new }
+      @data_arr = Array.new
+      @table_videos = Array.new { Array.new }
       @breadcrumb = params[:draw]
       i = 0
       liste_d("./public/folders/#{current_user.nom}/#{params[:draw]}/").each do |a|
         b = liste_f("./public/folders/#{current_user.nom}/#{params[:draw]}/#{a}/")
-        @table.push(b)
+        if b.include?("videos.txt")
+          file=File.open("public/folders/#{current_user.nom}/#{params[:draw]}/#{a}/videos.txt", "r")
+          data = file.read
+          file.close
+          @data_arr = data.split(';')
+          #@data_arr.each {|ev| puts('-'+ev)}
+          b.delete("videos.txt")
+          @table.push(b)
+          @table_videos.push(@data_arr)
+        else
+          @table.push(b)
+          @table_videos.push(@data_arr)
+        end
         @length = @table.length
       i = i + 1
       end
@@ -152,6 +166,14 @@ class ApplicationController < ActionController::Base
   # Ajouter un draw
   # Route : POST/:desk/:draw
   def draw_add
+    if params.include?(:nouv_youtube)
+      titre = params[:nouv_youtube][:titre]
+      lien = params[:nouv_youtube][:nom].sub("watch?v=", "embed/")
+      lien = lien.sub("https", "http")
+      file = File.open("public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:dossier_courant]}/videos.txt", "a")
+        file.write(titre+';'+lien+';')
+      file.close
+    end
     if params.include?(:nouv_dossier)
       draw = params[:nouv_dossier][:nom].to_s.gsub(/\s+/, '_')
       path = "./public/folders/#{params[:desk]}/#{params[:draw]}/"
@@ -404,7 +426,7 @@ class ApplicationController < ActionController::Base
 
   def liste_f(dir)
     d = Dir.open(dir)
-    liste_exclus = [".", ".."]
+    liste_exclus = [".", "..", ".DS_Store"]
     liste_dir = d.sort - liste_exclus
 
     a = 0

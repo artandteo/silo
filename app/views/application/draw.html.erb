@@ -47,13 +47,24 @@
 <!-- contenu des onglets -->
 		<div class="medium-9 columns">
 			    <div class="tabs-content vertical" data-tabs-content="tabs_draw">
-			      <%
-			      for i in 0..@arr.count %>
+			      <% for i in 0..@arr.count %>
 						<% if i == 0 %>
 							<div class="tabs-panel is-active" id="tab<%= i %>">
 						<% else %>
 							<div class="tabs-panel" id="tab<%= i %>">
 						<% end %>
+									<% if @table_videos[i] != nil %>
+										<% 0.step(@table_videos[i].length-1, 2) do |j| %>
+											<div class="row">
+												<div class="medium-3">
+													<a class="lk_apercu" data="<%= @table_videos[i][j+1] %>" target="apercu">
+														<i class="fa fa-file-video-o size-36 step" aria-hidden="true"></i>
+														<%= @table_videos[i][j] %>
+													</a>
+												</div>
+											</div>
+										<% end %>
+									<% end %>
 				        	<% if @table[i] != nil %>
 					        	<% for j in 0..@table[i].length-1 %>
 											<div class="row">
@@ -75,9 +86,7 @@
 													<% end %>
 
 													<% if is_MP3?(@table[i][j]) %>
-														<audio controls="controls">
-															<source src="/folders/<%= params[:desk] %>/<%= params[:draw] %>/<%= @arr[i] %>/<%= @table[i][j] %>" />
-														</audio>
+
 													<% end %>
 
 													<% if j == 0 %>
@@ -139,8 +148,11 @@
 	</div>
 	<div class="reveal" id="lien_youtube-<%= a %>" data-reveal>
 		<%= form_for :nouv_youtube do |f| %>
+		<%= f.label :titre, 'Titre de la vidéo' %>
+		<%= f.text_field :titre, maxlength: "25" %>
 		<%= f.label :nom, 'Copiez le lien youtube' %>
 		<%= f.text_field :nom, maxlength: "75" %>
+		<%= hidden_field_tag :dossier_courant, a %>
 		<%= f.submit :valider, value: "Ajouter", class: "button success tiny" %>
 		<% end %>
 		<button class="close-button" data-close aria-label="Close modal" type="button">
