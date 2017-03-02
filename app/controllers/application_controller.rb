@@ -13,7 +13,7 @@ class ApplicationController < ActionController::Base
   before_action :load_pref, :config_pref
 
 
-  helper_method :is_PDF?, :is_MP3?, :is_JPG?
+  helper_method :is_PDF?, :is_MP3?, :is_JPG?, :get_extension
 
   def set_locale
     I18n.locale = params[:locale] || I18n.default_locale
@@ -166,6 +166,7 @@ class ApplicationController < ActionController::Base
   # Ajouter un draw
   # Route : POST/:desk/:draw
   def draw_add
+    # Liens Youtube #
     if params.include?(:nouv_youtube)
       titre = params[:nouv_youtube][:titre]
       lien = params[:nouv_youtube][:nom].sub("watch?v=", "embed/")
@@ -173,7 +174,10 @@ class ApplicationController < ActionController::Base
       file = File.open("public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:dossier_courant]}/videos.txt", "a")
         file.write(titre+';'+lien+';')
       file.close
+      redirect_to :back
     end
+
+    # Nouveau dossier #
     if params.include?(:nouv_dossier)
       draw = params[:nouv_dossier][:nom].to_s.gsub(/\s+/, '_')
       path = "./public/folders/#{params[:desk]}/#{params[:draw]}/"
@@ -184,38 +188,33 @@ class ApplicationController < ActionController::Base
         flash[:alert] = 'Le dossier existe déjà !'
         redirect_to :back
       end
-    else
-      authorized_ext = [".pdf", ".jpg", ".jpeg", ".mp3"]
-      if params.include?(:fichiers)
-        params[:fichiers].each do |file|
-          filename = file.original_filename
-          directory = "public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:dossier_courant]}/"
-          path = File.join(directory, filename)
-          Dir[File.join("public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:dossier_courant]}/", '**', '*')].count
-          if authorized_ext.include? File.extname(path)
-            puts "===="
-            puts file.size.inspect
-            if file.size <= 2097152
-              if Dir[File.join("public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:dossier_courant]}/", '**', '*')].count != 25
-                File.open(path, "wb") { |f| f.write(file.read) }
-                flash[:success] = 'Fichier téléchargé'
-              else
-                flash[:danger] = "Limite de fichier atteinte !"
+    end
 
-              end
+    # Nouveau fichier #
+    if params.include?(:fichiers)
+      authorized_ext = [".pdf", ".jpg", ".jpeg", ".mp3"]
+      params[:fichiers].each do |file|
+        filename = file.original_filename
+        directory = "public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:dossier_courant]}/"
+        path = File.join(directory, filename)
+        Dir[File.join("public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:dossier_courant]}/", '**', '*')].count
+        if authorized_ext.include? File.extname(path)
+          if file.size <= 2097152
+            if Dir[File.join("public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:dossier_courant]}/", '**', '*')].count != 25
+              File.open(path, "wb") { |f| f.write(file.read) }
+              flash[:success] = 'Fichier téléchargé'
+              redirect_to :back
             else
-              flash[:danger] = "La taille du fichier doit être inférieur ou égale à 2mo !"
+              flash[:danger] = "Limite de fichier atteinte !"
             end
           else
-            flash[:alert] = 'Extension non autorisé'
+            flash[:danger] = "La taille du fichier doit être inférieur ou égale à 2mo !"
           end
+        else
+          flash[:alert] = 'Extension non autorisé'
         end
-        redirect_to :back
-      else
-        flash[:alert] = 'Aucun fichier téléchargé'
-        redirect_to draw_path
-      end
-    end
+      end 
+    end   
   end
 
   # # Renommer le nom d'un desk
@@ -324,9 +323,9 @@ class ApplicationController < ActionController::Base
   # Renommer un fichier
   # Route : PUT/:desk/:draw/:folder/:file
   def file_rename
-
-    if !File.exist?("./public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:folder]}/#{params[:file_rename][:new_filename]}")
-      FileUtils.mv("./public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:folder]}/#{params[:file_rename][:last_filename]}", "./public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:folder]}/#{params[:file_rename][:new_filename]}")
+    filename = "#{params[:file_rename][:new_filename]}#{get_extension(params[:file_rename][:last_filename])}"
+    if !File.exist?("./public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:folder]}/#{filename}")
+      FileUtils.mv("./public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:folder]}/#{params[:file_rename][:last_filename]}", "./public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:folder]}/#{filename}")
       flash[:success] = 'Votre fichier a bien été renommé'
       redirect_to draw_path
     else
@@ -348,6 +347,9 @@ class ApplicationController < ActionController::Base
     File.extname(file.to_s) == ".mp3"
   end
 
+  def get_extension(file)
+    File.extname(file.to_s)
+  end
 #==============================================================
 #                     ELEVES
 #==============================================================
@@ -421,6 +423,19 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  #==============================================================
+  #                     VIDEOS
+  #==============================================================
+  def video
+    if params.include?(:titre_rename)
+      puts "rename"
+      puts params[:video]
+    else
+      # suppresion
+      puts "suppresion"
+    end
+  end
+
 #==============================================================
 #                     PRIVATE
 #==============================================================
@@ -465,5 +480,4 @@ class ApplicationController < ActionController::Base
       end
     end
   end
-
 end

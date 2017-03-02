@@ -72,12 +72,12 @@
 														<%= @table_videos[i][j] %>
 													</a>
 													<% if current_user.is_admin? %>
-														<a class="toggle_admin" href="" data-method="delete" data-confirm="Souhaitez-vous supprimer le lien <%= @table_videos[i][j] %> ? Cette action est irréversible et ne peux être annuler."><i class="fa fa-trash" aria-hidden="true"></i></a>
+														<a class="toggle_admin" href="<%= videos_path(params[:desk], params[:draw], @arr[i], @table_videos[i][j]) %>" data-method="post"><i class="fa fa-trash" aria-hidden="true"></i></a>
 														<a class="toggle_admin" data-open="rename_titre-<%= i %>"><i class="fa fa-file-text" aria-hidden="true"></i></a>
 													<% end %> <!-- end if -->
 													<br />
 													<div class="reveal" id="rename_titre-<%= i %>" data-reveal>
-														<%= form_for :titre_rename do |f| %>
+														<%= form_for :titre_rename, url: videos_path(params[:desk], params[:draw], @arr[i], @table_videos[i][j]) do |f| %>
 														<%= f.label :nom, 'Nouveau titre ' %>
 														<%= f.text_field :new_titre, value: @table_videos[i][j], onkeypress: "return verif(event);", autofocus: true  %>
 														<%= f.hidden_field :last_titre, value: @table_videos[i][j] %>
@@ -102,13 +102,13 @@
 													</a>
 													<% if current_user.is_admin? %>
 					        					<a class="toggle_admin" href="<%= files_path(params[:desk], params[:draw], @arr[i], @table[i][j]) %>" data-method="delete" data-confirm="Souhaitez-vous supprimer le fichier <%= @table[i][j] %> ? Cette action est irréversible et ne peux être annuler."><i class="fa fa-trash" aria-hidden="true"></i></a>
-														<a class="toggle_admin" data-open="rename_file-<%= i %>"><i class="fa fa-file-text" aria-hidden="true"></i></a>
+														<a class="toggle_admin" data-open="rename_file-<%= j %>"><i class="fa fa-file-text" aria-hidden="true"></i></a>
 													<% end %> <!-- end if -->
 													<br />
-		        					<div class="reveal" id="rename_file-<%= i %>" data-reveal>
+		        					<div class="reveal" id="rename_file-<%= j %>" data-reveal>
 											  <%= form_for :file_rename, url:  URI.escape("/#{params[:desk]}/#{params[:draw]}/#{@arr[i]}/#{@table[i][j]}/"), method: 'put' do |f| %>
 												<%= f.label :nom, 'Nouveau nom ' %>
-												<%= f.text_field :new_filename, value: @table[i][j], onkeypress: "return verif(event);", autofocus: true  %>
+												<%= f.text_field :new_filename, value: @table[i][j].gsub(get_extension(@table[i][j]), ""), onkeypress: "return verif(event);", autofocus: true %>
 												<%= f.hidden_field :last_filename, value: @table[i][j] %>
 												<%= f.submit :go, value: "Valider", class: "button success" %>
 											  <% end %> <!-- end form do -->
