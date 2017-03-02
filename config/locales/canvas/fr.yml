@@ -1,5 +1,5 @@
 fr:
-    canvas_l: 
+    canvas_l:
          prefs_admin: "Préferences administratives"
          couleurs: "Couleurs"
          polices: "Police d'écriture"
@@ -11,8 +11,7 @@ fr:
 
 
     canvas_r:
-          admin_titre: "Administration de l'espace"
-          admin_user_titre: "Administration des utilisateurs"
+          admin_user_titre: "Administration"
           renommer_espace: "Renommer mon espace"
           creation_utilisateur: "Création d'un utilisateur"
           edition_utilisateur: "Edition d'un utilisateur"
