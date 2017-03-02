@@ -78,11 +78,11 @@ document.addEventListener("turbolinks:load", function() {
 
     $( "a.lk_apercu").click(function() {
       var src = ($(this).attr('data'));
-      $( "iframe" ).attr('src',src);
+      $( ".apercu>iframe" ).attr('src',src);
       var ext = src.charAt(src.length-3)+src.charAt(src.length-2)+src.charAt(src.length-1);
-      if (ext === 'mp3') {$( "iframe" ).attr('height','50px');}
-      else if (ext === 'pdf') {$( "iframe" ).attr('height','870px');}
-      else $( "iframe" ).attr('height','480px');
+      if (ext === 'mp3') {$( ".apercu>iframe" ).attr('height','50px');}
+      else if (ext === 'pdf') {$( ".apercu>iframe" ).attr('height','800px');}
+      else $( ".apercu>iframe" ).attr('height','480px');
     });
 
     // Extension du a href des box à toute la div enfant
@@ -121,7 +121,9 @@ document.addEventListener("turbolinks:load", function() {
 
 
       $(".help>a").click(function(){
-        $("#bandeau").fadeOut(800);
+        $("#bandeau").fadeOut(800).queue(function(){
+          $(this).dequeue();
+        });
         alert('pause');
       });
 

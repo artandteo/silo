@@ -385,3 +385,9 @@ a.accordion-title {
 		}
 	}
 }
+
+@media (max-width: 940px) {
+	header ~ h1 {
+		font-size: 14px;
+	}
+}
