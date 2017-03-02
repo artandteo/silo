@@ -79,6 +79,10 @@ document.addEventListener("turbolinks:load", function() {
     $( "a.lk_apercu").click(function() {
       var src = ($(this).attr('data'));
       $( "iframe" ).attr('src',src);
+      var ext = src.charAt(src.length-3)+src.charAt(src.length-2)+src.charAt(src.length-1);
+      if (ext === 'mp3') {$( "iframe" ).attr('height','50px');}
+      else if (ext === 'pdf') {$( "iframe" ).attr('height','870px');}
+      else $( "iframe" ).attr('height','480px');
     });
 
     // Extension du a href des box à toute la div enfant
