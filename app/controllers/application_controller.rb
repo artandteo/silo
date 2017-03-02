@@ -73,15 +73,21 @@ class ApplicationController < ActionController::Base
       
       @eleve = User.new(eleve_params)
       @eleve.nom = current_user.nom
-      @eleve.email = ""
       @eleve.is_admin = false
       @eleve.confirmed_at = DateTime.now.to_date
       @eleve.created_at = DateTime.now.to_date
 
-      
-        @eleve.save
+      if User.exists?(identifiant_eleve: params[:eleve][:identifiant_eleve])
+        flash[:alert] = 'User existe !'
         redirect_to :back
-      
+      elsif params[:eleve][:password].empty?
+        flash[:alert] = 'Mdp obligatoire !'
+        redirect_to :back
+      else
+        @eleve.save
+        flash[:success] = "L'utilisateur a été crée !"
+        redirect_to :back
+      end
       #if @eleve.identifiant_eleve ==
         #@eleve.save
         #redirect_to :back
@@ -207,8 +213,8 @@ class ApplicationController < ActionController::Base
         else
           flash[:alert] = 'Extension non autorisé'
         end
-      end
-    end
+      end 
+    end   
   end
 
   # Renommer le nom d'un draw
@@ -405,46 +411,11 @@ class ApplicationController < ActionController::Base
   #==============================================================
   def video
     if params.include?(:titre_rename)
-      # rename
-      file = File.open("public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:folder]}/videos.txt", "r")
-        data = file.read
-      file.close
-      data = data.split(';')
-      @titre_r = params[:video]
-      @new_titre = params[:titre_rename][:new_titre]
-      i = 0
-      data.each do |e|
-        if e == @titre_r
-           data[i] = @new_titre
-        end
-        i = i +1
-      end
-      data = data * ";"
-      file = File.open("public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:folder]}/videos.txt", "w")
-        file.write(data)
-      file.close
-      redirect_to :back
+      puts "rename"
+      puts params[:video]
     else
       # suppresion
-      file = File.open("public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:folder]}/videos.txt", "r")
-        data = file.read
-      file.close
-      data = data.split(';')
-      @titre_d = params[:video]
-      i = 0
-      data.each do |e|
-        if e == @titre_d
-          @lien_d = data[i+1]
-        end
-        i = i +1
-      end
-      data.delete(@titre_d)
-      data.delete(@lien_d)
-      data = data * ";"
-      file = File.open("public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:folder]}/videos.txt", "w")
-        file.write(data)
-      file.close
-      redirect_to :back
+      puts "suppresion"
     end
   end
 
