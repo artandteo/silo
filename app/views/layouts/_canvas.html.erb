@@ -26,7 +26,7 @@
       <div class="accordion-content" data-tab-content>
         <% @police.each do |p| %>
           <div class="pol_config">
-              <%= f.radio_button :police, p.ref  %><label for="preferences_police_<%= p.ref %>"><%= p.nom %></label>
+              <%= f.radio_button :police, p.ref  %><label for="preferences_police_<%= p.ref %>"><span style="font-family: <%= p.nom %>;"><%= p.nom.upcase %></span></label>
           </div>
         <% end %>
       </div>
