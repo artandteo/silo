@@ -40,9 +40,9 @@
     post '/:desk/:draw/:folder/:video', to: 'application#video', as: :videos
 
 
-    
+
   end
 
-  
-  
+
+
 end

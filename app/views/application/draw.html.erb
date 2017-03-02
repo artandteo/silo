@@ -79,8 +79,7 @@
 													<div class="reveal" id="rename_titre-<%= i %>" data-reveal>
 														<%= form_for :titre_rename, url: videos_path(params[:desk], params[:draw], @arr[i], @table_videos[i][j]) do |f| %>
 														<%= f.label :nom, 'Nouveau titre ' %>
-														<%= f.text_field :new_titre, value: @table_videos[i][j], onkeypress: "return verif(event);", autofocus: true  %>
-														<%= f.hidden_field :last_titre, value: @table_videos[i][j] %>
+														<%= f.text_field :new_titre, autofocus: true  %>
 														<%= f.submit :go, value: "Valider", class: "button success" %>
 														<% end %> <!-- end form do -->
 
@@ -169,3 +168,5 @@
 		</button>
 	</div>
 <% end %>
+
+ 
