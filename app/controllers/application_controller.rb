@@ -207,8 +207,8 @@ class ApplicationController < ActionController::Base
         else
           flash[:alert] = 'Extension non autorisé'
         end
-      end 
-    end   
+      end
+    end
   end
 
   # Renommer le nom d'un draw
@@ -405,11 +405,46 @@ class ApplicationController < ActionController::Base
   #==============================================================
   def video
     if params.include?(:titre_rename)
-      puts "rename"
-      puts params[:video]
+      # rename
+      file = File.open("public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:folder]}/videos.txt", "r")
+        data = file.read
+      file.close
+      data = data.split(';')
+      @titre_r = params[:video]
+      @new_titre = params[:titre_rename][:new_titre]
+      i = 0
+      data.each do |e|
+        if e == @titre_r
+           data[i] = @new_titre
+        end
+        i = i +1
+      end
+      data = data * ";"
+      file = File.open("public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:folder]}/videos.txt", "w")
+        file.write(data)
+      file.close
+      redirect_to :back
     else
       # suppresion
-      puts "suppresion"
+      file = File.open("public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:folder]}/videos.txt", "r")
+        data = file.read
+      file.close
+      data = data.split(';')
+      @titre_d = params[:video]
+      i = 0
+      data.each do |e|
+        if e == @titre_d
+          @lien_d = data[i+1]
+        end
+        i = i +1
+      end
+      data.delete(@titre_d)
+      data.delete(@lien_d)
+      data = data * ";"
+      file = File.open("public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:folder]}/videos.txt", "w")
+        file.write(data)
+      file.close
+      redirect_to :back
     end
   end
 
