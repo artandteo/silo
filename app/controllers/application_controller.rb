@@ -423,6 +423,19 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  #==============================================================
+  #                     VIDEOS
+  #==============================================================
+  def video
+    if params.include?(:titre_rename)
+      puts "rename"
+      puts params[:video]
+    else
+      # suppresion
+      puts "suppresion"
+    end
+  end
+
 #==============================================================
 #                     PRIVATE
 #==============================================================
