@@ -70,24 +70,18 @@ class ApplicationController < ActionController::Base
     #             AJOUT D'UN ELEVE
     #-------------------------------------------
     if params.include?(:eleve)
-      @user = User.exists?(identifiant_eleve: params[:eleve][:identifiant_eleve])
-
+      
       @eleve = User.new(eleve_params)
       @eleve.nom = current_user.nom
+      @eleve.email = ""
       @eleve.is_admin = false
       @eleve.confirmed_at = DateTime.now.to_date
       @eleve.created_at = DateTime.now.to_date
 
-      if @user
-        flash[:alert] = 'User existe !'
-        redirect_to :back
-      elsif params[:eleve][:password].empty?
-        flash[:alert] = 'Mdp obligatoire !'
-        redirect_to :back
-      else
+      
         @eleve.save
         redirect_to :back
-      end
+      
       #if @eleve.identifiant_eleve ==
         #@eleve.save
         #redirect_to :back
@@ -216,23 +210,6 @@ class ApplicationController < ActionController::Base
       end 
     end   
   end
-
-  # # Renommer le nom d'un desk
-  # def draw_rename
-  #   if params.include?(:rename)
-  #     FileUtils.mv("./public/folders/#{current_user.nom}/#{params[:rename][:last_name]}", "./public/folders/#{current_user.nom}/#{params[:rename][:new_name]}")
-  #     redirect_to desk_path
-  #   end
-  #   #-------------------------------------------
-  #   #          TRAITEMENT DU FORMULAIRE
-  #   #             EDITION D'UN ELEVE
-  #   #-------------------------------------------
-  #   if params.include?(:eleve)
-  #     @eleve = User.where(identifiant_eleve: params[:eleve][:ancien_nom]).take
-  #     @eleve.update(identifiant_eleve: params[:eleve][:identifiant_eleve])
-  #     redirect_to :back
-  #   end
-  # end
 
   # Renommer le nom d'un draw
   # Route : PUT/:desk/:draw

@@ -4,9 +4,7 @@
   root 'application#accueil'
 
 
-  devise_for :users, path: '', path_names: { sign_in: 'connexion', sign_out: 'deconnexion', sign_up: 'inscription'}
-
-  scope "(/:locale)", locale: /en/ do
+devise_for :users, path: '', path_names: { sign_in: 'connexion', sign_out: 'deconnexion', sign_up: 'inscription'}, :controllers => { :registrations => "registrations" }
     get '/mentions', to: 'application#mentions'
 
     #==============================================================
@@ -37,12 +35,9 @@
     put '/:desk/:draw/:folder/:file', to: 'application#file_rename', :constraints => { :file => /.*/ }
     delete '/:desk/:draw/:folder/:file', to: 'application#file_delete', :constraints => { :file => /.*/ }
 
+    #==============================================================
+    #                        VIDEOS
+    #==============================================================
     post '/:desk/:draw/:folder/:video', to: 'application#video', as: :videos
-
-
-    
-  end
-
-  
-  
+ 
 end
