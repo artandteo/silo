@@ -70,15 +70,14 @@ class ApplicationController < ActionController::Base
     #             AJOUT D'UN ELEVE
     #-------------------------------------------
     if params.include?(:eleve)
-      @user = User.exists?(identifiant_eleve: params[:eleve][:identifiant_eleve])
-
+      
       @eleve = User.new(eleve_params)
       @eleve.nom = current_user.nom
       @eleve.is_admin = false
       @eleve.confirmed_at = DateTime.now.to_date
       @eleve.created_at = DateTime.now.to_date
 
-      if @user
+      if User.exists?(identifiant_eleve: params[:eleve][:identifiant_eleve])
         flash[:alert] = 'User existe !'
         redirect_to :back
       elsif params[:eleve][:password].empty?
@@ -86,6 +85,7 @@ class ApplicationController < ActionController::Base
         redirect_to :back
       else
         @eleve.save
+        flash[:success] = "L'utilisateur a été crée !"
         redirect_to :back
       end
       #if @eleve.identifiant_eleve ==
@@ -213,26 +213,9 @@ class ApplicationController < ActionController::Base
         else
           flash[:alert] = 'Extension non autorisé'
         end
-      end
-    end
+      end 
+    end   
   end
-
-  # # Renommer le nom d'un desk
-  # def draw_rename
-  #   if params.include?(:rename)
-  #     FileUtils.mv("./public/folders/#{current_user.nom}/#{params[:rename][:last_name]}", "./public/folders/#{current_user.nom}/#{params[:rename][:new_name]}")
-  #     redirect_to desk_path
-  #   end
-  #   #-------------------------------------------
-  #   #          TRAITEMENT DU FORMULAIRE
-  #   #             EDITION D'UN ELEVE
-  #   #-------------------------------------------
-  #   if params.include?(:eleve)
-  #     @eleve = User.where(identifiant_eleve: params[:eleve][:ancien_nom]).take
-  #     @eleve.update(identifiant_eleve: params[:eleve][:identifiant_eleve])
-  #     redirect_to :back
-  #   end
-  # end
 
   # Renommer le nom d'un draw
   # Route : PUT/:desk/:draw
@@ -428,46 +411,11 @@ class ApplicationController < ActionController::Base
   #==============================================================
   def video
     if params.include?(:titre_rename)
-      # rename
-      file = File.open("public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:folder]}/videos.txt", "r")
-        data = file.read
-      file.close
-      data = data.split(';')
-      @titre_r = params[:video]
-      @new_titre = params[:titre_rename][:new_titre]
-      i = 0
-      data.each do |e|
-        if e == @titre_r
-           data[i] = @new_titre
-        end
-        i = i +1
-      end
-      data = data * ";"
-      file = File.open("public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:folder]}/videos.txt", "w")
-        file.write(data)
-      file.close
-      redirect_to :back
+      puts "rename"
+      puts params[:video]
     else
       # suppresion
-      file = File.open("public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:folder]}/videos.txt", "r")
-        data = file.read
-      file.close
-      data = data.split(';')
-      @titre_d = params[:video]
-      i = 0
-      data.each do |e|
-        if e == @titre_d
-          @lien_d = data[i+1]
-        end
-        i = i +1
-      end
-      data.delete(@titre_d)
-      data.delete(@lien_d)
-      data = data * ";"
-      file = File.open("public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:folder]}/videos.txt", "w")
-        file.write(data)
-      file.close
-      redirect_to :back
+      puts "suppresion"
     end
   end
 
