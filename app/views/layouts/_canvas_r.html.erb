@@ -10,7 +10,7 @@
     <li class="accordion-item" data-accordion-item>
       <a href="#" class="accordion-title"><%= t('canvas_r.renommer_espace') %></a>
       <div class="accordion-content" data-tab-content>
-        <%= form_for :nom_espace, method: "put" do |f| %>
+        <%= form_for :nom_espace, method: "put", url: desk_path do |f| %>
           <%= f.label :nom, t('canvas_r.nom_espace') %>
           <%= f.text_field :nom, onkeypress: "return verif(event);" %>
           <br />
