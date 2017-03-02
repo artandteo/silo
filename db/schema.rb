@@ -10,19 +10,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170302140453) do
+ActiveRecord::Schema.define(version: 20170213085009) do
 
   create_table "comptes", force: :cascade do |t|
     t.string  "nom"
     t.integer "user_id"
     t.index ["user_id"], name: "index_comptes_on_user_id"
-  end
-
-  create_table "eleves", force: :cascade do |t|
-    t.string  "identifiant"
-    t.string  "password"
-    t.integer "compte_id"
-    t.index ["compte_id"], name: "index_eleves_on_compte_id"
   end
 
   create_table "images", force: :cascade do |t|
