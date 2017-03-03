@@ -6,7 +6,7 @@
 
     <title><%= content_for?(:title) ? yield(:title) : "SILO" %></title>
 
-    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' async %>
 
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
 
@@ -15,20 +15,6 @@
   </head>
 
   <body>
-    <% if user_signed_in? %>
-      <%= javascript_tag do %>
-        window.color0 = '<%= j @pref.color1.to_s %>';
-        window.color1 = '<%= j @pref.color2.to_s %>';
-        window.color2 = '<%= j @pref.color3.to_s %>';
-        window.color3 = '<%= j @pref.color4.to_s %>';
-        window.color4 = '<%= j @pref.color5.to_s %>';
-        window.police = '<%= j @pref.polices.to_s %>';
-        window.image = '<%= j @pref.img_header.to_s %>';
-        window.margin = '<%= j @layout.margin.to_s %>';
-        window.minwidth = '<%= j @layout.minwidth.to_s %>';
-        window.radius = '<%= j @layout.radius.to_s %>';
-      <% end %>
-    <% end %>
     <div class="off-canvas position-left" id="offCanvas" data-off-canvas>
       <%= render 'layouts/canvas' %>
     </div>
@@ -54,6 +40,19 @@
         </footer>
       <% end %>
     </div>
-
+    <% if user_signed_in? %>
+        <script async type="text/javascript">
+        window.color0 = '<%= j @pref.color1.to_s %>';
+        window.color1 = '<%= j @pref.color2.to_s %>';
+        window.color2 = '<%= j @pref.color3.to_s %>';
+        window.color3 = '<%= j @pref.color4.to_s %>';
+        window.color4 = '<%= j @pref.color5.to_s %>';
+        window.police = '<%= j @pref.polices.to_s %>';
+        window.image = '<%= j @pref.img_header.to_s %>';
+        window.margin = '<%= j @layout.margin.to_s %>';
+        window.minwidth = '<%= j @layout.minwidth.to_s %>';
+        window.radius = '<%= j @layout.radius.to_s %>';
+      </script>
+    <% end %>
   </body>
 </html>
