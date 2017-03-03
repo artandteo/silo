@@ -73,7 +73,7 @@ class ApplicationController < ActionController::Base
       
       @eleve = User.new(eleve_params)
       @eleve.nom = current_user.nom
-      @eleve.is_admin = false
+      @eleve.is_admin = 0
       @eleve.confirmed_at = DateTime.now.to_date
       @eleve.created_at = DateTime.now.to_date
 
@@ -117,7 +117,7 @@ class ApplicationController < ActionController::Base
   end
 
   def desk_size
-    if user_signed_in? && current_user.is_admin?
+    if user_signed_in? && current_user.is_admin == 1
       size = 0
       path = "./public/folders/#{current_user.nom}/"
       Dir.glob(File.join(path, '**', '*')) { |file| size+=File.size(file) }
@@ -374,7 +374,7 @@ class ApplicationController < ActionController::Base
 
   # Affiche la liste des elèves
   def liste_eleves
-      if user_signed_in? && current_user.is_admin?
+      if user_signed_in? && current_user.is_admin == 1
         # Liste des élèves d'un professeur
         @eleves = User.where(nom: current_user.nom).where.not(identifiant_eleve: nil)
       end
