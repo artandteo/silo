@@ -197,26 +197,29 @@ class ApplicationController < ActionController::Base
     if params.include?(:fichiers)
       authorized_ext = [".pdf", ".jpg", ".jpeg", ".mp3"]
       params[:fichiers].each do |file|
-        filename = file.original_filename
-        directory = "public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:dossier_courant]}/"
-        path = File.join(directory, filename)
-        Dir[File.join("public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:dossier_courant]}/", '**', '*')].count
-        if authorized_ext.include? File.extname(path)
-          if file.size <= 2097152
+        if file.size <= 2097152
+          puts "============ TEST FILE SIZE ==============="
+          filename = file.original_filename
+          directory = "public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:dossier_courant]}/"
+          path = File.join(directory, filename)
+          Dir[File.join("public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:dossier_courant]}/", '**', '*')].count
+          if authorized_ext.include? File.extname(path) 
+            puts "============ TEST FILE EXTENSION ==============="
             if Dir[File.join("public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:dossier_courant]}/", '**', '*')].count != 25
+              puts "============ TEST FILE COUNT ==============="
               File.open(path, "wb") { |f| f.write(file.read) }
               flash[:success] = 'Fichier téléchargé'
-              redirect_to :back
             else
               flash[:danger] = "Limite de fichier atteinte !"
             end
           else
-            flash[:danger] = "La taille du fichier doit être inférieur ou égale à 2mo !"
+            flash[:alert] = 'Extension non autorisé'
           end
         else
-          flash[:alert] = 'Extension non autorisé'
+            flash[:danger] = "La taille du fichier doit être inférieur ou égale à 2mo !"
         end
       end 
+      redirect_to :back
     end   
   end
 
