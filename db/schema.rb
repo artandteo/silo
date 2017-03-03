@@ -15,7 +15,7 @@ ActiveRecord::Schema.define(version: 20170303084419) do
   create_table "comptes", force: :cascade do |t|
     t.string  "nom"
     t.integer "user_id"
-    t.string  "titre_espace"
+    t.string  "titre_espace", default: "Mon Silo"
     t.index ["user_id"], name: "index_comptes_on_user_id"
   end
 
