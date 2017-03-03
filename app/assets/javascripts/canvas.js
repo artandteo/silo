@@ -10,7 +10,6 @@ var margin;
 var minwidth;
 var radius;
 
-
 document.addEventListener("turbolinks:load", function() {
 
     col0='#'+color0;
@@ -75,15 +74,21 @@ document.addEventListener("turbolinks:load", function() {
     });
 
     // Aperçu du lien draw au clic du a href du fichier dans iframe unique
-
-    $( "a.lk_apercu").click(function() {
-      var src = ($(this).attr('data'));
-      $( ".apercu>iframe" ).attr('src',src);
-      var ext = src.charAt(src.length-3)+src.charAt(src.length-2)+src.charAt(src.length-1);
-      if (ext === 'mp3') {$( ".apercu>iframe" ).attr('height','50px');}
-      else if (ext === 'pdf') {$( ".apercu>iframe" ).attr('height','800px');}
-      else $( ".apercu>iframe" ).attr('height','480px');
-    });
+    var windowssize = $(window).width();
+    if (windowssize < 800) {
+       $(".mobile_only").css("display", "inline-block");
+    }
+    else
+    {
+      $( "a.lk_apercu").click(function() {
+        var src = ($(this).attr('data'));
+        $( ".apercu>iframe" ).attr('src',src);
+        var ext = src.charAt(src.length-3)+src.charAt(src.length-2)+src.charAt(src.length-1);
+        if (ext === 'mp3') {$( ".apercu>iframe" ).attr('height','50px');}
+        else if (ext === 'pdf') {$( ".apercu>iframe" ).attr('height','800px');}
+        else $( ".apercu>iframe" ).attr('height','480px');
+      });
+    }
 
     // Extension du a href des box à toute la div enfant
 

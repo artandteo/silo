@@ -74,6 +74,11 @@
 													<% if current_user.is_admin? %>
 														<a class="toggle_admin" href="<%= videos_path(params[:desk], params[:draw], @arr[i], @table_videos[i][j]) %>" data-method="post"><i class="fa fa-trash" aria-hidden="true"></i></a>
 														<a class="toggle_admin" data-open="rename_titre-<%= i %>"><i class="fa fa-file-text" aria-hidden="true"></i></a>
+														<!-- Lien de telechargement pour les petits ecrans et mobiles -->
+															<a class="mobile_only" target="_blank" href="<%= @table_videos[i][j+1] %>">
+															<i class="fa fa-external-link" aria-hidden="true"></i>
+															</a>
+														<!-- Fin de Lien de telechargement pour les petits ecrans et mobiles -->
 													<% end %> <!-- end if -->
 													<br />
 													<div class="reveal" id="rename_titre-<%= i %>" data-reveal>
@@ -102,6 +107,11 @@
 													<% if current_user.is_admin? %>
 					        					<a class="toggle_admin" href="<%= files_path(params[:desk], params[:draw], @arr[i], @table[i][j]) %>" data-method="delete" data-confirm="Souhaitez-vous supprimer le fichier <%= @table[i][j] %> ? Cette action est irréversible et ne peux être annuler."><i class="fa fa-trash" aria-hidden="true"></i></a>
 														<a class="toggle_admin" data-open="rename_file-<%= j %>"><i class="fa fa-file-text" aria-hidden="true"></i></a>
+														<!-- Lien de telechargement pour les petits ecrans et mobiles -->
+															<a class="mobile_only" target="_blank" href="/folders/<%= params[:desk] %>/<%= params[:draw] %>/<%= @arr[i] %>/<%= @table[i][j] %>">
+															<i class="fa fa-external-link" aria-hidden="true"></i>
+															</a>
+														<!-- Fin de Lien de telechargement pour les petits ecrans et mobiles -->
 													<% end %> <!-- end if -->
 													<br />
 		        					<div class="reveal" id="rename_file-<%= j %>" data-reveal>
@@ -116,7 +126,6 @@
 											    <span aria-hidden="true">&times;</span>
 											  </button>
 											</div>
-
 		        				<% end %> <!-- end for j -->
 	        				<% end %> <!-- end if -->
 							<!-- fin de affichage des fichiers creation des liens -->
@@ -168,5 +177,3 @@
 		</button>
 	</div>
 <% end %>
-
- 
