@@ -203,24 +203,22 @@ class ApplicationController < ActionController::Base
           path = File.join(directory, filename)
           Dir[File.join("public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:dossier_courant]}/", '**', '*')].count
           if authorized_ext.include? File.extname(path) 
-            if Dir[File.join("public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:dossier_courant]}/", '**', '*')].count != 25
+            if Dir[File.join("public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:dossier_courant]}/", '**', '*')].count != 15
               File.open(path, "wb") { |f| f.write(file.read) }
               flash[:success] = 'Fichier téléchargé'
-              redirect_to :back
             else
               flash[:danger] = "Limite de fichier atteinte !"
-              redirect_to :back
+              
             end
           
           else
             flash[:alert] = 'Extension non autorisé'
-            redirect_to :back
           end
         else
             flash[:danger] = "La taille du fichier doit être inférieur ou égale à 2mo !"
-            redirect_to :back
         end
       end 
+      redirect_to :back
     end   
   end
 
