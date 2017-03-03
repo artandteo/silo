@@ -77,7 +77,7 @@ ActiveRecord::Schema.define(version: 20170303084419) do
     t.datetime "updated_at",                          null: false
     t.string   "nom"
     t.string   "identifiant_eleve"
-    t.boolean  "is_admin"
+    t.integer  "is_admin"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["identifiant_eleve"], name: "index_users_on_identifiant_eleve", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
