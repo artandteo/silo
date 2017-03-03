@@ -6,6 +6,10 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
+[Palette, Polices, Image, Layout].each do |table|
+ ActiveRecord::Base.connection.execute("DELETE FROM #{table.table_name}")
+end
+
 if Palette.count == 0
 	Palette.create(:ref => "1", :c1 => "FF5B2B", :c2 => "B1221C", :c3 => "34393E", :c4 => "8CC6D7", :c5 => "FFDA8C")
 	Palette.create(:ref => "2", :c1 => "6C858F", :c2 => "090C1B", :c3 => "21242E", :c4 => "080A0D", :c5 => "DDB679")
