@@ -91,6 +91,10 @@ header{
   }
 }
 
+.mobile_only {
+	display: none;
+}
+
 .top-logo, .config-logo {
 	filter: grayscale(100%);
 }
