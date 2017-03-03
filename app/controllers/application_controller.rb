@@ -225,6 +225,7 @@ class ApplicationController < ActionController::Base
     #            RENOMMER SON ESPACE
     #-------------------------------------------
     if params.include?(:nom_espace)
+      @last_name = current_user.nom
       @new_name = params[:nom_espace][:nom].to_s.gsub(' ', '_')
       if Dir.exists?("./public/folders/#{current_user.nom}")
         if !Dir.exists?("./public/folders/#{@new_name}")
@@ -233,6 +234,11 @@ class ApplicationController < ActionController::Base
 
             FileUtils.mv("./public/folders/#{params[:desk]}", "./public/folders/#{@new_name}")
             puts "=======UPDATE==========="
+            @eleves = User.where(nom: @last_name)
+            puts current_user.nom
+            @eleves.each do |e|
+              e.update_attribute(:nom, @new_name)
+            end
             @compte = Compte.where(user_id: current_user.id).take
             @compte.update(nom: @new_name)
             flash[:success] = "Votre espace a bien été renommé !"
