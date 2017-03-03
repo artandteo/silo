@@ -17,6 +17,9 @@ fr:
           edition_utilisateur: "Edition d'un utilisateur"
           statistiques: "Statistiques"
 
+          nom_espace: "Nom de l'espace (20 caractères max.)"
+          titre_espace: "Titre de l'espace"
+
           nom_utilisateur: "Identifiant"
           mdp: "Mot de passe"
           valider: "Valider"
