@@ -208,9 +208,7 @@ class ApplicationController < ActionController::Base
               flash[:success] = 'Fichier téléchargé'
             else
               flash[:danger] = "Limite de fichier atteinte !"
-              
             end
-          
           else
             flash[:alert] = 'Extension non autorisé'
           end
