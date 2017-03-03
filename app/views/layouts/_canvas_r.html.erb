@@ -12,7 +12,9 @@
         <div class="accordion-content" data-tab-content>
             <%= form_for :nom_espace, method: "put", url: desk_path do |f| %>
             <%= f.label :nom, t('canvas_r.nom_espace') %>
-            <%= f.text_field :nom, onkeypress: "return verif(event);" %>
+            <%= f.text_field :nom, placeholder: @compte.nom, onkeypress: "return verif(event);", maxlength: 20 %>
+            <%= f.label :titre, t('canvas_r.titre_espace') %>
+            <%= f.text_field :titre, value: @compte.titre_espace, maxlength: 60 %>
             <br/>
             <%= f.submit :valider, value: t('canvas_r.valider'), class: "success button small" %>
             <% end %>

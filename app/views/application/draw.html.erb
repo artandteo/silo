@@ -23,7 +23,7 @@
 
 							<div class="reveal" id="renommer-folder-<%= i %>" data-reveal>
 							  <%= form_for :renommer_folder, method: "put",  url: URI.escape("/#{params[:desk]}/#{params[:draw]}/#{a}") do |f| %>
-								<%= f.label :nom, 'Nouveau nom ' %>
+								<%= f.label :nom, 'Nouveau nom (25 caractères max.)' %>
 								<%= f.text_field :new_name, maxlength: "25", value: a.replace(a.gsub('_', ' ')), onkeypress: "return verif(event);", autofocus: true %>
 								<%= f.hidden_field :last_name, value: a.replace(a.gsub(' ', '_')) %>
 								<%= f.submit :go, value: "Valider", class: "button success" %>
@@ -142,7 +142,7 @@
 
 <div class="reveal" id="creer_dossier" data-reveal>
   <%= form_for :nouv_dossier do |f| %>
-	<%= f.label :nom, 'Nom du dossier' %>
+	<%= f.label :nom, 'Nom du dossier (25 caractères max.)' %>
 	<%= f.text_field :nom, maxlength: "25",  onkeypress: "return verif(event);", autofocus: true  %>
 	<%= f.submit :valider, value: "Valider", class: "button success tiny" %>
   <% end %>

@@ -80,8 +80,11 @@ class ApplicationController < ActionController::Base
       if User.exists?(identifiant_eleve: params[:eleve][:identifiant_eleve])
         flash[:alert] = 'User existe !'
         redirect_to :back
-      elsif params[:eleve][:password].empty?
-        flash[:alert] = 'Mdp obligatoire !'
+      elsif params[:eleve][:identifiant_eleve].blank?
+        flash[:alert] = "L'élève doit avoir un identifiant !"
+        redirect_to :back
+      elsif params[:eleve][:password].blank?
+        flash[:alert] = 'Le mot de passe est obligatoire !'
         redirect_to :back
       else
         @eleve.save
@@ -227,25 +230,51 @@ class ApplicationController < ActionController::Base
     if params.include?(:nom_espace)
       @last_name = current_user.nom
       @new_name = params[:nom_espace][:nom].to_s.gsub(' ', '_')
-      if Dir.exists?("./public/folders/#{current_user.nom}")
-        if !Dir.exists?("./public/folders/#{@new_name}")
-          puts "======= UPDATE ============="
-          if current_user.update_attribute(:nom, @new_name)
+      # Mise à jour du titre de l'espace
+      if params[:nom_espace][:nom].blank? && !params[:nom_espace][:titre].blank?
+        if params[:nom_espace][:nom].length <= 60
+          @compte = Compte.where(user_id: current_user.id).take
+          @compte.update(titre_espace: params[:nom_espace][:titre])
+          flash[:success] = "Le titre de l'espace a été sauvegardé."
+          redirect_to :back
+        else 
+          flash[:danger] = "Le nombre de caractères maximum dooit être de 60."
+          redirect_to :back
+        end
 
-            FileUtils.mv("./public/folders/#{params[:desk]}", "./public/folders/#{@new_name}")
-            puts "=======UPDATE==========="
-            @eleves = User.where(nom: @last_name)
-            puts current_user.nom
-            @eleves.each do |e|
-              e.update_attribute(:nom, @new_name)
+      # Mise à jour du nom de dossier
+      else
+        if !params[:nom_espace][:nom].blank? && !params[:nom_espace][:titre].blank?
+          if params[:nom_espace][:nom].length <= 20
+            if params[:nom_espace][:nom].length <= 60
+              if !Dir.exists?("./public/folders/#{@new_name}")
+                puts "======= UPDATE ============="
+                if current_user.update_attribute(:nom, @new_name)
+
+                  FileUtils.mv("./public/folders/#{params[:desk]}", "./public/folders/#{@new_name}")
+                  @eleves = User.where(nom: @last_name)
+                  puts current_user.nom
+                  @eleves.each do |e|
+                    e.update_attribute(:nom, @new_name)
+                  end
+                  @compte = Compte.where(user_id: current_user.id).take
+                  @compte.update(nom: @new_name, titre_espace: params[:nom_espace][:titre])
+                  flash[:success] = "Votre espace a bien été renommé !"
+                  redirect_to desk_path
+                end
+              else
+                flash[:danger] = "Le nom de l'espace existe déjà !"
+                redirect_to :back
+              end
+            else
+              flash[:danger] = "Le nombre de caractères maximum dooit être de 60."
+              redirect_to :back
             end
-            @compte = Compte.where(user_id: current_user.id).take
-            @compte.update(nom: @new_name)
-            flash[:success] = "Votre espace a bien été renommé !"
-            redirect_to desk_path
+          else 
+            flash[:danger] = "Le nombre de caractères maximum doit être de 20."
           end
-        else
-          flash[:danger] = "Le nom de l'espace existe déjà !"
+        else 
+          flash[:danger] = "Le titre de l'espace ne doit pas être rempli !"
           redirect_to :back
         end
       end
