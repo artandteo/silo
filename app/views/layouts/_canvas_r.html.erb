@@ -1,8 +1,8 @@
 <% if user_signed_in? && current_user.is_admin? %>
 <p class="text-center">
-    <a href="/"><img src="/img/fr.png" class="config-logo" alt="Langue française"/></a>
-    <a href="/en<%= request.path %>"><img src="/img/en.png" class="config-logo" alt="Langue anglaise"/></a>
-    <a href="#"><img src="/img/br.png" class="config-logo" alt="Langue brésilienne"/></a>
+    <a href="<%= url_for( :locale => 'fr' ) %>"><img src="/img/fr.png" class="config-logo" alt="Langue française"/></a>
+    <a href="<%= url_for( :locale => 'en' ) %>"><img src="/img/en.png" class="config-logo" alt="Langue anglaise"/></a>
+    <a href="<%= url_for( :locale => 'br' ) %>"><img src="/img/br.png" class="config-logo" alt="Langue brésilienne"/></a>
 </p>
 
 <h4 class="text-center"><%= t('canvas_r.admin_user_titre') %></h4>
