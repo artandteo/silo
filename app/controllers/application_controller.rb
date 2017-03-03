@@ -80,8 +80,11 @@ class ApplicationController < ActionController::Base
       if User.exists?(identifiant_eleve: params[:eleve][:identifiant_eleve])
         flash[:alert] = 'User existe !'
         redirect_to :back
-      elsif params[:eleve][:password].empty?
-        flash[:alert] = 'Mdp obligatoire !'
+      elsif params[:eleve][:identifiant_eleve].blank?
+        flash[:alert] = "L'élève doit avoir un identifiant !"
+        redirect_to :back
+      elsif params[:eleve][:password].blank?
+        flash[:alert] = 'Le mot de passe est obligatoire !'
         redirect_to :back
       else
         @eleve.save
