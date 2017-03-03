@@ -8,10 +8,15 @@
 
 if Palette.count == 0
 	Palette.create(:ref => "1", :c1 => "FF5B2B", :c2 => "B1221C", :c3 => "34393E", :c4 => "8CC6D7", :c5 => "FFDA8C")
-	Palette.create(:ref => "2", :c1 => "FFF200", :c2 => "E8860C", :c3 => "FF0000", :c4 => "780CE8", :c5 => "0D8AFF")
-	Palette.create(:ref => "3", :c1 => "8AFF80", :c2 => "E8D280", :c3 => "FF9680", :c4 => "BC80E8", :c5 => "80D8FF")
-	Palette.create(:ref => "4", :c1 => "6700FF", :c2 => "0CCAE8", :c3 => "3EFF00", :c4 => "E8AF0C", :c5 => "FF1E00")
+	Palette.create(:ref => "2", :c1 => "6C858F", :c2 => "090C1B", :c3 => "21242E", :c4 => "080A0D", :c5 => "DDB679")
+	Palette.create(:ref => "3", :c1 => "850043", :c2 => "0B3A6F", :c3 => "00927B", :c4 => "006360", :c5 => "000000")
+	Palette.create(:ref => "4", :c1 => "697EBD", :c2 => "F0D946", :c3 => "B1568C", :c4 => "579466", :c5 => "2F348B")
 	Palette.create(:ref => "5", :c1 => "8CABBF", :c2 => "5E727F", :c3 => "BBE4FF", :c4 => "2F3940", :c5 => "A8CDE5")
+	Palette.create(:ref => "6", :c1 => "45CCFF", :c2 => "49E83E", :c3 => "FFD432", :c4 => "E84B30", :c5 => "B243FF")
+	Palette.create(:ref => "7", :c1 => "694137", :c2 => "5F4F38", :c3 => "94764E", :c4 => "A35143", :c5 => "AA474B")
+	Palette.create(:ref => "8", :c1 => "00B79A", :c2 => "2D00FF", :c3 => "FF0000", :c4 => "E8A30C", :c5 => "5FFF0D")
+	Palette.create(:ref => "9", :c1 => "9A896D", :c2 => "A49476", :c3 => "816F4D", :c4 => "836745", :c5 => "644C30")
+	Palette.create(:ref => "10", :c1 => "424B5F", :c2 => "3B6169", :c3 => "597074", :c4 => "E0D289", :c5 => "DB3D37")
 end
 
 if Polices.count == 0
@@ -25,6 +30,17 @@ if Image.count == 0
 	Image.create(:ref => "1", :nom => "")
 	Image.create(:ref => "2", :nom => "bandeau_music.jpg")
 	Image.create(:ref => "3", :nom => "bandeau_cahier.jpg")
+	Image.create(:ref => "4", :nom => "bandeau_batterie.jpg")
+	Image.create(:ref => "5", :nom => "bandeau_flash.jpg")
+	Image.create(:ref => "6", :nom => "bandeau_geo.jpg")
+	Image.create(:ref => "7", :nom => "bandeau_langues.jpg")
+	Image.create(:ref => "8", :nom => "bandeau_litterature.jpg")
+	Image.create(:ref => "9", :nom => "bandeau_math.jpg")
+	Image.create(:ref => "10", :nom => "bandeau_piano.jpg")
+	Image.create(:ref => "11", :nom => "bandeau_saxo.jpg")
+	Image.create(:ref => "12", :nom => "bandeau_sport.jpg")
+	Image.create(:ref => "13", :nom => "bandeau_techno.jpg")
+	Image.create(:ref => "14", :nom => "bandeau_violon.jpg")
 end
 
 if Layout.count == 0
