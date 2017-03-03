@@ -14,7 +14,7 @@ fr:
           admin_user_titre: "Administration"
           renommer_espace: "Renommer mon espace"
           creation_utilisateur: "Création d'un utilisateur"
-          edition_utilisateur: "Edition d'un utilisateur"
+          edition_utilisateur: "Suppression d'un utilisateur"
           statistiques: "Statistiques"
 
           nom_espace: "Nom de l'espace (20 caractères max.)"
