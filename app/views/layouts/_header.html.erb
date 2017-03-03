@@ -7,7 +7,7 @@
     <% end %>
   </div>
 
-  <div class="medium-8">
+  <div class="medium-6">
     <% if user_signed_in? %>
       <a class="float-left" href="<%= root_path %>"><h1><%= @compte.titre_espace.gsub(/_/, " ") %></h1></a>
     <% else %>
@@ -16,7 +16,7 @@
   </div>
 
   <% if user_signed_in? && current_user.is_admin? %>
-    <div class="medium-1 help">
+    <div class="medium-1  medium-offset-2 help">
       <a title="Aide" href="#"><i class="fa fa-question" aria-hidden="true"></i></a>
     </div>
     <!-- <div class="medium-1">

@@ -84,6 +84,7 @@ header{
 			padding-top: 5px;
 			color: $blanc;
 			font-size: 1.7em;
+			text-align: left;
 		}
 		h1:hover {
 			opacity: 0.5;
@@ -392,7 +393,7 @@ a.accordion-title {
 }
 
 @media (max-width: 940px) {
-	header ~ h1 {
-		font-size: 14px;
+	header {
+		h1 {font-size: 14px;}
 	}
 }
