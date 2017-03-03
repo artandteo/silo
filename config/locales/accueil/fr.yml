@@ -1,9 +1,9 @@
-fr: 
-    accueil: 
-        nom: "Nom attribué à votre espace (20 caractères max.)"
+fr:
+    accueil:
+        nom: "Nom attribué à votre espace (20 car. max.)"
         email: "Votre adresse email (ou identifiant élève)"
         mdp: "Votre mot de passe"
-        confirmer_mdp: "Confirmer le mot de passe"  
+        confirmer_mdp: "Confirmer le mot de passe"
         char_min: "6 caractères min."
         se-souvenir: "Se souvenir de moi"
         btn-inscription: "S'inscrire"
@@ -14,4 +14,3 @@ fr:
         mentions_legales: "Mentions légales"
 
         root_path: "ACCUEIL"
-

@@ -1,1 +1,16 @@
-en: 
+en:
+    accueil:
+        nom: "Your space name (20 car. max.)"
+        email: "Your mail address (or student identifier)"
+        mdp: "Your password"
+        confirmer_mdp: "Confirm your password"
+        char_min: "6 caracters min."
+        se-souvenir: "Remember me"
+        btn-inscription: "Sign in"
+        btn-connexion: "Log in"
+        connexion: "Log in"
+        deconnexion: "Log out"
+        contact: "Contact us"
+        mentions_legales: "Policies"
+
+        root_path: "HOME"
