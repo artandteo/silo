@@ -43,17 +43,10 @@
 
         <main class="">
           <% flash.each do |key, value| %>
-<<<<<<< HEAD
-             <div class="callout <%= key %>" data-closable><p><%= value %></p>
-               <button class="close-button" aria-label="Dismiss alert" type="button" data-close>
-                 <span aria-hidden="true">&times;</span>
-               </button>
-=======
              <div class="callout <%= key %>" style="margin-top: 7px" data-closable><%= value %>
               <button class="close-button" aria-label="Dismiss alert" type="button" data-close>
                 <span aria-hidden="true">&times;</span>
               </button>
->>>>>>> 73dbc61bb1102d4e348b8a6a675c627c243a735c
              </div>
           <% end %>
           <%= yield %>
