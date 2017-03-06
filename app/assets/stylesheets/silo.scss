@@ -47,12 +47,35 @@ a:hover {
 	opacity: 0.5;
 }
 
+table {
+	tbody {
+		background: none;
+		border: none;
+		tr {
+			border: none;
+			td {
+				border: none;
+			}
+		}
+	}
+}
+
+tbody tr:nth-child(even) {
+	background: none;
+}
+
 [type='radio'] {
 	margin-right: 10px;
 	padding-bottom: 10px;
 }
 
-.callout { text-align: center; }
+.callout {
+	text-align: center;
+	width: 50%;
+	margin: auto;
+	margin-top: 7px;
+	margin-bottom: 7px;
+}
 
 .success.button.tiny, .success.button.small {
 	color: $blanc;
@@ -350,8 +373,11 @@ div .edition {
 	}
 }
 
-.lk_apercu {
+.lk_apercu i {
 	padding-left: 15px;
+}
+.apercu {
+	padding-left: 10px;
 }
 
 // ------------- Canvas ----------------

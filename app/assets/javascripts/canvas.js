@@ -28,7 +28,7 @@ document.addEventListener("turbolinks:load", function() {
     $( ".color2" ).css( "background-color", col2 );
     $( ".draw_add i" ).css( "color", col2 );
     $( ".is-active>a" ).css("background", col2);
-    $( ".color3, .switch-paddle, .success" ).css( "background-color", col3 );
+    $( ".color3, .switch-paddle, button.success" ).css( "background-color", col3 );
     $( ".color4" ).css( "background-color", col4 );
     $( "h1, h2, h3, h4, h5, h6, p, li, a" ).css( "font-family", police );
     $( "#bandeau img" ).attr({

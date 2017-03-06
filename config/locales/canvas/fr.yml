@@ -17,7 +17,7 @@ fr:
           edition_utilisateur: "Suppression d'un utilisateur"
           statistiques: "Statistiques"
 
-          nom_espace: "Nom de l'espace (20 caractères max.)"
+          nom_espace: "Nom de l'espace (20 car. max.)"
           titre_espace: "Titre de l'espace"
 
           nom_utilisateur: "Identifiant"

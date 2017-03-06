@@ -70,7 +70,7 @@ class ApplicationController < ActionController::Base
     #             AJOUT D'UN ELEVE
     #-------------------------------------------
     if params.include?(:eleve)
-      
+
       @eleve = User.new(eleve_params)
       @eleve.nom = current_user.nom
       @eleve.is_admin = 0
@@ -203,7 +203,7 @@ class ApplicationController < ActionController::Base
           directory = "public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:dossier_courant]}/"
           path = File.join(directory, filename)
           Dir[File.join("public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:dossier_courant]}/", '**', '*')].count
-          if authorized_ext.include? File.extname(path) 
+          if authorized_ext.include? File.extname(path)
             puts "============ TEST FILE EXTENSION ==============="
             if Dir[File.join("public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:dossier_courant]}/", '**', '*')].count != 25
               puts "============ TEST FILE COUNT ==============="
@@ -218,9 +218,9 @@ class ApplicationController < ActionController::Base
         else
             flash[:danger] = "La taille du fichier doit être inférieur ou égale à 2mo !"
         end
-      end 
+      end
       redirect_to :back
-    end   
+    end
   end
 
   # Renommer le nom d'un draw
@@ -240,7 +240,7 @@ class ApplicationController < ActionController::Base
           @compte.update(titre_espace: params[:nom_espace][:titre])
           flash[:success] = "Le titre de l'espace a été sauvegardé."
           redirect_to :back
-        else 
+        else
           flash[:danger] = "Le nombre de caractères maximum dooit être de 60."
           redirect_to :back
         end
@@ -273,10 +273,10 @@ class ApplicationController < ActionController::Base
               flash[:danger] = "Le nombre de caractères maximum dooit être de 60."
               redirect_to :back
             end
-          else 
+          else
             flash[:danger] = "Le nombre de caractères maximum doit être de 20."
           end
-        else 
+        else
           flash[:danger] = "Le titre de l'espace ne doit pas être rempli !"
           redirect_to :back
         end
@@ -451,9 +451,47 @@ class ApplicationController < ActionController::Base
     if params.include?(:titre_rename)
       puts "rename"
       puts params[:video]
+      # rename
+      file = File.open("public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:folder]}/videos.txt", "r")
+        data = file.read
+      file.close
+      data = data.split(';')
+      @titre_r = params[:video]
+      @new_titre = params[:titre_rename][:new_titre]
+      i = 0
+      data.each do |e|
+        if e == @titre_r
+           data[i] = @new_titre
+        end
+        i = i +1
+      end
+      data = data * ";"
+      file = File.open("public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:folder]}/videos.txt", "w")
+        file.write(data)
+      file.close
+      redirect_to :back
     else
       # suppresion
       puts "suppresion"
+      file = File.open("public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:folder]}/videos.txt", "r")
+        data = file.read
+      file.close
+      data = data.split(';')
+      @titre_d = params[:video]
+      i = 0
+      data.each do |e|
+        if e == @titre_d
+          @lien_d = data[i+1]
+        end
+        i = i +1
+      end
+      data.delete(@titre_d)
+      data.delete(@lien_d)
+      data = data * ";"
+      file = File.open("public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:folder]}/videos.txt", "w")
+        file.write(data)
+      file.close
+      redirect_to :back
     end
   end
 

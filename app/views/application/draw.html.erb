@@ -64,56 +64,85 @@
 						<% end %> <!-- end if -->
 						<div class="row">
 							<div class="medium-4">
+								<table>
+
 						<!-- affichage des titres des videos et creation des liens -->
 									<% if @table_videos[i] != nil %>
 										<% 0.step(@table_videos[i].length-1, 2) do |j| %>
+										<tr>
+											<td>
 													<a class="lk_apercu" data="<%= @table_videos[i][j+1] %>" target="apercu">
 														<i class="fa fa-file-video-o size-36 step" aria-hidden="true"></i>
+													</a>
+											</td>
+											<td>
+												  <a class="lk_apercu" data="<%= @table_videos[i][j+1] %>" target="apercu">
 														<%= @table_videos[i][j] %>
 													</a>
+											</td>
 													<% if current_user.is_admin? %>
+													<td>
 														<a class="toggle_admin" href="<%= videos_path(params[:desk], params[:draw], @arr[i], @table_videos[i][j]) %>" data-method="post"><i class="fa fa-trash" aria-hidden="true"></i></a>
+													</td>
+													<td>
 														<a class="toggle_admin" data-open="rename_titre-<%= i %>"><i class="fa fa-file-text" aria-hidden="true"></i></a>
+													</td>
 													<% end %> <!-- end if -->
 													<!-- Lien de telechargement pour les petits ecrans et mobiles -->
-														<a class="mobile_only" target="_blank" href="<%= @table_videos[i][j+1] %>">
-														<i class="fa fa-external-link" aria-hidden="true"></i>
+													<td>
+														<a class="" target="_blank" href="<%= @table_videos[i][j+1] %>">
+														<i class="fa fa-external-link size-24" aria-hidden="true"></i>
 														</a>
+													</td>
 													<!-- Fin de Lien de telechargement pour les petits ecrans et mobiles -->
-													<br />
+
 													<div class="reveal" id="rename_titre-<%= i %>" data-reveal>
 														<%= form_for :titre_rename, url: videos_path(params[:desk], params[:draw], @arr[i], @table_videos[i][j]) do |f| %>
-														<%= f.label :nom, 'Nouveau titre ' %>
-														<%= f.text_field :new_titre, autofocus: true  %>
-														<%= f.submit :go, value: "Valider", class: "button success" %>
-														<% end %> <!-- end form do -->
+  														<%= f.label :nom, 'Nouveau titre ' %>
+  														<%= f.text_field :new_titre, autofocus: true  %>
+  														<%= f.submit :go, value: "Valider", class: "button success" %>
+  														<% end %> <!-- end form do -->
 
 														<button class="close-button" data-close aria-label="Close modal" type="button">
 															<span aria-hidden="true">&times;</span>
 														</button>
 													</div>
-										<% end %> <!-- end for j -->
+										</tr>
+										<% end %> <!-- end step j -->
 									<% end %> <!-- end if -->
 						<!-- fin de affichage des titres des videos et creation des liens -->
 						<!-- affichage des fichiers creation des liens -->
 				        	<% if @table[i] != nil %>
 					        	<% for j in 0..@table[i].length-1 %>
+										<tr>
+											<td>
 													<a class="lk_apercu" data="/folders/<%= params[:desk] %>/<%= params[:draw] %>/<%= @arr[i] %>/<%= @table[i][j] %>" target="apercu">
 														<% if is_PDF?(@table[i][j]) %><i class="fa fa-file-pdf-o size-36 step" aria-hidden="true"></i> <% end %>
 														<% if is_MP3?(@table[i][j]) %><i class="fa fa-file-audio-o size-36 step" aria-hidden="true"></i><% end %>
 														<% if is_JPG?(@table[i][j]) %><i class="fa fa-file-image-o size-36 step" aria-hidden="true"></i><% end %>
+													</a>
+											</td>
+											<td>
+												  <a class="lk_apercu" data="/folders/<%= params[:desk] %>/<%= params[:draw] %>/<%= @arr[i] %>/<%= @table[i][j] %>" target="apercu">
 														<%= @table[i][j] %>
 													</a>
+											</td>
 													<% if current_user.is_admin? %>
+													<td>
 					        					<a class="toggle_admin" href="<%= files_path(params[:desk], params[:draw], @arr[i], @table[i][j]) %>" data-method="delete" data-confirm="Souhaitez-vous supprimer le fichier <%= @table[i][j] %> ? Cette action est irréversible et ne peux être annuler."><i class="fa fa-trash" aria-hidden="true"></i></a>
+													</td>
+													<td>
 														<a class="toggle_admin" data-open="rename_file-<%= j %>"><i class="fa fa-file-text" aria-hidden="true"></i></a>
+													</td>
 													<% end %> <!-- end if -->
 													<!-- Lien de telechargement pour les petits ecrans et mobiles -->
-														<a class="mobile_only" target="_blank" href="/folders/<%= params[:desk] %>/<%= params[:draw] %>/<%= @arr[i] %>/<%= @table[i][j] %>">
-														<i class="fa fa-external-link" aria-hidden="true"></i>
+													<td>
+														<a class="" target="_blank" href="/folders/<%= params[:desk] %>/<%= params[:draw] %>/<%= @arr[i] %>/<%= @table[i][j] %>">
+														<i class="fa fa-external-link size-24" aria-hidden="true"></i>
 														</a>
+													</td>
 													<!-- Fin de Lien de telechargement pour les petits ecrans et mobiles -->
-													<br />
+
 		        					<div class="reveal" id="rename_file-<%= j %>" data-reveal>
 											  <%= form_for :file_rename, url:  URI.escape("/#{params[:desk]}/#{params[:draw]}/#{@arr[i]}/#{@table[i][j]}/"), method: 'put' do |f| %>
 												<%= f.label :nom, 'Nouveau nom ' %>
@@ -126,9 +155,11 @@
 											    <span aria-hidden="true">&times;</span>
 											  </button>
 											</div>
+										</tr>
 		        				<% end %> <!-- end for j -->
 	        				<% end %> <!-- end if -->
 							<!-- fin de affichage des fichiers creation des liens -->
+							</table>
 							</div> <!-- fermeture de medium-4 -->
 							<div class="medium-8 apercu">
 									<iframe id="apercu" width="100%" height="70px" frameborder="0" allowfullscreen></iframe>
