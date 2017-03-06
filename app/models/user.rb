@@ -5,7 +5,7 @@ class User < ApplicationRecord
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :confirmable
-         
+
   validates :password, length: { minimum: 6, message: " doit être plus grand (6 caratères minimum)" }, on: :update
   validates_confirmation_of :password, on: :update
 
@@ -21,6 +21,7 @@ class User < ApplicationRecord
   def after_confirmation
   	@last = User.last
     @last.update_attribute(:nom, @last.nom.to_s.gsub(/\s+/, '_'))
+    @last.update_attribute(:is_admin, 1)
     if !Dir.exists?(File.join("./public/folders/", @last.nom))
       Dir.mkdir(File.join("./public/folders/", @last.nom), 0777)
       @compte = Compte.new(nom: @last.nom, user_id: @last.id, titre_espace: "Mon Silo")
@@ -30,5 +31,5 @@ class User < ApplicationRecord
     end
   end
 
-  private 
+  private
 end
