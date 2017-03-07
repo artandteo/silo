@@ -16,7 +16,7 @@
 									<div class="edition">
 										<div class="toggle_admin">
 											<a data-open="renommer-folder-<%= i %> %>"><i class="fa fa-file-text" aria-hidden="true"></i></a>
-											<a href="<%= folder_path(params[:desk], params[:draw], a.replace(a.gsub("_", ' '))) %>" data-method="delete" data-confirm="Souhaitez-vous supprimer le dossier <%= a.replace(a.gsub("_", ' ')) %> ? Cette action est irréversible et ne peux être annuler."><i class="fa fa-trash" aria-hidden="true"></i></a>
+											<a href="<%= folder_path(params[:desk], params[:draw], a.replace(a.gsub(" ", '_'))) %>" data-method="delete" data-confirm="Souhaitez-vous supprimer le dossier <%= a.replace(a.gsub("_", ' ')) %> ? Cette action est irréversible et ne peux être annuler."><i class="fa fa-trash" aria-hidden="true"></i></a>
 										</div>
 									</div>
 								<% end %> <!-- end if -->
@@ -54,16 +54,16 @@
 						<% end %>
 						<% if current_user.is_admin? %>
 							<div class="row">
-								<div class="medium-2 text-center">
+								<div class="small-6 medium-6 text-center">
 									<a class="toggle_admin" data-open="telech_fichier-<%= @arr[i] %>"><button type="button" class="button success tiny">Ajouter un nouveau fichier</button></a>
 								</div>
-								<div class="medium-2 text-center">
+								<div class="small-6 medium-6 text-center">
 									<a class="toggle_admin" data-open="lien_youtube-<%= @arr[i] %>"><button type="button" class="button success tiny">Ajouter un lien YouTube</button></a>
 								</div>
 							</div>
 						<% end %> <!-- end if -->
-						<div class="row">
-							<div class="medium-4">
+						<div class="row small-up-1 medium-up-1 large-up-2">
+							<div class="column column-block">
 								<table>
 
 						<!-- affichage des titres des videos et creation des liens -->
@@ -161,8 +161,11 @@
 							<!-- fin de affichage des fichiers creation des liens -->
 							</table>
 							</div> <!-- fermeture de medium-4 -->
-							<div class="medium-8 apercu">
-									<iframe id="apercu" width="100%" height="70px" frameborder="0" allowfullscreen></iframe>
+							<div class="column column-block apercu">
+								<button class="close-apercu" type="button">
+									<span aria-hidden="true">&times; <span class="btn-txt"><%= t('draw.close') %></span></span>
+								</button>
+								<iframe id="apercu" width="100%" height="70px" frameborder="0" allowfullscreen></iframe>
 							</div>
 						</div> <!-- fermeture de la row -->
 					</div> <!-- fermeture tabs-panel -->

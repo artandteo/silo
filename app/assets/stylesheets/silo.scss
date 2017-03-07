@@ -320,14 +320,14 @@ div .edition {
 	position: relative;
 	float: right;
 	display: none;
-	background-color: $col3;
+	background: none;
 	padding-bottom: 5px;
 	top: -32px;
 }
 
 .is-active + .edition {
 	display: block;
-	background-color: $col3;
+	background: none;
 	padding-bottom: 5px;
 	a {
 		color: $blanc;
@@ -378,6 +378,19 @@ div .edition {
 }
 .apercu {
 	padding-left: 10px;
+}
+.close-apercu {
+	font-size: 30px;
+	display: none;
+	span {
+		color: $blanc;
+		.btn-txt {
+			font-size: 14px;
+		}
+	}
+}
+.close-apercu:hover {
+	opacity: 0.5;
 }
 
 // ------------- Canvas ----------------

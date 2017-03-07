@@ -21,7 +21,7 @@ document.addEventListener("turbolinks:load", function() {
 
     // --------- MODIFICATION DOM EN FONCTION DES PREFERENCES -----------
 
-    $( ".top-bar, .footer, .tabs-content, .edition" ).css( "background-color", col2 );
+    $( ".top-bar, .footer, .tabs-content" ).css( "background-color", col2 );
     $( "#breadcrumb").css( "background-color", col3);
     $( ".color0" ).css( "background-color", col0 );
     $( ".color1" ).css( "background-color", col1 );
@@ -82,13 +82,20 @@ document.addEventListener("turbolinks:load", function() {
     {
       $( "a.lk_apercu").click(function() {
         var src = ($(this).attr('data'));
+        $( ".apercu").css('display', 'block');
         $( ".apercu>iframe" ).attr('src',src);
+        $( ".close-apercu").css('display','block');
         var ext = src.charAt(src.length-3)+src.charAt(src.length-2)+src.charAt(src.length-1);
         if (ext === 'mp3') {$( ".apercu>iframe" ).attr('height','50px');}
         else if (ext === 'pdf') {$( ".apercu>iframe" ).attr('height','800px');}
         else $( ".apercu>iframe" ).attr('height','480px');
       });
     }
+    //bouton close aperçu
+    $( ".close-apercu").click(function() {
+      $( ".apercu").css('display', 'none');
+      $( ".apercu>iframe" ).attr('src','');
+    });
 
     // Extension du a href des box à toute la div enfant
 
