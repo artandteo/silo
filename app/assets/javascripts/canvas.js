@@ -51,6 +51,8 @@ document.addEventListener("turbolinks:load", function() {
       $( ".tabs-title>a" ).css( "background", "#F2F2F2");
       $( "iframe" ).attr('src','');
       $(this).css( "background", col2 );
+      $( ".apercu").css('display', 'none');
+      $( ".apercu>iframe" ).attr('src','');
     });
 
     // Action et changement de couleur lors du click sur un accordion des canvas
