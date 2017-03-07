@@ -112,7 +112,13 @@ header{
 		h1:hover {
 			opacity: 0.5;
 		}
+		i{
+			color: $blanc;
+		}
   }
+}
+.noverflow {
+	overflow: hidden;
 }
 
 .mobile_only {
@@ -392,6 +398,9 @@ div .edition {
 .close-apercu:hover {
 	opacity: 0.5;
 }
+tr::after{
+	border: 1px solid $blanc;
+}
 
 // ------------- Canvas ----------------
 
@@ -437,6 +446,31 @@ a.accordion-title {
 
 @media (max-width: 940px) {
 	header {
-		h1 {font-size: 14px;}
+		h1 {font-size: 14px !important;}
+ 	}
+ 	.bread_home{
+		h4 {
+			font-size: 16px !important;
+			margin-left: 10px;
+		}
 	}
+	.bread_title{
+		h4 {font-size: 14px !important;}
+	}
+	.tabs.vertical>li>a{
+		font-size: 16px !important;
+	}
+	td>a {
+		font-size: 14px !important;
+	}
+	.step {
+		margin-right: 0px;
+	}
+	.lk_apercu i {
+		padding-left: 0px;
+	}
+	.enfant a {
+		font-size: 1.7em;
+	}
+
 }

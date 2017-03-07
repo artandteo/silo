@@ -15,7 +15,7 @@
 			</div>
 			<% if current_user.is_admin? %>
 				<div class="box_buttons toggle_admin">
-				
+
 					<a class="float-left" data-open="rename_desk-<%= i %>"><i class="fa fa-file-text" aria-hidden="true"></i></a>
 					<a class="float-right" href="<%= draw_path(params[:desk], dir.replace(dir.gsub(/\s+/, '_'))) %>" data-method="delete" data-confirm="Souhaitez-vous supprimer le dossier <%= dir %> ? Cette action est irréversible et ne peux être annuler."><i class="fa fa-trash" aria-hidden="true"></i></a>
 				</div>

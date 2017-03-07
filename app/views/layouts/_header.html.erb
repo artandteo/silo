@@ -1,5 +1,5 @@
 <div class="expanded row top-bar">
-  <div class="medium-1">
+  <div class="small-1 medium-1">
     <% if user_signed_in? && current_user.is_admin? %>
     <div class="toggle_admin">
       <button type="button" data-toggle="offCanvas"><img class="config-logo" src="/img/logo_silo_ico.png" alt="Icone de menu Silo" /></button>
@@ -7,7 +7,7 @@
     <% end %>
   </div>
 
-  <div class="medium-6">
+  <div class="small-9 medium-9 noverflow">
     <% if user_signed_in? %>
       <a class="float-left" href="<%= root_path %>"><h1><%= @compte.titre_espace.gsub(/_/, " ") %></h1></a>
     <% else %>
@@ -16,9 +16,9 @@
   </div>
 
   <% if user_signed_in? && current_user.is_admin? %>
-    <div class="medium-1  medium-offset-2 help">
-    <!--  <a title="Aide" href="#"><i class="fa fa-question" aria-hidden="true"></i></a> -->
-    </div>
+    <!-- <div class="small-1 medium-1 medium-offset-2 help">
+     <a title="Aide" href="#"><i class="fa fa-question" aria-hidden="true"></i></a>
+    </div> -->
     <!-- <div class="medium-1">
       <div class="switch tiny vertical-center">
 
@@ -33,16 +33,16 @@
     </div> -->
   <% end %>
 
-  <div class="medium-1">
+  <div class="small-1 medium-1">
     <% if user_signed_in? %>
     	<!-- Connecté en tant que <%= current_user.email %> -->
-      <a data-method="delete" href="<%= destroy_user_session_path %>"><button type="button" class="vertical-center success button tiny"><%= t('accueil.deconnexion') %></button></a>
+      <a data-method="delete" href="<%= destroy_user_session_path %>"><i class="fa fa-sign-out size-24" aria-hidden="true"></i></a>
     <% else %>
       <!-- <a href="<%= new_user_session_path %>"><button type="button" class="vertical-center float-right success button small">Se connecter</button></a> -->
     <% end %>
   </div>
 
-  <div class="medium-1">
+  <div class="small-1 medium-1">
     <% if user_signed_in? && current_user.is_admin? %>
     <div class="toggle_admin">
       <button type="button" data-toggle="offCanvas_r"><img class="config-logo" src="/img/logo_silo_ico.png" alt="Icone droit de menu Silo" /></button>
