@@ -197,7 +197,7 @@ class ApplicationController < ActionController::Base
     if params.include?(:fichiers)
       authorized_ext = [".pdf", ".jpg", ".jpeg", ".mp3"]
       params[:fichiers].each do |file|
-        if file.size <= 2097152
+        if file.size <= 6144000
           puts "============ TEST FILE SIZE ==============="
           filename = file.original_filename
           directory = "public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:dossier_courant]}/"
@@ -207,6 +207,7 @@ class ApplicationController < ActionController::Base
             puts "============ TEST FILE EXTENSION ==============="
             if Dir[File.join("public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:dossier_courant]}/", '**', '*')].count != 25
               puts "============ TEST FILE COUNT ==============="
+              flash[:success] = 'Veuillez patienter, fichier en téléchargement...'
               File.open(path, "wb") { |f| f.write(file.read) }
               flash[:success] = 'Fichier téléchargé'
             else
@@ -216,7 +217,7 @@ class ApplicationController < ActionController::Base
             flash[:alert] = 'Extension non autorisé'
           end
         else
-            flash[:danger] = "La taille du fichier doit être inférieur ou égale à 2mo !"
+            flash[:danger] = "La taille du fichier doit être inférieur ou égale à 6mo !"
         end
       end
       redirect_to :back

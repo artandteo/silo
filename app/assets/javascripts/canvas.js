@@ -9,8 +9,12 @@ var image;
 var margin;
 var minwidth;
 var radius;
+var helpon;
+x = 10;
+y = 10;
 
 document.addEventListener("turbolinks:load", function() {
+
 
     col0='#'+color0;
     col1='#'+color1;
@@ -76,6 +80,7 @@ document.addEventListener("turbolinks:load", function() {
     });
 
     // Aperçu du lien draw au clic du a href du fichier dans iframe unique
+
     var windowssize = $(window).width();
     if (windowssize < 800) {
        $(".mobile_only").css("display", "inline-block");
@@ -130,16 +135,6 @@ document.addEventListener("turbolinks:load", function() {
             $(".hidden_field").fadeIn('fast');
         }
     });
-
-    // -------------- HELP -----------------
-
-
-      $(".help>a").click(function(){
-        $("#bandeau").fadeOut(800).queue(function(){
-          $(this).dequeue();
-        });
-        alert('pause');
-      });
 
 
 });

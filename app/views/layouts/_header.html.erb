@@ -2,7 +2,7 @@
   <div class="small-1 medium-1">
     <% if user_signed_in? && current_user.is_admin? %>
     <div class="toggle_admin">
-      <button type="button" data-toggle="offCanvas"><img class="config-logo" src="/img/logo_silo_ico.png" alt="Icone de menu Silo" /></button>
+      <button type="button" data-toggle="offCanvas"><img class="pref-logo" src="/img/logo_silo_ico.png" alt="Icone de menu Silo" title="Accès aux préférences"/></button>
     </div>
     <% end %>
   </div>
@@ -16,8 +16,8 @@
   </div>
 
   <% if user_signed_in? && current_user.is_admin? %>
-    <!-- <div class="small-1 medium-1 medium-offset-2 help">
-     <a title="Aide" href="#"><i class="fa fa-question" aria-hidden="true"></i></a>
+    <!-- <div class="small-1 medium-1 help">
+     <a id="demande-aide" title="Aide" data="aide_actif" href=""><i class="fa fa-question" aria-hidden="true"></i></a>
     </div> -->
     <!-- <div class="medium-1">
       <div class="switch tiny vertical-center">
@@ -33,10 +33,10 @@
     </div> -->
   <% end %>
 
-  <div class="small-1 medium-1">
+  <div class="small-1 medium-1 out">
     <% if user_signed_in? %>
     	<!-- Connecté en tant que <%= current_user.email %> -->
-      <a data-method="delete" href="<%= destroy_user_session_path %>"><i class="fa fa-sign-out size-24" aria-hidden="true"></i></a>
+      <a title="<%= t('accueil.deconnexion') %>" data-method="delete" href="<%= destroy_user_session_path %>"><i class="fa fa-sign-out size-24" aria-hidden="true"></i></a>
     <% else %>
       <!-- <a href="<%= new_user_session_path %>"><button type="button" class="vertical-center float-right success button small">Se connecter</button></a> -->
     <% end %>
@@ -45,7 +45,7 @@
   <div class="small-1 medium-1">
     <% if user_signed_in? && current_user.is_admin? %>
     <div class="toggle_admin">
-      <button type="button" data-toggle="offCanvas_r"><img class="config-logo" src="/img/logo_silo_ico.png" alt="Icone droit de menu Silo" /></button>
+      <button type="button" data-toggle="offCanvas_r"><img class="config-logo" src="/img/logo_silo_ico.png" alt="Icone droit de menu Silo" title="Accès à l'administration"/></button>
     </div>
     <% end %>
   </div>

@@ -15,7 +15,7 @@ fr:
           renommer_espace: "Renommer mon espace"
           creation_utilisateur: "Création d'un utilisateur"
           edition_utilisateur: "Suppression d'un utilisateur"
-          statistiques: "Statistiques"
+          statistiques: "Stockage"
 
           nom_espace: "Nom de l'espace (20 car. max.)"
           titre_espace: "Titre de l'espace"
