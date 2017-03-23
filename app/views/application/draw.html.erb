@@ -15,7 +15,7 @@
 								<% if current_user.is_admin? %>
 									<div class="edition">
 										<div class="toggle_admin">
-											<a data-open="renommer-folder-<%= i %> %>"><i class="fa fa-file-text" aria-hidden="true"></i></a>
+											<a data-open="renommer-folder-<%= i %> %>"><i class="fa fa-pencil" aria-hidden="true"></i></a>
 											<a href="<%= folder_path(params[:desk], params[:draw], a.replace(a.gsub(" ", '_'))) %>" data-method="delete" data-confirm="Souhaitez-vous supprimer le dossier <%= a.replace(a.gsub("_", ' ')) %> ? Cette action est irréversible et ne peux être annuler."><i class="fa fa-trash" aria-hidden="true"></i></a>
 										</div>
 									</div>
@@ -85,7 +85,7 @@
 														<a class="toggle_admin" href="<%= videos_path(params[:desk], params[:draw], @arr[i], @table_videos[i][j]) %>" data-method="post"><i class="fa fa-trash" aria-hidden="true"></i></a>
 													</td>
 													<td>
-														<a class="toggle_admin" data-open="rename_titre-<%= i %>"><i class="fa fa-file-text" aria-hidden="true"></i></a>
+														<a class="toggle_admin" data-open="rename_titre-<%= i %>"><i class="fa fa-pencil" aria-hidden="true"></i></a>
 													</td>
 													<% end %> <!-- end if -->
 													<!-- Lien de telechargement pour les petits ecrans et mobiles -->
@@ -132,7 +132,7 @@
 					        					<a class="toggle_admin" href="<%= files_path(params[:desk], params[:draw], @arr[i], @table[i][j]) %>" data-method="delete" data-confirm="Souhaitez-vous supprimer le fichier <%= @table[i][j] %> ? Cette action est irréversible et ne peux être annuler."><i class="fa fa-trash" aria-hidden="true"></i></a>
 													</td>
 													<td>
-														<a class="toggle_admin" data-open="rename_file-<%= j %>"><i class="fa fa-file-text" aria-hidden="true"></i></a>
+														<a class="toggle_admin" data-open="rename_file-<%= j %>"><i class="fa fa-pencil" aria-hidden="true"></i></a>
 													</td>
 													<% end %> <!-- end if -->
 													<!-- Lien de telechargement pour les petits ecrans et mobiles -->

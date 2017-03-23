@@ -40,6 +40,8 @@ gem 'devise'
 gem 'foundation-rails'
 gem 'carrierwave', '~> 1.0'
 gem 'font-awesome-sass', '~> 4.7.0'
+# paiement via Paypal
+gem 'paypal-sdk-rest'
 # gem 'google_drive'
 
 group :development, :test do
