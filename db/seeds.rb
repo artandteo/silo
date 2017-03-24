@@ -50,5 +50,5 @@ end
 if Layout.count == 0
 	Layout.create(:ref => "1", :margin => "20px", :minwidth => "250px", :radius => "5px")
 	Layout.create(:ref => "2", :margin => "0", :minwidth => "320px", :radius => "0")
-	Layout.create(:ref => "3", :margin => "30px", :minwidth => "200px", :radius => "30px")
+	Layout.create(:ref => "3", :margin => "20px", :minwidth => "250px", :radius => "30px")
 end

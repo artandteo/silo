@@ -512,9 +512,17 @@ class ApplicationController < ActionController::Base
 
 
   def liste_d(folder)
-    d = Dir.open(folder)
+    arr = Array.new
+    d = Dir.entries(folder).each do |f|
+      datef = File.ctime(folder+f)
+      arr << [[f],[File.ctime(folder+f)]]
+    end
+    arr = arr.sort{ |a,b| (a[1] <=> b[1]) == 0 ? (a[0] <=> b[0]) : (a[1] <=> b[1]) }
+    arr.flatten!
+    arr.delete_if { |object| !object.is_a?(String) }
+    d = arr
     liste_exclus = [".", "..", ".DS_Store"]
-    liste_dir = d.sort - liste_exclus
+    liste_dir = d - liste_exclus
 
     i = 0
     @arr = Array.new
@@ -527,9 +535,19 @@ class ApplicationController < ActionController::Base
   end
 
   def liste_f(dir)
-    d = Dir.open(dir)
+    arr = Array.new
+    d = Dir.entries(dir).each do |f|
+      datef = File.ctime(dir+f)
+      arr << [[f],[File.ctime(dir+f)]]
+    end
+        puts arr.inspect
+    arr = arr.sort{ |a,b| (a[1] <=> b[1]) == 0 ? (a[0] <=> b[0]) : (a[1] <=> b[1]) }
+    arr.flatten!
+    arr.delete_if { |object| !object.is_a?(String) }
+    puts arr.inspect
+    d = arr.reverse
     liste_exclus = [".", "..", ".DS_Store"]
-    liste_dir = d.sort - liste_exclus
+    liste_dir = d - liste_exclus
 
     a = 0
     @files = Array.new
