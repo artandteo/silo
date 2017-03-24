@@ -124,7 +124,7 @@ class ApplicationController < ActionController::Base
 
       ko = size / 1024
       mo = ko.round(2) / 1024
-      @total = mo / 500 * 100
+      @total = mo / 250 * 100
       @mo_used = mo
       @mo_used = mo.round(2)
       @total = @total.round
