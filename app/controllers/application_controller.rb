@@ -514,7 +514,7 @@ class ApplicationController < ActionController::Base
   def liste_d(folder)
     arr = Array.new
     d = Dir.entries(folder).each do |f|
-      arr << [[f],[File.birthtime(folder+f)]]
+      arr << [[f],[File.ctime(folder+f)]]
     end
     arr = arr.sort{ |a,b| (a[1] <=> b[1]) == 0 ? (a[0] <=> b[0]) : (a[1] <=> b[1]) }
     arr.flatten!
@@ -536,7 +536,7 @@ class ApplicationController < ActionController::Base
   def liste_f(dir)
     arr = Array.new
     d = Dir.entries(dir).each do |f|
-      arr << [[f],[File.birthtime(dir+f)]]
+      arr << [[f],[File.ctime(dir+f)]]
     end
         puts arr.inspect
     arr = arr.sort{ |a,b| (a[1] <=> b[1]) == 0 ? (a[0] <=> b[0]) : (a[1] <=> b[1]) }
