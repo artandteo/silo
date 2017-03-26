@@ -464,7 +464,7 @@ class ApplicationController < ActionController::Base
         if e == @titre_r
            data[i] = @new_titre
         end
-        i = i +1
+        i = i + 1
       end
       data = data * ";"
       file = File.open("public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:folder]}/videos.txt", "w")
@@ -484,7 +484,7 @@ class ApplicationController < ActionController::Base
         if e == @titre_d
           @lien_d = data[i+1]
         end
-        i = i +1
+        i = i + 1
       end
       data.delete(@titre_d)
       data.delete(@lien_d)
@@ -514,8 +514,7 @@ class ApplicationController < ActionController::Base
   def liste_d(folder)
     arr = Array.new
     d = Dir.entries(folder).each do |f|
-      datef = File.ctime(folder+f)
-      arr << [[f],[File.ctime(folder+f)]]
+      arr << [[f],[File.birthtime(folder+f)]]
     end
     arr = arr.sort{ |a,b| (a[1] <=> b[1]) == 0 ? (a[0] <=> b[0]) : (a[1] <=> b[1]) }
     arr.flatten!
@@ -537,8 +536,7 @@ class ApplicationController < ActionController::Base
   def liste_f(dir)
     arr = Array.new
     d = Dir.entries(dir).each do |f|
-      datef = File.ctime(dir+f)
-      arr << [[f],[File.ctime(dir+f)]]
+      arr << [[f],[File.birthtime(dir+f)]]
     end
         puts arr.inspect
     arr = arr.sort{ |a,b| (a[1] <=> b[1]) == 0 ? (a[0] <=> b[0]) : (a[1] <=> b[1]) }
