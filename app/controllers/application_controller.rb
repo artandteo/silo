@@ -288,9 +288,7 @@ class ApplicationController < ActionController::Base
       draw = params[:rename][:new_name].to_s.gsub(' ', '_')
       puts draw
       if !Dir.exists?("./public/folders/#{current_user.nom}/#{draw}")
-        datef = File.mtime(Rails.root.to_s+"/public/folders/#{current_user.nom}/#{params[:rename][:last_name]}")
         FileUtils.mv("./public/folders/#{current_user.nom}/#{params[:rename][:last_name]}", "./public/folders/#{current_user.nom}/#{draw}")
-        File.utime(datef,datef,"./public/folders/#{current_user.nom}/#{draw}")
         redirect_to :back
       else
         flash[:alert] = 'Le dossier existe déjà, impossible de renommer'
@@ -326,9 +324,7 @@ class ApplicationController < ActionController::Base
   def folder_rename
     folder = params[:renommer_folder][:new_name].to_s.gsub(' ', '_')
     if !Dir.exists?("./public/folders/#{current_user.nom}/#{params[:draw]}/#{folder}")
-      datef = File.mtime(Rails.root.to_s+"/public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:renommer_folder][:last_name]}")
       FileUtils.mv("./public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:renommer_folder][:last_name]}", "./public/folders/#{current_user.nom}/#{params[:draw]}/#{folder}")
-      File.utime(datef,datef,"./public/folders/#{current_user.nom}/#{params[:draw]}/#{folder}")
       flash[:success] = 'Votre dossier a bien été renommé'
       redirect_to :back
     else
@@ -351,9 +347,7 @@ class ApplicationController < ActionController::Base
   def file_rename
     filename = "#{params[:file_rename][:new_filename]}#{get_extension(params[:file_rename][:last_filename])}"
     if !File.exist?("./public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:folder]}/#{filename}")
-      datef = File.mtime(Rails.root.to_s+"/public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:folder]}/#{params[:file_rename][:last_filename]}")
       FileUtils.mv("./public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:folder]}/#{params[:file_rename][:last_filename]}", "./public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:folder]}/#{filename}")
-      File.utime(datef,datef,"./public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:folder]}/#{filename}")
       flash[:success] = 'Votre fichier a bien été renommé'
       redirect_to draw_path
     else
@@ -520,7 +514,7 @@ class ApplicationController < ActionController::Base
   def liste_d(folder)
     arr = Array.new
     d = Dir.entries(folder).each do |f|
-      arr << [[f],[File.mtime(folder+f)]]
+      arr << [[f],[Time.at(`stat -f%B "#{folder+f}"`.chomp.to_i)]]
     end
     arr = arr.sort{ |a,b| (a[1] <=> b[1]) == 0 ? (a[0] <=> b[0]) : (a[1] <=> b[1]) }
     arr.flatten!
@@ -542,7 +536,7 @@ class ApplicationController < ActionController::Base
   def liste_f(dir)
     arr = Array.new
     d = Dir.entries(dir).each do |f|
-      arr << [[f],[File.mtime(dir+f)]]
+      arr << [[f],[Time.at(`stat -f%B "#{dir+f}"`.chomp.to_i)]]
     end
         puts arr.inspect
     arr = arr.sort{ |a,b| (a[1] <=> b[1]) == 0 ? (a[0] <=> b[0]) : (a[1] <=> b[1]) }
