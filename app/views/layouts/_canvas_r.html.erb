@@ -26,10 +26,10 @@
             <%= form_for :eleve, url: desk_path(current_user.nom) do |f| %>
 
             <%= f.label :identifiant_eleve, t('canvas_r.nom_utilisateur') %>
-            <%= f.text_field :identifiant_eleve %>
+            <%= f.text_field :identifiant_eleve, value: '' %>
 
             <%= f.label :password, t('canvas_r.mdp') %>
-            <%= f.password_field :password %>
+            <%= f.password_field :password, value: '' %>
             <br/>
             <%= f.submit :valider, value: t('canvas_r.valider'), class: "success button small" %>
 
