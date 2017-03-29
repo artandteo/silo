@@ -6,9 +6,37 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-[Palette, Polices, Image, Layout].each do |table|
+[Palette, Polices, Image, Layout, Desk, Draw, Fiche].each do |table|
  ActiveRecord::Base.connection.execute("DELETE FROM #{table.table_name}")
 end
+#
+# Remplissage de Desk Draw Fiche sur la base de folders existants
+#
+arr = Array.new
+d = Dir.entries(Rails.root+"public/folders/")
+liste_exclus = [".", "..", ".DS_Store"]
+d = d - liste_exclus
+d.each do |f|
+  desk = Dir.entries(Rails.root+"public/folders/"+f)
+  desk = desk - liste_exclus
+  @compte = Compte.where("nom = '#{f}'").take
+  desk.each do |g|
+      Desk.create(:name => g.gsub(/_/, ' '), :route => g, :publish => true, :compte_id => @compte.id)
+      draw = Dir.entries(Rails.root+"public/folders/#{f}/#{g}")
+      draw = draw - liste_exclus
+      @desk = Desk.where("route = '#{g}'").take
+      draw.each do |h|
+        Draw.create(:name => h.gsub(/_/, ' '), :route => h, :publish => true, :desk_id => @desk.id)
+        fiche = Dir.entries(Rails.root+"public/folders/#{f}/#{g}/#{h}")
+        fiche = fiche - liste_exclus
+        @draw = Draw.where("route = '#{h}'").take
+        fiche.each do |i|
+          Fiche.create(:name => i.gsub(/_/, ' '), :route => i, :publish => true, :draw_id => @draw.id)
+        end
+      end
+  end
+end
+
 
 if Palette.count == 0
 	Palette.create(:ref => "1", :c1 => "FF5B2B", :c2 => "B1221C", :c3 => "34393E", :c4 => "8CC6D7", :c5 => "FFDA8C")

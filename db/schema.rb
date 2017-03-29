@@ -10,13 +10,44 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170303084419) do
+ActiveRecord::Schema.define(version: 20170328121908) do
 
   create_table "comptes", force: :cascade do |t|
     t.string  "nom"
     t.integer "user_id"
     t.string  "titre_espace", default: "Mon Silo"
     t.index ["user_id"], name: "index_comptes_on_user_id"
+  end
+
+  create_table "desks", force: :cascade do |t|
+    t.string   "name",       limit: 20
+    t.string   "route",      limit: 20
+    t.boolean  "publish"
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
+    t.integer  "compte_id"
+    t.index ["compte_id"], name: "index_desks_on_compte_id"
+  end
+
+  create_table "draws", force: :cascade do |t|
+    t.string   "name",       limit: 25
+    t.string   "route",      limit: 25
+    t.boolean  "publish"
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
+    t.integer  "desk_id"
+    t.index ["desk_id"], name: "index_draws_on_desk_id"
+  end
+
+  create_table "fiches", force: :cascade do |t|
+    t.string   "name"
+    t.string   "route"
+    t.string   "type"
+    t.boolean  "publish"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer  "draw_id"
+    t.index ["draw_id"], name: "index_fiches_on_draw_id"
   end
 
   create_table "images", force: :cascade do |t|

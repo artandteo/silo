@@ -512,25 +512,30 @@ class ApplicationController < ActionController::Base
 
 
   def liste_d(folder)
-    arr = Array.new
-    d = Dir.entries(folder).each do |f|
-      arr << [[f],[Time.at(`stat -f%B "#{folder+f}"`.chomp.to_i)]]
-    end
-    arr = arr.sort{ |a,b| (a[1] <=> b[1]) == 0 ? (a[0] <=> b[0]) : (a[1] <=> b[1]) }
-    arr.flatten!
-    arr.delete_if { |object| !object.is_a?(String) }
-    d = arr
-    liste_exclus = [".", "..", ".DS_Store"]
-    liste_dir = d - liste_exclus
-
-    i = 0
+    # arr = Array.new
+    # d = Dir.entries(folder).each do |f|
+    #   arr << [[f],[Time.at(`stat -f%B "#{folder+f}"`.chomp.to_i)]]
+    # end
+    # arr = arr.sort{ |a,b| (a[1] <=> b[1]) == 0 ? (a[0] <=> b[0]) : (a[1] <=> b[1]) }
+    # arr.flatten!
+    # arr.delete_if { |object| !object.is_a?(String) }
+    # d = arr
+    # liste_exclus = [".", "..", ".DS_Store"]
+    # liste_dir = d - liste_exclus
+    #
+    # i = 0
     @arr = Array.new
-    liste_dir.each do |fichier|
-      if File.ftype(folder+fichier) == "directory"
-          @arr[i] = fichier
-          i = i + 1
+    # liste_dir.each do |fichier|
+    #   if File.ftype(folder+fichier) == "directory"
+    #       @arr[i] = fichier
+    #       i = i + 1
+    #   end
+    # end
+    @desk = Desk.where(:compte_id => '4').all
+      puts('-------xx-x-x-x-x-x-x-x-------')
+      @desk.each do |d|
+        @arr << d.route
       end
-    end
   end
 
   def liste_f(dir)
