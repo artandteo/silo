@@ -4,7 +4,7 @@
 		<div class="medium-3 columns">
 			    <ul class="tabs vertical"  data-active-collapse="true" id="tabs_draw" data-tabs>
 					  <% i = 0 %>
-				    <% @arr.each do |a| %>
+				    <% @arrdraw.each do |a| %>
 							<% if i == 0 %>
 								<li class="tabs-title is-active">
 							<% else %>
@@ -36,7 +36,7 @@
 								<% i = i + 1 %>
 					  <% end %> <!-- end each -->
 
-						<% if @arr.count != 7 && current_user.is_admin? %>
+						<% if @arrdraw.count != 7 && current_user.is_admin? %>
 							<div class="draw_add toggle_admin">
 								<a data-open="creer_dossier"><i class="fa fa-plus-circle" aria-hidden="true"></i></a>
 							</div>
@@ -46,7 +46,7 @@
 <!-- contenu des onglets -->
 		<div class="medium-9 columns">
 			    <div class="tabs-content vertical" data-tabs-content="tabs_draw">
-			      <% for i in 0..@arr.count %>
+			      <% for i in 0..@arrdraw.count %>
 						<% if i == 0 %>
 							<div class="tabs-panel is-active" id="tab<%= i %>">
 						<% else %>
@@ -55,10 +55,10 @@
 						<% if current_user.is_admin? %>
 							<div class="row">
 								<div class="small-6 medium-6 text-center">
-									<a class="toggle_admin" data-open="telech_fichier-<%= @arr[i] %>"><button type="button" class="button success tiny">Ajouter un nouveau fichier</button></a>
+									<a class="toggle_admin" data-open="telech_fichier-<%= @arrdraw[i] %>"><button type="button" class="button success tiny">Ajouter un nouveau fichier</button></a>
 								</div>
 								<div class="small-6 medium-6 text-center">
-									<a class="toggle_admin" data-open="lien_youtube-<%= @arr[i] %>"><button type="button" class="button success tiny">Ajouter un lien YouTube</button></a>
+									<a class="toggle_admin" data-open="lien_youtube-<%= @arrdraw[i] %>"><button type="button" class="button success tiny">Ajouter un lien YouTube</button></a>
 								</div>
 							</div>
 						<% end %> <!-- end if -->
@@ -82,7 +82,7 @@
 											</td>
 													<% if current_user.is_admin? %>
 													<td>
-														<a class="toggle_admin" href="<%= videos_path(params[:desk], params[:draw], @arr[i], @table_videos[i][k]) %>" data-method="post" data-confirm="Souhaitez-vous supprimer le lien pour <%= @table_videos[i][k] %> ? Cette action est irréversible et ne peux être annuler."><i class="fa fa-trash" aria-hidden="true"></i></a>
+														<a class="toggle_admin" href="<%= videos_path(params[:desk], params[:draw], @arrdraw[i], @table_videos[i][k]) %>" data-method="post" data-confirm="Souhaitez-vous supprimer le lien pour <%= @table_videos[i][k] %> ? Cette action est irréversible et ne peux être annuler."><i class="fa fa-trash" aria-hidden="true"></i></a>
 													</td>
 													<td>
 														<a class="toggle_admin" data-open="rename_titre-<%= i %>"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
@@ -97,7 +97,7 @@
 													<!-- Fin de Lien de telechargement pour les petits ecrans et mobiles -->
 
 													<div class="reveal" id="rename_titre-<%= i %>" data-reveal>
-														<%= form_for :titre_rename, url: videos_path(params[:desk], params[:draw], @arr[i], @table_videos[i][k]) do |f| %>
+														<%= form_for :titre_rename, url: videos_path(params[:desk], params[:draw], @arrdraw[i], @table_videos[i][k]) do |f| %>
   														<%= f.label :nom, 'Nouveau titre ' %>
   														<%= f.text_field :new_titre, value: @table_videos[i][k], autofocus: true  %>
   														<%= f.submit :go, value: "Valider", class: "button success" %>
@@ -116,20 +116,20 @@
 					        	<% for j in 0..@table[i].length-1 %>
 										<tr>
 											<td>
-													<a class="lk_apercu" data="/folders/<%= params[:desk] %>/<%= params[:draw] %>/<%= @arr[i] %>/<%= @table[i][j] %>" target="apercu">
+													<a class="lk_apercu" data="/folders/<%= params[:desk] %>/<%= params[:draw] %>/<%= @arrdraw[i] %>/<%= @table[i][j] %>" target="apercu">
 														<% if is_PDF?(@table[i][j]) %><i class="fa fa-file-pdf-o size-36 step" aria-hidden="true"></i> <% end %>
 														<% if is_MP3?(@table[i][j]) %><i class="fa fa-file-audio-o size-36 step" aria-hidden="true"></i><% end %>
 														<% if is_JPG?(@table[i][j]) %><i class="fa fa-file-image-o size-36 step" aria-hidden="true"></i><% end %>
 													</a>
 											</td>
 											<td>
-												  <a class="lk_apercu" data="/folders/<%= params[:desk] %>/<%= params[:draw] %>/<%= @arr[i] %>/<%= @table[i][j] %>" target="apercu">
+												  <a class="lk_apercu" data="/folders/<%= params[:desk] %>/<%= params[:draw] %>/<%= @arrdraw[i] %>/<%= @table[i][j] %>" target="apercu">
 														<%= @table[i][j] %>
 													</a>
 											</td>
 													<% if current_user.is_admin? %>
 													<td>
-					        					<a class="toggle_admin" href="<%= files_path(params[:desk], params[:draw], @arr[i], @table[i][j]) %>" data-method="delete" data-confirm="Souhaitez-vous supprimer le fichier <%= @table[i][j] %> ? Cette action est irréversible et ne peux être annuler."><i class="fa fa-trash" aria-hidden="true"></i></a>
+					        					<a class="toggle_admin" href="<%= files_path(params[:desk], params[:draw], @arrdraw[i], @table[i][j]) %>" data-method="delete" data-confirm="Souhaitez-vous supprimer le fichier <%= @table[i][j] %> ? Cette action est irréversible et ne peux être annuler."><i class="fa fa-trash" aria-hidden="true"></i></a>
 													</td>
 													<td>
 														<a class="toggle_admin" data-open="rename_file-<%= i %><%= j %>"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
@@ -137,14 +137,14 @@
 													<% end %> <!-- end if -->
 													<!-- Lien de telechargement pour les petits ecrans et mobiles -->
 													<td>
-														<a class="" target="_blank" href="/folders/<%= params[:desk] %>/<%= params[:draw] %>/<%= @arr[i] %>/<%= @table[i][j] %>">
+														<a class="" target="_blank" href="/folders/<%= params[:desk] %>/<%= params[:draw] %>/<%= @arrdraw[i] %>/<%= @table[i][j] %>">
 														<i class="fa fa-external-link size-24" aria-hidden="true"></i>
 														</a>
 													</td>
 													<!-- Fin de Lien de telechargement pour les petits ecrans et mobiles -->
 
 		        					<div class="reveal" id="rename_file-<%= i %><%= j %>" data-reveal>
-											  <%= form_for :file_rename, url:  URI.escape("/#{params[:desk]}/#{params[:draw]}/#{@arr[i]}/#{@table[i][j]}/"), method: 'put' do |f| %>
+											  <%= form_for :file_rename, url:  URI.escape("/#{params[:desk]}/#{params[:draw]}/#{@arrdraw[i]}/#{@table[i][j]}/"), method: 'put' do |f| %>
 												<%= f.label :nom, 'Nouveau nom ' %>
 												<%= f.text_field :new_filename, value: @table[i][j].gsub(get_extension(@table[i][j]), ""), onkeypress: "return verif(event);", autofocus: true %>
 												<%= f.hidden_field :last_filename, value: @table[i][j] %>
@@ -185,7 +185,7 @@
   </button>
 </div>
 
-<% @arr.each do |a| %>
+<% @arrdraw.each do |a| %>
 	<div class="reveal" id="telech_fichier-<%= a %>" data-reveal>
 		<%= form_tag draw_path, method: "post", multipart: true do %>
 		<%= label_tag :nom, 'Nom du dossier (pdf, jpg, mp3)' %>

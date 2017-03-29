@@ -139,27 +139,66 @@ class ApplicationController < ActionController::Base
   def draw
       @table = Array.new { Array.new }
       @data_arr = Array.new
+      @arrdraw = Array.new
       @table_videos = Array.new { Array.new }
       @breadcrumb = params[:draw]
-      i = 0
-      liste_d("./public/folders/#{current_user.nom}/#{params[:draw]}/").each do |a|
-        b = liste_f("./public/folders/#{current_user.nom}/#{params[:draw]}/#{a}/")
-        if b.include?("videos.txt")
-          file=File.open("public/folders/#{current_user.nom}/#{params[:draw]}/#{a}/videos.txt", "r")
-          data = file.read
-          file.close
-          @data_arr = data.split(';')
-          #@data_arr.each {|ev| puts('-'+ev)}
-          b.delete("videos.txt")
-          @table.push(b)
-          @table_videos.push(@data_arr)
-        else
-          @table.push(b)
-          @table_videos.push(@data_arr)
+      # i = 0
+      # liste_d("./public/folders/#{current_user.nom}/#{params[:draw]}/").each do |a|
+      #   b = liste_f("./public/folders/#{current_user.nom}/#{params[:draw]}/#{a}/")
+      #   if b.include?("videos.txt")
+      #     file=File.open("public/folders/#{current_user.nom}/#{params[:draw]}/#{a}/videos.txt", "r")
+      #     data = file.read
+      #     file.close
+      #     @data_arr = data.split(';')
+      #     #@data_arr.each {|ev| puts('-'+ev)}
+      #     b.delete("videos.txt")
+      #     @table.push(b)
+      #     @table_videos.push(@data_arr)
+      #   else
+      #     @table.push(b)
+      #     @table_videos.push(@data_arr)
+      #   end
+      #   @length = @table.length
+      # i = i + 1
+      # end
+      puts params[:draw]
+      deskselect = Desk.where(:route => params[:draw]).take
+      deskid = deskselect.id
+      puts('rrrrrrrr')
+      puts deskid
+      @draw = Draw.where(:desk_id => deskid).all
+      puts('lllllll    lllllll')
+      puts @draw.inspect
+      puts('lllllll  lllllll')
+        @draw.each do |a|
+          @arrdraw << a.route
+          puts("---ddd-d--d---")
+          puts @arrdraw
+          @fiche = Fiche.where(:draw_id => a.id).all
+          puts('-o-o-o-o-o-')
+          puts @fiche.inspect
+          @b = Array.new
+            @fiche.each do |d|
+              @b << d.route
+            end
+            puts('-----www-w-w-w-w-w-w-----')
+            puts @b
+            if @b.include?("videos.txt")
+              file=File.open("public/folders/#{current_user.nom}/#{params[:draw]}/#{a.route}/videos.txt", "r")
+              data = file.read
+              file.close
+              @data_arr = data.split(';')
+              #@data_arr.each {|ev| puts('-'+ev)}
+              @b.delete("videos.txt")
+              @table.push(@b)
+              @table_videos.push(@data_arr)
+            else
+              @table.push(@b)
+              @table_videos.push(@data_arr)
+            end
+
+          @length = @table.length
         end
-        @length = @table.length
-      i = i + 1
-      end
 
       #liste_d("./public/folders/#{current_user.nom}/#{params[:draw]}/")
       #liste_f("./public/folders/#{current_user.nom}/#{params[:draw]}/")
@@ -532,33 +571,33 @@ class ApplicationController < ActionController::Base
     #   end
     # end
     @desk = Desk.where(:compte_id => '4').all
-      puts('-------xx-x-x-x-x-x-x-x-------')
       @desk.each do |d|
         @arr << d.route
       end
   end
 
   def liste_f(dir)
-    arr = Array.new
-    d = Dir.entries(dir).each do |f|
-      arr << [[f],[Time.at(`stat -f%B "#{dir+f}"`.chomp.to_i)]]
-    end
-        puts arr.inspect
-    arr = arr.sort{ |a,b| (a[1] <=> b[1]) == 0 ? (a[0] <=> b[0]) : (a[1] <=> b[1]) }
-    arr.flatten!
-    arr.delete_if { |object| !object.is_a?(String) }
-    puts arr.inspect
-    d = arr.reverse
-    liste_exclus = [".", "..", ".DS_Store"]
-    liste_dir = d - liste_exclus
+    # arr = Array.new
+    # d = Dir.entries(dir).each do |f|
+    #   arr << [[f],[Time.at(`stat -f%B "#{dir+f}"`.chomp.to_i)]]
+    # end
+    #     puts arr.inspect
+    # arr = arr.sort{ |a,b| (a[1] <=> b[1]) == 0 ? (a[0] <=> b[0]) : (a[1] <=> b[1]) }
+    # arr.flatten!
+    # arr.delete_if { |object| !object.is_a?(String) }
+    # puts arr.inspect
+    # d = arr.reverse
+    # liste_exclus = [".", "..", ".DS_Store"]
+    # liste_dir = d - liste_exclus
+    #
+    # a = 0
+    # @files = Array.new
+    # liste_dir.each do |fichier|
+    #   if File.ftype(dir+fichier) == "file"
+    #       @files[a] = fichier
+    #       a = a + 1
+    #   end
+    # end
 
-    a = 0
-    @files = Array.new
-    liste_dir.each do |fichier|
-      if File.ftype(dir+fichier) == "file"
-          @files[a] = fichier
-          a = a + 1
-      end
-    end
   end
 end
