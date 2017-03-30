@@ -449,6 +449,17 @@ class ApplicationController < ActionController::Base
   def file_delete
     file = "./public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:folder]}/#{params[:file]}"
     File.delete(file) if File.exist?(file)
+    # suppression fichier dans bdd
+    nomcompte = params[:desk]
+    currentcompte = Compte.where(:nom => nomcompte).take
+    ccid = currentcompte.id
+    nomdesk = params[:draw]
+    currentdesk = Desk.where(:route => nomdesk, :compte_id => ccid.to_i).take
+    cdid = currentdesk.id
+    currentdraw = Draw.where(:route => params[:folder], :desk_id => cdid).take
+    cdrid = currentdraw.id
+    Fiche.where(:route => params[:file], :draw_id => cdrid).destroy_all
+    # FIN suppression fichier dans bdd
     flash[:success] = 'Votre fichier a bien été supprimé'
     redirect_to draw_path
   end
@@ -459,6 +470,19 @@ class ApplicationController < ActionController::Base
     filename = "#{params[:file_rename][:new_filename]}#{get_extension(params[:file_rename][:last_filename])}"
     if !File.exist?("./public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:folder]}/#{filename}")
       FileUtils.mv("./public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:folder]}/#{params[:file_rename][:last_filename]}", "./public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:folder]}/#{filename}")
+      # renommer fichier dans bdd
+      nomcompte = params[:desk]
+      currentcompte = Compte.where(:nom => nomcompte).take
+      ccid = currentcompte.id
+      nomdesk = params[:draw]
+      currentdesk = Desk.where(:route => nomdesk, :compte_id => ccid.to_i).take
+      cdid = currentdesk.id
+      currentdraw = Draw.where(:route => params[:folder], :desk_id => cdid).take
+      cdrid = currentdraw.id
+      ficheren = Fiche.where(:route => params[:file_rename][:last_filename], :draw_id => cdrid).take
+      ficherenid = ficheren.id
+      Fiche.update(ficherenid, :name => filename, :route => filename)
+      # FIN renommer fichier dans bdd
       flash[:success] = 'Votre fichier a bien été renommé'
       redirect_to draw_path
     else
