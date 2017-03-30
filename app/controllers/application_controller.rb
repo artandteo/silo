@@ -152,6 +152,8 @@ class ApplicationController < ActionController::Base
   # Route : GET/:desk/:draw
   def draw
       @table = Array.new { Array.new }
+      @route = Array.new { Array.new }
+      @genre = Array.new { Array.new }
       @data_arr = Array.new
       @arrdraw = Array.new
       @table_videos = Array.new { Array.new }
@@ -182,22 +184,28 @@ class ApplicationController < ActionController::Base
           @arrdraw << a.route
           @fiche = Fiche.where(:draw_id => a.id).all
           @b = Array.new
+          @c = Array.new
+          @d = Array.new
             @fiche.each do |d|
-              @b << d.route
+              @b << d.name
+              @c << d.route
+              @d << d.genre
             end
-            if @b.include?("videos.txt")
-              file=File.open("public/folders/#{current_user.nom}/#{params[:draw]}/#{a.route}/videos.txt", "r")
-              data = file.read
-              file.close
-              @data_arr = data.split(';')
-              #@data_arr.each {|ev| puts('-'+ev)}
-              @b.delete("videos.txt")
+            # if @b.include?("videos.txt")
+            #   file=File.open("public/folders/#{current_user.nom}/#{params[:draw]}/#{a.route}/videos.txt", "r")
+            #   data = file.read
+            #   file.close
+            #   @data_arr = data.split(';')
+            #   #@data_arr.each {|ev| puts('-'+ev)}
+            #   @b.delete("videos.txt")
+            #   @table.push(@b)
+            #   @table_videos.push(@data_arr)
+            # else
               @table.push(@b)
+              @route.push(@c)
+              @genre.push(@d)
               @table_videos.push(@data_arr)
-            else
-              @table.push(@b)
-              @table_videos.push(@data_arr)
-            end
+            # end
           @length = @table.length
         end
 
@@ -214,21 +222,39 @@ class ApplicationController < ActionController::Base
       titre = params[:nouv_youtube][:titre]
       lien = params[:nouv_youtube][:nom].sub("watch?v=", "embed/")
       lien = lien.sub("https", "http")
-      file = File.open("public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:dossier_courant]}/videos.txt", "a")
-        file.write(titre+';'+lien+';')
+      # traitement dans bdd
+      nomcompte = params[:desk]
+      currentcompte = Compte.where(:nom => nomcompte).take
+      ccid = currentcompte.id
+      nomdesk = params[:draw]
+      currentdesk = Desk.where(:route => nomdesk, :compte_id => ccid.to_i).take
+      cdid = currentdesk.id
+      nomdraw = params[:dossier_courant]
+      currentdraw = Draw.where(:route => nomdraw, :desk_id => cdid.to_i ).take
+      cdrid = currentdraw.id
+      @fiche = Fiche.new(:name => titre, :route => lien, :genre => ".yt", :publish => true, :draw_id => cdrid.to_i)
+      @fiche.save
+      #FIN traitement dans bdd
+      # Ecriture d'un fichier par vidéos
+      file = File.open("public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:dossier_courant]}/#{titre}.yt", "a")
+        file.write(lien)
       file.close
-      puts ('VIDOE-------DIDEO')
-      deskselect = Desk.where(:route => params[:draw]).take
-      puts deskselect.inspect
-      deskid = deskselect.id
-      puts deskid
-      draw = Draw.where(:desk_id => deskid, :name => params[:dossier_courant]).take
-      puts draw.inspect
-      drawid = draw.id
-      if Fiche.where(:route => 'videos.txt', :draw_id => drawid).take == nil
-        @fiche = Fiche.new(:name => 'videos.txt', :route => 'videos.txt', :publish => true, :draw_id => drawid)
-        @fiche.save
-      end
+      # FIN Ecriture d'un fichier par vidéos
+      # file = File.open("public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:dossier_courant]}/videos.txt", "a")
+      #   file.write(titre+';'+lien+';')
+      # file.close
+      # puts ('VIDOE-------DIDEO')
+      # deskselect = Desk.where(:route => params[:draw]).take
+      # puts deskselect.inspect
+      # deskid = deskselect.id
+      # puts deskid
+      # draw = Draw.where(:desk_id => deskid, :name => params[:dossier_courant]).take
+      # puts draw.inspect
+      # drawid = draw.id
+      # if Fiche.where(:route => 'videos.txt', :draw_id => drawid).take == nil
+      #   @fiche = Fiche.new(:name => 'videos.txt', :route => 'videos.txt', :publish => true, :draw_id => drawid)
+      #   @fiche.save
+      # end
       redirect_to :back
     end
 
@@ -282,7 +308,7 @@ class ApplicationController < ActionController::Base
               nomdraw = params[:dossier_courant]
               currentdraw = Draw.where(:route => nomdraw, :desk_id => cdid.to_i ).take
               cdrid = currentdraw.id
-              @fiche = Fiche.new(:name => filename, :route => filename, :publish => true, :draw_id => cdrid.to_i)
+              @fiche = Fiche.new(:name => filename, :route => filename, :genre => File.extname(path), :publish => true, :draw_id => cdrid.to_i)
               @fiche.save
               # FIN Nouveau fichier bdd
 
@@ -458,7 +484,11 @@ class ApplicationController < ActionController::Base
     cdid = currentdesk.id
     currentdraw = Draw.where(:route => params[:folder], :desk_id => cdid).take
     cdrid = currentdraw.id
-    Fiche.where(:route => params[:file], :draw_id => cdrid).destroy_all
+    if get_extension(params[:file]) == ".yt"
+      Fiche.where(:name => params[:file].chomp(get_extension(params[:file])), :draw_id => cdrid).destroy_all
+    else
+      Fiche.where(:route => params[:file], :draw_id => cdrid).destroy_all
+    end
     # FIN suppression fichier dans bdd
     flash[:success] = 'Votre fichier a bien été supprimé'
     redirect_to draw_path
@@ -479,9 +509,15 @@ class ApplicationController < ActionController::Base
       cdid = currentdesk.id
       currentdraw = Draw.where(:route => params[:folder], :desk_id => cdid).take
       cdrid = currentdraw.id
-      ficheren = Fiche.where(:route => params[:file_rename][:last_filename], :draw_id => cdrid).take
-      ficherenid = ficheren.id
-      Fiche.update(ficherenid, :name => filename, :route => filename)
+      if get_extension(params[:file_rename][:last_filename]) == ".yt"
+        ficheren = Fiche.where(:name => params[:file_rename][:last_filename].chomp('.yt'), :draw_id => cdrid).take
+        ficherenid = ficheren.id
+        Fiche.update(ficherenid, :name => params[:file_rename][:new_filename])
+      else
+        ficheren = Fiche.where(:route => params[:file_rename][:last_filename], :draw_id => cdrid).take
+        ficherenid = ficheren.id
+        Fiche.update(ficherenid, :name => filename.chomp(File.extname(filename.to_s)), :route => filename)
+      end
       # FIN renommer fichier dans bdd
       flash[:success] = 'Votre fichier a bien été renommé'
       redirect_to draw_path
@@ -504,9 +540,23 @@ class ApplicationController < ActionController::Base
     File.extname(file.to_s) == ".mp3"
   end
 
+  # def is_YT?(file)
+  #   nomcompte = params[:desk]
+  #   currentcompte = Compte.where(:nom => nomcompte).take
+  #   ccid = currentcompte.id
+  #   nomdesk = params[:draw]
+  #   currentdesk = Desk.where(:route => nomdesk, :compte_id => ccid.to_i).take
+  #   cdid = currentdesk.id
+  #   currentdraw = Draw.where(:route => params[:folder], :desk_id => cdid).take
+  #   cdrid = currentdraw.id
+  #   fiche = Fiche.where(:name => file, :draw_id => cdrid).take
+  #   fiche.genre == "yt"
+  # end
+
   def get_extension(file)
     File.extname(file.to_s)
   end
+
 #==============================================================
 #                     ELEVES
 #==============================================================
@@ -665,13 +715,6 @@ class ApplicationController < ActionController::Base
     #       i = i + 1
     #   end
     # end
-    @arr = Array.new
-    currentcompte = Compte.where(:nom => nomcompte).take
-    ccid = currentcompte.id
-    @desk = Desk.where(:compte_id => '4').all
-      @desk.each do |d|
-        @arr << d.route
-      end
   end
 
   def liste_f(dir)

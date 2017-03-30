@@ -31,7 +31,14 @@ d.each do |f|
         fiche = fiche - liste_exclus
         @draw = Draw.where("route = '#{h}'").take
         fiche.each do |i|
-          Fiche.create(:name => i.gsub(/_/, ' '), :route => i, :publish => true, :draw_id => @draw.id)
+          if File.extname(i.to_s) == ".yt"
+            file = File.open("public/folders/#{f}/#{g}/#{h}/#{i}", "r")
+              data = file.read
+            file.close
+            Fiche.create(:name => i.gsub(/_/, ' ').chomp(File.extname(i.to_s)), :route => data, :genre => File.extname(i.to_s), :publish => true, :draw_id => @draw.id)
+          else
+            Fiche.create(:name => i.gsub(/_/, ' ').chomp(File.extname(i.to_s)), :route => i, :genre => File.extname(i.to_s), :publish => true, :draw_id => @draw.id)
+          end
         end
       end
   end
