@@ -58,7 +58,14 @@ class ApplicationController < ActionController::Base
   # Affichage des desks
   def desk
     if params[:desk] == current_user.nom
-      liste_d("./public/folders/#{params[:desk]}/")
+      @arr = Array.new
+      nomcompte = params[:desk].to_s.gsub(/\s+/, '_')
+      currentcompte = Compte.where(:nom => nomcompte).take
+      ccid = currentcompte.id
+      @desk = Desk.where(:compte_id => ccid).all
+        @desk.each do |d|
+          @arr << d.route
+        end
     else
       redirect_to desk_path(current_user.nom)
     end
@@ -108,6 +115,13 @@ class ApplicationController < ActionController::Base
       path = "./public/folders/#{params[:desk]}/"
       if !Dir.exists?(File.join(path, desk))
         Dir.mkdir(File.join(path, desk), 0777)
+        # ajout desk dans bdd
+        nomcompte = params[:desk].to_s.gsub(/\s+/, '_')
+        currentcompte = Compte.where(:nom => nomcompte).take
+        ccid = currentcompte.id
+        @desk = Desk.new(:name => params[:nouv_desk][:nom], :route => desk, :publish => true, :compte_id => ccid)
+        @desk.save
+        # FIN ajout desk dans bdd
         redirect_to desk_path
       else
         flash[:alert] = 'Le nom de dossier existe déjà !'
@@ -161,28 +175,16 @@ class ApplicationController < ActionController::Base
       #   @length = @table.length
       # i = i + 1
       # end
-      puts params[:draw]
       deskselect = Desk.where(:route => params[:draw]).take
       deskid = deskselect.id
-      puts('rrrrrrrr')
-      puts deskid
       @draw = Draw.where(:desk_id => deskid).all
-      puts('lllllll    lllllll')
-      puts @draw.inspect
-      puts('lllllll  lllllll')
         @draw.each do |a|
           @arrdraw << a.route
-          puts("---ddd-d--d---")
-          puts @arrdraw
           @fiche = Fiche.where(:draw_id => a.id).all
-          puts('-o-o-o-o-o-')
-          puts @fiche.inspect
           @b = Array.new
             @fiche.each do |d|
               @b << d.route
             end
-            puts('-----www-w-w-w-w-w-w-----')
-            puts @b
             if @b.include?("videos.txt")
               file=File.open("public/folders/#{current_user.nom}/#{params[:draw]}/#{a.route}/videos.txt", "r")
               data = file.read
@@ -196,7 +198,6 @@ class ApplicationController < ActionController::Base
               @table.push(@b)
               @table_videos.push(@data_arr)
             end
-
           @length = @table.length
         end
 
@@ -216,6 +217,18 @@ class ApplicationController < ActionController::Base
       file = File.open("public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:dossier_courant]}/videos.txt", "a")
         file.write(titre+';'+lien+';')
       file.close
+      puts ('VIDOE-------DIDEO')
+      deskselect = Desk.where(:route => params[:draw]).take
+      puts deskselect.inspect
+      deskid = deskselect.id
+      puts deskid
+      draw = Draw.where(:desk_id => deskid, :name => params[:dossier_courant]).take
+      puts draw.inspect
+      drawid = draw.id
+      if Fiche.where(:route => 'videos.txt', :draw_id => drawid).take == nil
+        @fiche = Fiche.new(:name => 'videos.txt', :route => 'videos.txt', :publish => true, :draw_id => drawid)
+        @fiche.save
+      end
       redirect_to :back
     end
 
@@ -225,6 +238,16 @@ class ApplicationController < ActionController::Base
       path = "./public/folders/#{params[:desk]}/#{params[:draw]}/"
       if !Dir.exists?(File.join(path, draw))
         Dir.mkdir(File.join(path, draw), 0777)
+        # Nouveau dossier bdd
+        nomcompte = params[:desk]
+        currentcompte = Compte.where(:nom => nomcompte).take
+        ccid = currentcompte.id
+        nomdesk = params[:draw]
+        currentdesk = Desk.where(:route => nomdesk, :compte_id => ccid.to_i).take
+        cdid = currentdesk.id
+        @draw = Draw.new(:name => params[:nouv_dossier][:nom], :route => draw, :publish => true, :desk_id => cdid.to_i)
+        @draw.save
+        # FIN Nouveau dossier bdd
         redirect_to draw_path(current_user.nom)
       else
         flash[:alert] = 'Le dossier existe déjà !'
@@ -248,6 +271,21 @@ class ApplicationController < ActionController::Base
               puts "============ TEST FILE COUNT ==============="
               flash[:success] = 'Veuillez patienter, fichier en téléchargement...'
               File.open(path, "wb") { |f| f.write(file.read) }
+
+              # Nouveau fichier bdd
+              nomcompte = params[:desk]
+              currentcompte = Compte.where(:nom => nomcompte).take
+              ccid = currentcompte.id
+              nomdesk = params[:draw]
+              currentdesk = Desk.where(:route => nomdesk, :compte_id => ccid.to_i).take
+              cdid = currentdesk.id
+              nomdraw = params[:dossier_courant]
+              currentdraw = Draw.where(:route => nomdraw, :desk_id => cdid.to_i ).take
+              cdrid = currentdraw.id
+              @fiche = Fiche.new(:name => filename, :route => filename, :publish => true, :draw_id => cdrid.to_i)
+              @fiche.save
+              # FIN Nouveau fichier bdd
+
               flash[:success] = 'Fichier téléchargé'
             else
               flash[:danger] = "Limite de fichier atteinte !"
@@ -324,10 +362,19 @@ class ApplicationController < ActionController::Base
     end
 
     if params.include?(:rename)
+      puts('----ooooo-oo-o--o-o-oo-o')
       draw = params[:rename][:new_name].to_s.gsub(' ', '_')
       puts draw
       if !Dir.exists?("./public/folders/#{current_user.nom}/#{draw}")
         FileUtils.mv("./public/folders/#{current_user.nom}/#{params[:rename][:last_name]}", "./public/folders/#{current_user.nom}/#{draw}")
+        # renommer desk dans bdd
+        nomcompte = params[:desk]
+        currentcompte = Compte.where(:nom => nomcompte).take
+        ccid = currentcompte.id
+        deskren = Desk.where(:route => params[:rename][:last_name], :compte_id => ccid).take
+        deskrenid = deskren.id
+        Desk.update(deskrenid, :name => params[:rename][:new_name], :route => draw)
+        # FIN renommer desk dans bdd
         redirect_to :back
       else
         flash[:alert] = 'Le dossier existe déjà, impossible de renommer'
@@ -340,6 +387,12 @@ class ApplicationController < ActionController::Base
   def draw_delete
       if Dir.exists?("./public/folders/#{params[:desk]}/#{params[:draw]}")
         FileUtils.rm_rf("./public/folders/#{params[:desk]}/#{params[:draw]}")
+        # suppression desk dans bdd
+        nomcompte = params[:desk]
+        currentcompte = Compte.where(:nom => nomcompte).take
+        ccid = currentcompte.id
+        Desk.where(:route => params[:draw], :compte_id => ccid).destroy_all
+        # FIN suppression desk dans bdd
         redirect_to desk_path
       else
         flash[:alert] = 'Le dossier n\'existe pas !'
@@ -354,7 +407,15 @@ class ApplicationController < ActionController::Base
   # Route : DELETE/:desk/:draw/:folder
   def folder_delete
     FileUtils.rm_rf("./public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:folder]}")
-
+    # suppression draw(folder, onglet) dans bdd
+    nomcompte = params[:desk]
+    currentcompte = Compte.where(:nom => nomcompte).take
+    ccid = currentcompte.id
+    nomdesk = params[:draw]
+    currentdesk = Desk.where(:route => nomdesk, :compte_id => ccid.to_i).take
+    cdid = currentdesk.id
+    Draw.where(:route => params[:folder], :desk_id => cdid).destroy_all
+    # FIN suppression draw(folder, onglet) dans bdd
     redirect_to :back
   end
 
@@ -364,6 +425,17 @@ class ApplicationController < ActionController::Base
     folder = params[:renommer_folder][:new_name].to_s.gsub(' ', '_')
     if !Dir.exists?("./public/folders/#{current_user.nom}/#{params[:draw]}/#{folder}")
       FileUtils.mv("./public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:renommer_folder][:last_name]}", "./public/folders/#{current_user.nom}/#{params[:draw]}/#{folder}")
+      # renommer draw(folder, onglet) dans bdd
+      nomcompte = params[:desk]
+      currentcompte = Compte.where(:nom => nomcompte).take
+      ccid = currentcompte.id
+      nomdesk = params[:draw]
+      currentdesk = Desk.where(:route => nomdesk, :compte_id => ccid.to_i).take
+      cdid = currentdesk.id
+      drawren = Draw.where(:route => params[:renommer_folder][:last_name], :desk_id => cdid).take
+      drawrenid = drawren.id
+      Draw.update(drawrenid, :name => params[:renommer_folder][:new_name], :route => folder)
+      # FIN renommer draw(folder, onglet) dans bdd
       flash[:success] = 'Votre dossier a bien été renommé'
       redirect_to :back
     else
@@ -549,7 +621,6 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.permit(:sign_up) { |u| u.permit(:nom, :email, :password, :is_admin) }
   end
 
-
   def liste_d(folder)
     # arr = Array.new
     # d = Dir.entries(folder).each do |f|
@@ -563,13 +634,16 @@ class ApplicationController < ActionController::Base
     # liste_dir = d - liste_exclus
     #
     # i = 0
-    @arr = Array.new
+    # @arr = Array.new
     # liste_dir.each do |fichier|
     #   if File.ftype(folder+fichier) == "directory"
     #       @arr[i] = fichier
     #       i = i + 1
     #   end
     # end
+    @arr = Array.new
+    currentcompte = Compte.where(:nom => nomcompte).take
+    ccid = currentcompte.id
     @desk = Desk.where(:compte_id => '4').all
       @desk.each do |d|
         @arr << d.route
