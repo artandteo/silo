@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170330101856) do
+ActiveRecord::Schema.define(version: 20170401090248) do
 
   create_table "comptes", force: :cascade do |t|
     t.string  "nom"
@@ -22,7 +22,7 @@ ActiveRecord::Schema.define(version: 20170330101856) do
   create_table "desks", force: :cascade do |t|
     t.string   "name",       limit: 20
     t.string   "route",      limit: 20
-    t.boolean  "publish"
+    t.string   "publish"
     t.datetime "created_at",            null: false
     t.datetime "updated_at",            null: false
     t.integer  "compte_id"
@@ -32,7 +32,7 @@ ActiveRecord::Schema.define(version: 20170330101856) do
   create_table "draws", force: :cascade do |t|
     t.string   "name",       limit: 25
     t.string   "route",      limit: 25
-    t.boolean  "publish"
+    t.string   "publish"
     t.datetime "created_at",            null: false
     t.datetime "updated_at",            null: false
     t.integer  "desk_id"
@@ -43,7 +43,7 @@ ActiveRecord::Schema.define(version: 20170330101856) do
     t.string   "name"
     t.string   "route"
     t.string   "genre"
-    t.boolean  "publish"
+    t.string   "publish"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer  "draw_id"

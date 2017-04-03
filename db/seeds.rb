@@ -13,20 +13,35 @@ end
 # Remplissage de Desk Draw Fiche sur la base de folders existants
 #
 arr = Array.new
+usercpte = Array.new
+userpub = Array.new
 d = Dir.entries(Rails.root+"public/folders/")
 liste_exclus = [".", "..", ".DS_Store"]
 d = d - liste_exclus
+# Calcul des eleves par comptes pour publish
+j = 0
+d.each do |f|
+  desk = Dir.entries(Rails.root+"public/folders/"+f)
+  desk = desk - liste_exclus
+  usercpte = User.where("nom = '#{f}'", "is_admin = 0" ).all
+  userpub[j] = "1"*(usercpte.count-1)
+  puts userpub[j]
+  puts('ooooooo')
+  j = j + 1
+end
+#
+j = 0
 d.each do |f|
   desk = Dir.entries(Rails.root+"public/folders/"+f)
   desk = desk - liste_exclus
   @compte = Compte.where("nom = '#{f}'").take
   desk.each do |g|
-      Desk.create(:name => g.gsub(/_/, ' '), :route => g, :publish => true, :compte_id => @compte.id)
+      Desk.create(:name => g.gsub(/_/, ' '), :route => g, :publish => userpub[j], :compte_id => @compte.id)
       draw = Dir.entries(Rails.root+"public/folders/#{f}/#{g}")
       draw = draw - liste_exclus
       @desk = Desk.where("route = '#{g}'").take
       draw.each do |h|
-        Draw.create(:name => h.gsub(/_/, ' '), :route => h, :publish => true, :desk_id => @desk.id)
+        Draw.create(:name => h.gsub(/_/, ' '), :route => h, :publish => userpub[j], :desk_id => @desk.id)
         fiche = Dir.entries(Rails.root+"public/folders/#{f}/#{g}/#{h}")
         fiche = fiche - liste_exclus
         @draw = Draw.where("route = '#{h}'").take
@@ -35,13 +50,14 @@ d.each do |f|
             file = File.open("public/folders/#{f}/#{g}/#{h}/#{i}", "r")
               data = file.read
             file.close
-            Fiche.create(:name => i.gsub(/_/, ' ').chomp(File.extname(i.to_s)), :route => data, :genre => File.extname(i.to_s), :publish => true, :draw_id => @draw.id)
+            Fiche.create(:name => i.gsub(/_/, ' ').chomp(File.extname(i.to_s)), :route => data, :genre => File.extname(i.to_s), :publish => userpub[j], :draw_id => @draw.id)
           else
-            Fiche.create(:name => i.gsub(/_/, ' ').chomp(File.extname(i.to_s)), :route => i, :genre => File.extname(i.to_s), :publish => true, :draw_id => @draw.id)
+            Fiche.create(:name => i.gsub(/_/, ' ').chomp(File.extname(i.to_s)), :route => i, :genre => File.extname(i.to_s), :publish => userpub[j], :draw_id => @draw.id)
           end
         end
       end
   end
+  j = j + 1
 end
 
 

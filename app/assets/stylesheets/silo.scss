@@ -292,6 +292,16 @@ footer{
 }
 
 .box_buttons {
+	table {
+		margin: 0;
+		padding: 0;
+		td {
+			border: none;
+		}
+		.eye {
+			text-align: center;
+		}
+	}
 	i {
 		padding: 0 20px 0 20px;
 		font-size: 0.7em;

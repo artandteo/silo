@@ -7,13 +7,14 @@ class ApplicationController < ActionController::Base
   before_action :configure_devise_parameters, if: :devise_controller?
   before_action :authenticate_user!, only: [:desk, :draw, :desk_add, :desk_rename, :draw_add, :draw_rename]
 
-  before_action :liste_eleves, only: [:mentions, :desk, :draw]
+  before_action :liste_eleves, only: [:mentions, :desk, :draw, :visi]
 
   before_action :palettes, :polices, :layouts, :images, :desk_size, only: [:mentions, :desk, :draw, :desk_add, :draw_add]
   before_action :load_pref, :config_pref
 
 
   helper_method :is_PDF?, :is_MP3?, :is_JPG?, :get_extension
+
 
   def set_locale
     I18n.locale = params[:locale] || I18n.default_locale
@@ -59,12 +60,13 @@ class ApplicationController < ActionController::Base
   def desk
     if params[:desk] == current_user.nom
       @arr = Array.new
-      nomcompte = params[:desk].to_s.gsub(/\s+/, '_')
-      currentcompte = Compte.where(:nom => nomcompte).take
-      ccid = currentcompte.id
-      @desk = Desk.where(:compte_id => ccid).all
+      @vis_elev = Array.new
+      @eleves = Array.new
+      @eleves = User.where(nom: current_user.nom).where.not(identifiant_eleve: nil)
+      @desk = Desk.where(:compte_id => ccid(params[:desk])).all
         @desk.each do |d|
           @arr << d.route
+          @vis_elev << (d.publish)
         end
     else
       redirect_to desk_path(current_user.nom)
@@ -83,6 +85,11 @@ class ApplicationController < ActionController::Base
       @eleve.is_admin = 0
       @eleve.confirmed_at = DateTime.now.to_date
       @eleve.created_at = DateTime.now.to_date
+      @desk = Desk.where(:compte_id => ccid(params[:desk])).all
+      @desk.each do |d|
+        acces = d.publish
+        Desk.update(d.id, :publish => (acces+"1"))
+      end
 
       if User.exists?(identifiant_eleve: params[:eleve][:identifiant_eleve])
         flash[:alert] = 'User existe !'
@@ -98,13 +105,6 @@ class ApplicationController < ActionController::Base
         flash[:success] = "L'utilisateur a été crée !"
         redirect_to :back
       end
-      #if @eleve.identifiant_eleve ==
-        #@eleve.save
-        #redirect_to :back
-      #end
-      #@eleve = User.new(:email => "", :created_at => DateTime.now.to_date, :nom => current_user.nom, :identifiant_eleve => params[:identifiant_eleve], :is_admin => false)
-      #puts @eleve.inspect
-      #@eleve.save
     end
     #-------------------------------------------
     #          TRAITEMENT DU FORMULAIRE
@@ -116,10 +116,8 @@ class ApplicationController < ActionController::Base
       if !Dir.exists?(File.join(path, desk))
         Dir.mkdir(File.join(path, desk), 0777)
         # ajout desk dans bdd
-        nomcompte = params[:desk].to_s.gsub(/\s+/, '_')
-        currentcompte = Compte.where(:nom => nomcompte).take
-        ccid = currentcompte.id
-        @desk = Desk.new(:name => params[:nouv_desk][:nom], :route => desk, :publish => true, :compte_id => ccid)
+        @eleves = liste_eleves
+        @desk = Desk.new(:name => params[:nouv_desk][:nom], :route => desk, :publish => ("1"*@eleves.count), :compte_id => ccid(params[:desk]))
         @desk.save
         # FIN ajout desk dans bdd
         redirect_to desk_path
@@ -158,25 +156,7 @@ class ApplicationController < ActionController::Base
       @arrdraw = Array.new
       @table_videos = Array.new { Array.new }
       @breadcrumb = params[:draw]
-      # i = 0
-      # liste_d("./public/folders/#{current_user.nom}/#{params[:draw]}/").each do |a|
-      #   b = liste_f("./public/folders/#{current_user.nom}/#{params[:draw]}/#{a}/")
-      #   if b.include?("videos.txt")
-      #     file=File.open("public/folders/#{current_user.nom}/#{params[:draw]}/#{a}/videos.txt", "r")
-      #     data = file.read
-      #     file.close
-      #     @data_arr = data.split(';')
-      #     #@data_arr.each {|ev| puts('-'+ev)}
-      #     b.delete("videos.txt")
-      #     @table.push(b)
-      #     @table_videos.push(@data_arr)
-      #   else
-      #     @table.push(b)
-      #     @table_videos.push(@data_arr)
-      #   end
-      #   @length = @table.length
-      # i = i + 1
-      # end
+
       deskselect = Desk.where(:route => params[:draw]).take
       deskid = deskselect.id
       @draw = Draw.where(:desk_id => deskid).all
@@ -191,16 +171,7 @@ class ApplicationController < ActionController::Base
               @c << d.route
               @d << d.genre
             end
-            # if @b.include?("videos.txt")
-            #   file=File.open("public/folders/#{current_user.nom}/#{params[:draw]}/#{a.route}/videos.txt", "r")
-            #   data = file.read
-            #   file.close
-            #   @data_arr = data.split(';')
-            #   #@data_arr.each {|ev| puts('-'+ev)}
-            #   @b.delete("videos.txt")
-            #   @table.push(@b)
-            #   @table_videos.push(@data_arr)
-            # else
+
               @table.push(@b)
               @route.push(@c)
               @genre.push(@d)
@@ -208,9 +179,6 @@ class ApplicationController < ActionController::Base
             # end
           @length = @table.length
         end
-
-      #liste_d("./public/folders/#{current_user.nom}/#{params[:draw]}/")
-      #liste_f("./public/folders/#{current_user.nom}/#{params[:draw]}/")
 
   end
 
@@ -223,11 +191,8 @@ class ApplicationController < ActionController::Base
       lien = params[:nouv_youtube][:nom].sub("watch?v=", "embed/")
       lien = lien.sub("https", "http")
       # traitement dans bdd
-      nomcompte = params[:desk]
-      currentcompte = Compte.where(:nom => nomcompte).take
-      ccid = currentcompte.id
       nomdesk = params[:draw]
-      currentdesk = Desk.where(:route => nomdesk, :compte_id => ccid.to_i).take
+      currentdesk = Desk.where(:route => nomdesk, :compte_id => ccid(params[:desk])).take
       cdid = currentdesk.id
       nomdraw = params[:dossier_courant]
       currentdraw = Draw.where(:route => nomdraw, :desk_id => cdid.to_i ).take
@@ -240,21 +205,6 @@ class ApplicationController < ActionController::Base
         file.write(lien)
       file.close
       # FIN Ecriture d'un fichier par vidéos
-      # file = File.open("public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:dossier_courant]}/videos.txt", "a")
-      #   file.write(titre+';'+lien+';')
-      # file.close
-      # puts ('VIDOE-------DIDEO')
-      # deskselect = Desk.where(:route => params[:draw]).take
-      # puts deskselect.inspect
-      # deskid = deskselect.id
-      # puts deskid
-      # draw = Draw.where(:desk_id => deskid, :name => params[:dossier_courant]).take
-      # puts draw.inspect
-      # drawid = draw.id
-      # if Fiche.where(:route => 'videos.txt', :draw_id => drawid).take == nil
-      #   @fiche = Fiche.new(:name => 'videos.txt', :route => 'videos.txt', :publish => true, :draw_id => drawid)
-      #   @fiche.save
-      # end
       redirect_to :back
     end
 
@@ -265,11 +215,8 @@ class ApplicationController < ActionController::Base
       if !Dir.exists?(File.join(path, draw))
         Dir.mkdir(File.join(path, draw), 0777)
         # Nouveau dossier bdd
-        nomcompte = params[:desk]
-        currentcompte = Compte.where(:nom => nomcompte).take
-        ccid = currentcompte.id
         nomdesk = params[:draw]
-        currentdesk = Desk.where(:route => nomdesk, :compte_id => ccid.to_i).take
+        currentdesk = Desk.where(:route => nomdesk, :compte_id => ccid(params[:desk])).take
         cdid = currentdesk.id
         @draw = Draw.new(:name => params[:nouv_dossier][:nom], :route => draw, :publish => true, :desk_id => cdid.to_i)
         @draw.save
@@ -299,11 +246,8 @@ class ApplicationController < ActionController::Base
               File.open(path, "wb") { |f| f.write(file.read) }
 
               # Nouveau fichier bdd
-              nomcompte = params[:desk]
-              currentcompte = Compte.where(:nom => nomcompte).take
-              ccid = currentcompte.id
               nomdesk = params[:draw]
-              currentdesk = Desk.where(:route => nomdesk, :compte_id => ccid.to_i).take
+              currentdesk = Desk.where(:route => nomdesk, :compte_id => ccid(params[:desk])).take
               cdid = currentdesk.id
               nomdraw = params[:dossier_courant]
               currentdraw = Draw.where(:route => nomdraw, :desk_id => cdid.to_i ).take
@@ -388,16 +332,11 @@ class ApplicationController < ActionController::Base
     end
 
     if params.include?(:rename)
-      puts('----ooooo-oo-o--o-o-oo-o')
       draw = params[:rename][:new_name].to_s.gsub(' ', '_')
-      puts draw
       if !Dir.exists?("./public/folders/#{current_user.nom}/#{draw}")
         FileUtils.mv("./public/folders/#{current_user.nom}/#{params[:rename][:last_name]}", "./public/folders/#{current_user.nom}/#{draw}")
         # renommer desk dans bdd
-        nomcompte = params[:desk]
-        currentcompte = Compte.where(:nom => nomcompte).take
-        ccid = currentcompte.id
-        deskren = Desk.where(:route => params[:rename][:last_name], :compte_id => ccid).take
+        deskren = Desk.where(:route => params[:rename][:last_name], :compte_id => ccid(params[:desk])).take
         deskrenid = deskren.id
         Desk.update(deskrenid, :name => params[:rename][:new_name], :route => draw)
         # FIN renommer desk dans bdd
@@ -414,10 +353,7 @@ class ApplicationController < ActionController::Base
       if Dir.exists?("./public/folders/#{params[:desk]}/#{params[:draw]}")
         FileUtils.rm_rf("./public/folders/#{params[:desk]}/#{params[:draw]}")
         # suppression desk dans bdd
-        nomcompte = params[:desk]
-        currentcompte = Compte.where(:nom => nomcompte).take
-        ccid = currentcompte.id
-        Desk.where(:route => params[:draw], :compte_id => ccid).destroy_all
+        Desk.where(:route => params[:draw], :compte_id => ccid(params[:desk])).destroy_all
         # FIN suppression desk dans bdd
         redirect_to desk_path
       else
@@ -434,11 +370,8 @@ class ApplicationController < ActionController::Base
   def folder_delete
     FileUtils.rm_rf("./public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:folder]}")
     # suppression draw(folder, onglet) dans bdd
-    nomcompte = params[:desk]
-    currentcompte = Compte.where(:nom => nomcompte).take
-    ccid = currentcompte.id
     nomdesk = params[:draw]
-    currentdesk = Desk.where(:route => nomdesk, :compte_id => ccid.to_i).take
+    currentdesk = Desk.where(:route => nomdesk, :compte_id => ccid(params[:desk])).take
     cdid = currentdesk.id
     Draw.where(:route => params[:folder], :desk_id => cdid).destroy_all
     # FIN suppression draw(folder, onglet) dans bdd
@@ -452,11 +385,8 @@ class ApplicationController < ActionController::Base
     if !Dir.exists?("./public/folders/#{current_user.nom}/#{params[:draw]}/#{folder}")
       FileUtils.mv("./public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:renommer_folder][:last_name]}", "./public/folders/#{current_user.nom}/#{params[:draw]}/#{folder}")
       # renommer draw(folder, onglet) dans bdd
-      nomcompte = params[:desk]
-      currentcompte = Compte.where(:nom => nomcompte).take
-      ccid = currentcompte.id
       nomdesk = params[:draw]
-      currentdesk = Desk.where(:route => nomdesk, :compte_id => ccid.to_i).take
+      currentdesk = Desk.where(:route => nomdesk, :compte_id => ccid(params[:desk])).take
       cdid = currentdesk.id
       drawren = Draw.where(:route => params[:renommer_folder][:last_name], :desk_id => cdid).take
       drawrenid = drawren.id
@@ -540,19 +470,6 @@ class ApplicationController < ActionController::Base
     File.extname(file.to_s) == ".mp3"
   end
 
-  # def is_YT?(file)
-  #   nomcompte = params[:desk]
-  #   currentcompte = Compte.where(:nom => nomcompte).take
-  #   ccid = currentcompte.id
-  #   nomdesk = params[:draw]
-  #   currentdesk = Desk.where(:route => nomdesk, :compte_id => ccid.to_i).take
-  #   cdid = currentdesk.id
-  #   currentdraw = Draw.where(:route => params[:folder], :desk_id => cdid).take
-  #   cdrid = currentdraw.id
-  #   fiche = Fiche.where(:name => file, :draw_id => cdrid).take
-  #   fiche.genre == "yt"
-  # end
-
   def get_extension(file)
     File.extname(file.to_s)
   end
@@ -571,6 +488,36 @@ class ApplicationController < ActionController::Base
 
   def eleve_delete
     if params.include?(:hidden)
+
+      nomcompte = params[:desk].to_s.gsub(/\s+/, '_')
+      currentcompte = Compte.where(:nom => nomcompte).take
+      ccid = currentcompte.id
+      @desk = Desk.where(:compte_id => ccid).all
+      puts @desk.inspect
+      @eleves = liste_eleves
+      puts @eleves.inspect
+      @eleves_sel = params[:mesEleves]
+      puts ('------')
+      i = 0
+      @eleves_sel.each do |es|
+        @eleves.each do |e|
+          puts e.id.inspect
+          puts es.inspect
+          if e.id == es.to_i
+            @desk.each do |d|
+              acces = d.publish
+              puts ('ooooooo')
+              puts e
+              puts acces
+              puts('OOOOOOOOO')
+              acces[i] = ""
+              Desk.update(d.id, :publish => acces)
+            end
+          end
+        i = i + 1
+        end
+      end
+
       User.destroy(params[:mesEleves])
       flash[:success] = 'Utilisateur effacé'
       redirect_to :back
@@ -687,6 +634,12 @@ class ApplicationController < ActionController::Base
 
   private
 
+  def ccid(cpte)
+    nomcompte = cpte.to_s.gsub(/\s+/, '_')
+    currentcompte = Compte.where(:nom => nomcompte).take
+    ccid = currentcompte.id
+  end
+
   def eleve_params
       params.require(:eleve).permit(:identifiant_eleve, :password)
   end
@@ -695,50 +648,4 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.permit(:sign_up) { |u| u.permit(:nom, :email, :password, :is_admin) }
   end
 
-  def liste_d(folder)
-    # arr = Array.new
-    # d = Dir.entries(folder).each do |f|
-    #   arr << [[f],[Time.at(`stat -f%B "#{folder+f}"`.chomp.to_i)]]
-    # end
-    # arr = arr.sort{ |a,b| (a[1] <=> b[1]) == 0 ? (a[0] <=> b[0]) : (a[1] <=> b[1]) }
-    # arr.flatten!
-    # arr.delete_if { |object| !object.is_a?(String) }
-    # d = arr
-    # liste_exclus = [".", "..", ".DS_Store"]
-    # liste_dir = d - liste_exclus
-    #
-    # i = 0
-    # @arr = Array.new
-    # liste_dir.each do |fichier|
-    #   if File.ftype(folder+fichier) == "directory"
-    #       @arr[i] = fichier
-    #       i = i + 1
-    #   end
-    # end
-  end
-
-  def liste_f(dir)
-    # arr = Array.new
-    # d = Dir.entries(dir).each do |f|
-    #   arr << [[f],[Time.at(`stat -f%B "#{dir+f}"`.chomp.to_i)]]
-    # end
-    #     puts arr.inspect
-    # arr = arr.sort{ |a,b| (a[1] <=> b[1]) == 0 ? (a[0] <=> b[0]) : (a[1] <=> b[1]) }
-    # arr.flatten!
-    # arr.delete_if { |object| !object.is_a?(String) }
-    # puts arr.inspect
-    # d = arr.reverse
-    # liste_exclus = [".", "..", ".DS_Store"]
-    # liste_dir = d - liste_exclus
-    #
-    # a = 0
-    # @files = Array.new
-    # liste_dir.each do |fichier|
-    #   if File.ftype(dir+fichier) == "file"
-    #       @files[a] = fichier
-    #       a = a + 1
-    #   end
-    # end
-
-  end
 end

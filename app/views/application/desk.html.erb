@@ -6,22 +6,63 @@
 
 
 <div class="main_desk">
-	<% i = 1 %>
+	<% i = 0 %>
 	<% @arr.each do |dir| %>
-		<div class="box color<%= (i-1) % 5 %>">
+	<% authoriz = false %>
+	<% acces = @vis_elev[i] %>
+	<% @eleves.each_with_index do |e, k| %>
+		<% if e.id == current_user.id && acces[k].to_i == 1 %>
+			<% authoriz = true %>
+		<% end %>
+	<% end %>
+	<% i = i + 1 %>
+	<% if current_user.is_admin? || authoriz == true %>
+		<div class="box color<%= (i) % 5 %>">
+			<% if current_user.is_admin? %>
+				<div class="box_buttons toggle_admin">
+					<table>
+						<tr>
+							<% if i > 1 %>
+								<td>
+									<%= form_for deplac_path("deplac"), method: 'put' do |f| %>
+									<%= f.hidden_field :desk, value: current_user.nom %>
+									<%= f.hidden_field :draw, value: dir %>
+									<%= f.hidden_field :direction, value: 'left' %>
+									<%= f.submit :go, value: '<', class: "float-left"%>
+									<% end %>
+								</td>
+							<% end %>
+							<% if i < @arr.length %>
+								<td>
+									<%= form_for deplac_path("deplac"), method: 'put' do |f| %>
+									<%= f.hidden_field :desk, value: current_user.nom %>
+									<%= f.hidden_field :draw, value: dir %>
+									<%= f.hidden_field :direction, value: 'right' %>
+									<%= f.submit :go, value: '>', class: "float-right"%>
+									<% end %>
+								</td>
+							<% end %>
+						</tr>
+					</table>
+				</div>
+			<% end %>
 			<div class="enfant">
 				<a href="<%= draw_path(current_user.nom, dir) %>"><%= dir.replace(dir.gsub(/_/, ' ')) %></a>
-				<% i = i + 1 %>
 			</div>
 			<% if current_user.is_admin? %>
 				<div class="box_buttons toggle_admin">
-
-					<a class="float-left" data-open="rename_desk-<%= i %>"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-					<a class="float-right" href="<%= draw_path(params[:desk], dir.replace(dir.gsub(/\s+/, '_'))) %>" data-method="delete" data-confirm="Souhaitez-vous supprimer le dossier <%= dir %> ? Cette action est irréversible et ne peux être annuler."><i class="fa fa-trash" aria-hidden="true"></i></a>
+					<table>
+						<tr>
+							<td><a class="float-left" data-open="rename_desk-<%= i %>"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a></td>
+							<td class="eye">
+								<a data-open="visibilite_desk-<%= i %>"><i class="fa fa-eye" aria-hidden="true"></i></a></td>
+							<td><a class="float-right" href="<%= draw_path(params[:desk], dir.replace(dir.gsub(/\s+/, '_'))) %>" data-method="delete" data-confirm="Souhaitez-vous supprimer le dossier <%= dir %> ? Cette action est irréversible et ne peux être annuler."><i class="fa fa-trash" aria-hidden="true"></i></a></td>
+						</tr>
+					</table>
 				</div>
 			<% end %>
 		</div>
-
+	<!-- Reveal modification nom Desk -->
 		<div class="reveal" id="rename_desk-<%= i %>" data-reveal>
 		  <%= form_for :rename, method: 'put' do |f| %>
 			<%= f.label :nom, 'Nouveau nom (20 caractères max.)' %>
@@ -34,7 +75,26 @@
 		    <span aria-hidden="true">&times;</span>
 		  </button>
 		</div>
+	<!-- Reveal visibilité Desk par eleve -->
+		<div class="reveal" id="visibilite_desk-<%= i %>" data-reveal>
+			<%= form_tag visi_path(params[:desk],dir), method: :put do %>
+			<% acces = @vis_elev[i-1] %>
+			<% @eleves.each_with_index do |e, i| %>
+			<%= check_box_tag arg = "mesEleves[]", e.id, acces[i] == '1' %>
+			<%= e.identifiant_eleve %>
+			<br/>
+			<% end %>
+			<hr/>
+			<%= submit_tag :valider, class: "success button small" %>
+			<% end %>
+
+		  <button class="close-button" data-close aria-label="Close modal" type="button">
+		    <span aria-hidden="true">&times;</span>
+		  </button>
+		</div>
 	<% end %>
+	<% end %>
+
 
 	<% if @arr.count != 12 && current_user.is_admin?  %>
 	<div class="box_add toggle_admin">
