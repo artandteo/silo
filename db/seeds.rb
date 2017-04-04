@@ -15,13 +15,13 @@ end
 arr = Array.new
 usercpte = Array.new
 userpub = Array.new
-d = Dir.entries(Rails.root+"public/folders/")
+d = Dir.entries("./public/folders/")
 liste_exclus = [".", "..", ".DS_Store"]
 d = d - liste_exclus
 # Calcul des eleves par comptes pour publish
 j = 0
 d.each do |f|
-  desk = Dir.entries(Rails.root+"public/folders/"+f)
+  desk = Dir.entries("./public/folders/"+f)
   desk = desk - liste_exclus
   usercpte = User.where("nom = '#{f}'", "is_admin = 0" ).all
   userpub[j] = "1"*(usercpte.count-1)
@@ -32,22 +32,22 @@ end
 #
 j = 0
 d.each do |f|
-  desk = Dir.entries(Rails.root+"public/folders/"+f)
+  desk = Dir.entries("./public/folders/"+f)
   desk = desk - liste_exclus
   @compte = Compte.where("nom = '#{f}'").take
   desk.each_with_index do |g, index|
       Desk.create(:name => g.gsub(/_/, ' '), :route => g, :publish => userpub[j], :compte_id => @compte.id, :rang => index)
-      draw = Dir.entries(Rails.root+"public/folders/#{f}/#{g}")
+      draw = Dir.entries("./public/folders/#{f}/#{g}")
       draw = draw - liste_exclus
       @desk = Desk.where("route = '#{g}'").take
       draw.each do |h|
         Draw.create(:name => h.gsub(/_/, ' '), :route => h, :publish => userpub[j], :desk_id => @desk.id)
-        fiche = Dir.entries(Rails.root+"public/folders/#{f}/#{g}/#{h}")
+        fiche = Dir.entries("./public/folders/#{f}/#{g}/#{h}")
         fiche = fiche - liste_exclus
         @draw = Draw.where("route = '#{h}'").take
         fiche.each do |i|
           if File.extname(i.to_s) == ".yt"
-            file = File.open("public/folders/#{f}/#{g}/#{h}/#{i}", "r")
+            file = File.open("./public/folders/#{f}/#{g}/#{h}/#{i}", "r")
               data = file.read
             file.close
             Fiche.create(:name => i.gsub(/_/, ' ').chomp(File.extname(i.to_s)), :route => data, :genre => File.extname(i.to_s), :publish => userpub[j], :draw_id => @draw.id)
@@ -63,15 +63,14 @@ end
 
 if Palette.count == 0
 	Palette.create(:ref => "1", :c1 => "FF5B2B", :c2 => "B1221C", :c3 => "34393E", :c4 => "8CC6D7", :c5 => "FFDA8C")
-	Palette.create(:ref => "2", :c1 => "6C858F", :c2 => "090C1B", :c3 => "21242E", :c4 => "080A0D", :c5 => "DDB679")
-	Palette.create(:ref => "3", :c1 => "850043", :c2 => "0B3A6F", :c3 => "00927B", :c4 => "006360", :c5 => "000000")
-	Palette.create(:ref => "4", :c1 => "697EBD", :c2 => "F0D946", :c3 => "B1568C", :c4 => "579466", :c5 => "2F348B")
-	Palette.create(:ref => "5", :c1 => "8CABBF", :c2 => "5E727F", :c3 => "BBE4FF", :c4 => "2F3940", :c5 => "A8CDE5")
-	Palette.create(:ref => "6", :c1 => "45CCFF", :c2 => "49E83E", :c3 => "FFD432", :c4 => "E84B30", :c5 => "B243FF")
-	Palette.create(:ref => "7", :c1 => "694137", :c2 => "5F4F38", :c3 => "94764E", :c4 => "A35143", :c5 => "AA474B")
-	Palette.create(:ref => "8", :c1 => "00B79A", :c2 => "2D00FF", :c3 => "FF0000", :c4 => "E8A30C", :c5 => "5FFF0D")
-	Palette.create(:ref => "9", :c1 => "9A896D", :c2 => "A49476", :c3 => "816F4D", :c4 => "836745", :c5 => "644C30")
-	Palette.create(:ref => "10", :c1 => "424B5F", :c2 => "3B6169", :c3 => "597074", :c4 => "E0D289", :c5 => "DB3D37")
+	Palette.create(:ref => "2", :c1 => "850043", :c2 => "0B3A6F", :c3 => "00927B", :c4 => "006360", :c5 => "000000")
+	Palette.create(:ref => "3", :c1 => "697EBD", :c2 => "F0D946", :c3 => "B1568C", :c4 => "579466", :c5 => "2F348B")
+	Palette.create(:ref => "4", :c1 => "8CABBF", :c2 => "5E727F", :c3 => "BBE4FF", :c4 => "2F3940", :c5 => "A8CDE5")
+	Palette.create(:ref => "5", :c1 => "45CCFF", :c2 => "49E83E", :c3 => "FFD432", :c4 => "E84B30", :c5 => "B243FF")
+	Palette.create(:ref => "6", :c1 => "694137", :c2 => "5F4F38", :c3 => "94764E", :c4 => "A35143", :c5 => "AA474B")
+	Palette.create(:ref => "7", :c1 => "00B79A", :c2 => "2D00FF", :c3 => "FF0000", :c4 => "E8A30C", :c5 => "5FFF0D")
+	Palette.create(:ref => "8", :c1 => "9A896D", :c2 => "A49476", :c3 => "816F4D", :c4 => "836745", :c5 => "644C30")
+	Palette.create(:ref => "9", :c1 => "424B5F", :c2 => "3B6169", :c3 => "597074", :c4 => "E0D289", :c5 => "DB3D37")
 end
 
 if Polices.count == 0
