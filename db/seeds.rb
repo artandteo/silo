@@ -6,60 +6,65 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-[Palette, Polices, Image, Layout, Desk, Draw, Fiche].each do |table|
+[Palette, Polices, Image, Layout].each do |table|
  ActiveRecord::Base.connection.execute("DELETE FROM #{table.table_name}")
 end
 #
 # Remplissage de Desk Draw Fiche sur la base de folders existants
 #
-arr = Array.new
-usercpte = Array.new
-userpub = Array.new
-d = Dir.entries("./public/folders/")
-liste_exclus = [".", "..", ".DS_Store"]
-d = d - liste_exclus
-# Calcul des eleves par comptes pour publish
-j = 0
-d.each do |f|
-  desk = Dir.entries("./public/folders/"+f)
-  desk = desk - liste_exclus
-  usercpte = User.where("nom = '#{f}'", "is_admin = 0" ).all
-  userpub[j] = "1"*(usercpte.count-1)
-  puts userpub[j]
-  puts('ooooooo')
-  j = j + 1
-end
+# [Desk, Draw, Fiche].each do |table|
+#  ActiveRecord::Base.connection.execute("DELETE FROM #{table.table_name}")
+# end
+# arr = Array.new
+# usercpte = Array.new
+# userpub = Array.new
+# d = Dir.entries("./public/folders/")
+# liste_exclus = [".", "..", ".DS_Store"]
+# d = d - liste_exclus
+# # Calcul des eleves par comptes pour publish
+# j = 0
+# d.each do |f|
+#   desk = Dir.entries("./public/folders/"+f)
+#   desk = desk - liste_exclus
+#   usercpte = User.where("nom = '#{f}'", "is_admin = 0" ).all
+#   userpub[j] = "1"*(usercpte.count-1)
+#   puts userpub[j]
+#   puts('ooooooo')
+#   j = j + 1
+# end
+# #
+# j = 0
+# d.each do |f|
+#   desk = Dir.entries("./public/folders/"+f)
+#   desk = desk - liste_exclus
+#   @compte = Compte.where("nom = '#{f}'").take
+#   desk.each_with_index do |g, index|
+#       Desk.create(:name => g.gsub(/_/, ' '), :route => g, :publish => userpub[j], :compte_id => @compte.id, :rang => index)
+#       draw = Dir.entries("./public/folders/#{f}/#{g}")
+#       draw = draw - liste_exclus
+#       @desk = Desk.where("route = '#{g}'").take
+#       draw.each do |h|
+#         Draw.create(:name => h.gsub(/_/, ' '), :route => h, :publish => userpub[j], :desk_id => @desk.id)
+#         fiche = Dir.entries("./public/folders/#{f}/#{g}/#{h}")
+#         fiche = fiche - liste_exclus
+#         @draw = Draw.where("route = '#{h}'").take
+#         fiche.each do |i|
+#           if File.extname(i.to_s) == ".yt"
+#             file = File.open("./public/folders/#{f}/#{g}/#{h}/#{i}", "r")
+#               data = file.read
+#             file.close
+#             Fiche.create(:name => i.gsub(/_/, ' ').chomp(File.extname(i.to_s)), :route => data, :genre => File.extname(i.to_s), :publish => userpub[j], :draw_id => @draw.id)
+#           else
+#             Fiche.create(:name => i.gsub(/_/, ' ').chomp(File.extname(i.to_s)), :route => i, :genre => File.extname(i.to_s), :publish => userpub[j], :draw_id => @draw.id)
+#           end
+#         end
+#       end
+#   end
+#   j = j + 1
+# end
 #
-j = 0
-d.each do |f|
-  desk = Dir.entries("./public/folders/"+f)
-  desk = desk - liste_exclus
-  @compte = Compte.where("nom = '#{f}'").take
-  desk.each_with_index do |g, index|
-      Desk.create(:name => g.gsub(/_/, ' '), :route => g, :publish => userpub[j], :compte_id => @compte.id, :rang => index)
-      draw = Dir.entries("./public/folders/#{f}/#{g}")
-      draw = draw - liste_exclus
-      @desk = Desk.where("route = '#{g}'").take
-      draw.each do |h|
-        Draw.create(:name => h.gsub(/_/, ' '), :route => h, :publish => userpub[j], :desk_id => @desk.id)
-        fiche = Dir.entries("./public/folders/#{f}/#{g}/#{h}")
-        fiche = fiche - liste_exclus
-        @draw = Draw.where("route = '#{h}'").take
-        fiche.each do |i|
-          if File.extname(i.to_s) == ".yt"
-            file = File.open("./public/folders/#{f}/#{g}/#{h}/#{i}", "r")
-              data = file.read
-            file.close
-            Fiche.create(:name => i.gsub(/_/, ' ').chomp(File.extname(i.to_s)), :route => data, :genre => File.extname(i.to_s), :publish => userpub[j], :draw_id => @draw.id)
-          else
-            Fiche.create(:name => i.gsub(/_/, ' ').chomp(File.extname(i.to_s)), :route => i, :genre => File.extname(i.to_s), :publish => userpub[j], :draw_id => @draw.id)
-          end
-        end
-      end
-  end
-  j = j + 1
-end
-
+# FIN Remplissage de Desk Draw Fiche sur la base de folders existants
+#
 
 if Palette.count == 0
 	Palette.create(:ref => "1", :c1 => "FF5B2B", :c2 => "B1221C", :c3 => "34393E", :c4 => "8CC6D7", :c5 => "FFDA8C")
@@ -75,7 +80,7 @@ end
 
 if Polices.count == 0
 	Polices.create(:ref => "1", :nom => "Lato")
-	Polices.create(:ref => "2", :nom => "Roboto")
+	Polices.create(:ref => "2", :nom => "Indie Flower")
 	Polices.create(:ref => "3", :nom => "Baloo")
 	Polices.create(:ref => "4", :nom => "Bree Serif")
 end
@@ -87,7 +92,7 @@ if Image.count == 0
 	Image.create(:ref => "4", :nom => "bandeau_batterie.jpg")
 	Image.create(:ref => "5", :nom => "bandeau_flash.jpg")
 	Image.create(:ref => "6", :nom => "bandeau_geo.jpg")
-	Image.create(:ref => "7", :nom => "bandeau_langues.jpg")
+	Image.create(:ref => "7", :nom => "bandeau_traduction.jpg")
 	Image.create(:ref => "8", :nom => "bandeau_litterature.jpg")
 	Image.create(:ref => "9", :nom => "bandeau_math.jpg")
 	Image.create(:ref => "10", :nom => "bandeau_piano.jpg")
@@ -95,6 +100,7 @@ if Image.count == 0
 	Image.create(:ref => "12", :nom => "bandeau_sport.jpg")
 	Image.create(:ref => "13", :nom => "bandeau_techno.jpg")
 	Image.create(:ref => "14", :nom => "bandeau_violon.jpg")
+  Image.create(:ref => "15", :nom => "bandeau_notation.jpg")
 end
 
 if Layout.count == 0

@@ -62,6 +62,14 @@ document.addEventListener("turbolinks:load", function() {
       $(this).children( ".box_buttons").fadeOut('1500');
     });
 
+    // Effet scale sur box_buttons
+
+    $( ".box_buttons td *").hover(function() {
+      $( this ).animate( {"font-size": "1.1em", "font-size": "1.3em" } );
+    }, function() {
+      $( this ).animate( {"font-size": "1.3em", "font-size": "1.1em" } );
+    });
+
     // Fonctionnalité de la checkbox Tout sélectionner dans Reveal de visibilité
 
     $(".toutsel").click(function(){
@@ -100,12 +108,14 @@ document.addEventListener("turbolinks:load", function() {
     // Modification de l'opacity sur les élèments cliquables
 
     $( ".enfant a").hover(function() {
-      $(this).parent().parent().css( "opacity", "0.5" );
+      $(this).parent().parent().css( "opacity", "0.7" );
+      $( this ).animate( {"font-size": "1.7em", "font-size": "1.9em" } );
       }, function(){
       $(this).parent().parent().css( "opacity", "1" );
+      $( this ).animate( {"font-size": "1.9em", "font-size": "1.7em" } );
     });
     $( ".box").hover(function() {
-      $(this).css( "opacity", "0.5" );
+      $(this).css( "opacity", "0.7" );
       }, function(){
       $(this).css( "opacity", "1" );
     });

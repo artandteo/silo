@@ -1,8 +1,8 @@
 // SCSS Style for SILO
 
 @import url('https://fonts.googleapis.com/css?family=Lato:100,300,100i,700');
-@import url('https://fonts.googleapis.com/css?family=Roboto');
 @import url('https://fonts.googleapis.com/css?family=Baloo|Bree+Serif');
+@import url('https://fonts.googleapis.com/css?family=Indie+Flower');
 
 // VARIABLES
 
@@ -105,15 +105,17 @@ a:hover {
 	opacity: 0.5;
 }
 
-table {
-	border-collapse: collapse;
-	tbody {
-		background: none;
-		border: none;
-		tr {
+.column-block {
+	table {
+		border-collapse: collapse;
+		tbody {
+			background: none;
 			border: none;
-			td {
-					border-bottom: 1px solid $blanc_tr !important;
+			tr {
+				border: none;
+				td {
+						border-bottom: 1px solid $blanc_tr !important;
+				}
 			}
 		}
 	}
@@ -303,13 +305,20 @@ footer{
 .box_buttons {
 	display: none;
 	table {
+		border-collapse: collapse;
 		margin: 0;
 		padding: 0;
-		td {
+		border: none;
+		tbody {
 			border: none;
-		}
-		.eye {
-			text-align: center;
+			background: none;
+			td {
+				border: none;
+			}
+			tr { border: none;}
+			.eye {
+				text-align: center;
+			}
 		}
 	}
 	i {
