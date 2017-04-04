@@ -7,7 +7,7 @@ class OptionController < ApplicationController
       mesEleves = params[:mesEleves]
     end
     acces = String.new
-    nomdesk = params[:draw]
+    nomdesk = params[:draw].to_s.gsub(/\s+/, '_')
     currentdesk = Desk.where(:route => nomdesk, :compte_id => ccid(params[:desk])).take
     cdid = currentdesk.id
     @eleves = liste_eleves
@@ -25,7 +25,7 @@ class OptionController < ApplicationController
   end
 
   def deplac
-    nomdesk = params["/deplac"][:draw]
+    nomdesk = params["/deplac"][:draw].to_s.gsub(/\s+/, '_')
     @desks = Desk.where(:compte_id => ccid(params["/deplac"][:desk])).all
     @desks = @desks.sort_by { |x| x[:rang] }
     currentdesk = Desk.where(:route => nomdesk, :compte_id => ccid(params["/deplac"][:desk])).take
