@@ -293,7 +293,7 @@ class ApplicationController < ActionController::Base
           flash[:success] = "Le titre de l'espace a été sauvegardé."
           redirect_to :back
         else
-          flash[:danger] = "Le nombre de caractères maximum dooit être de 60."
+          flash[:danger] = "Le nombre de caractères maximum doit être de 60."
           redirect_to :back
         end
 
@@ -321,7 +321,7 @@ class ApplicationController < ActionController::Base
                 redirect_to :back
               end
             else
-              flash[:danger] = "Le nombre de caractères maximum dooit être de 60."
+              flash[:danger] = "Le nombre de caractères maximum doit être de 60."
               redirect_to :back
             end
           else
