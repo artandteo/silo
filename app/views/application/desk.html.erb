@@ -4,6 +4,9 @@
 		<img src="" alt="">
 	</div>
 
+	<script>
+		sessionStorage.tabst = 'tab0';
+	</script>
 
 <div class="main_desk">
 	<% i = 0 %>
@@ -28,7 +31,7 @@
 									<%= f.hidden_field :desk, value: current_user.nom %>
 									<%= f.hidden_field :draw, value: dir %>
 									<%= f.hidden_field :direction, value: 'left' %>
-									<%= f.submit :go, value: '<', class: "float-left"%>
+									<%= f.submit :<<, value: '<', class: "float-left"%>
 									<% end %>
 								</td>
 							<% end %>
@@ -38,7 +41,7 @@
 									<%= f.hidden_field :desk, value: current_user.nom %>
 									<%= f.hidden_field :draw, value: dir %>
 									<%= f.hidden_field :direction, value: 'right' %>
-									<%= f.submit :go, value: '>', class: "float-right"%>
+									<%= f.submit :>>, value: '>', class: "float-right"%>
 									<% end %>
 								</td>
 							<% end %>
@@ -77,7 +80,7 @@
 		</div>
 	<!-- Reveal visibilité Desk par eleve -->
 		<div class="reveal" id="visibilite_desk-<%= i %>" data-reveal>
-			<h5>Sélectionner les comptes autorisés à voir le casier <%= dir.replace(dir.gsub('_', ' ')) %></h5>
+			<h5>Sélectionner les comptes autorisés pour le casier <%= dir.replace(dir.gsub('_', ' ')) %></h5>
 			<hr/>
 
 			<%= form_tag visi_path(params[:desk],dir), method: :put do %>

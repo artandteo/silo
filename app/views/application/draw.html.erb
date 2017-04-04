@@ -6,9 +6,9 @@
 					  <% i = 0 %>
 				    <% @arrdraw.each do |a| %>
 							<% if i == 0 %>
-								<li class="tabs-title is-active">
+								<li class="tabs-title is-active" id="tabt<%= i %>">
 							<% else %>
-								<li class="tabs-title">
+								<li class="tabs-title" id="tabt<%= i %>">
 							<% end %> <!-- end if -->
 								<a href="#tab<%= i %>"><%= a.replace(a.gsub("_", ' ')) %></a>
 								</li>
@@ -232,7 +232,7 @@
   </button>
 </div>
 
-<% @arrdraw.each do |a| %>
+<% @arrdraw.each_with_index do |a, i| %>
 	<div class="reveal" id="telech_fichier-<%= a %>" data-reveal>
 		<%= form_tag draw_path, method: "post", multipart: true do %>
 		<%= label_tag :nom, 'Nom du dossier (pdf, jpg, mp3)' %>

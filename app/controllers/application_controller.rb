@@ -188,23 +188,27 @@ class ApplicationController < ActionController::Base
     # Liens Youtube #
     if params.include?(:nouv_youtube)
       titre = params[:nouv_youtube][:titre]
-      lien = params[:nouv_youtube][:nom].sub("watch?v=", "embed/")
-      lien = lien.sub("https", "http")
-      # traitement dans bdd
-      nomdesk = params[:draw]
-      currentdesk = Desk.where(:route => nomdesk, :compte_id => ccid(params[:desk])).take
-      cdid = currentdesk.id
-      nomdraw = params[:dossier_courant]
-      currentdraw = Draw.where(:route => nomdraw, :desk_id => cdid.to_i ).take
-      cdrid = currentdraw.id
-      @fiche = Fiche.new(:name => titre, :route => lien, :genre => ".yt", :publish => true, :draw_id => cdrid.to_i)
-      @fiche.save
-      #FIN traitement dans bdd
-      # Ecriture d'un fichier par vidéos
-      file = File.open("public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:dossier_courant]}/#{titre}.yt", "a")
-        file.write(lien)
-      file.close
-      # FIN Ecriture d'un fichier par vidéos
+      lien = URI.escape(params[:nouv_youtube][:nom]).sub("watch?v=", "embed/")
+      if lien[0..23] != "https://www.youtube.com/"
+        flash[:alert] = 'Attention, ce lien n\'est pas un chemin youtube.'
+      else
+        lien = lien.sub("https", "http")
+        # traitement dans bdd
+        nomdesk = params[:draw]
+        currentdesk = Desk.where(:route => nomdesk, :compte_id => ccid(params[:desk])).take
+        cdid = currentdesk.id
+        nomdraw = params[:dossier_courant]
+        currentdraw = Draw.where(:route => nomdraw, :desk_id => cdid.to_i ).take
+        cdrid = currentdraw.id
+        @fiche = Fiche.new(:name => titre, :route => lien, :genre => ".yt", :publish => true, :draw_id => cdrid.to_i)
+        @fiche.save
+        #FIN traitement dans bdd
+        # Ecriture d'un fichier par vidéos
+        file = File.open("public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:dossier_courant]}/#{titre}.yt", "a")
+          file.write(lien)
+        file.close
+        # FIN Ecriture d'un fichier par vidéos
+      end
       redirect_to :back
     end
 

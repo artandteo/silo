@@ -10,11 +10,11 @@ var margin;
 var minwidth;
 var radius;
 var helpon;
+var tabnumber;
 x = 10;
 y = 10;
 
 document.addEventListener("turbolinks:load", function() {
-
 
     col0='#'+color0;
     col1='#'+color1;
@@ -22,9 +22,13 @@ document.addEventListener("turbolinks:load", function() {
     col3='#'+color3;
     col4='#'+color4;
     img="/img/"+image;
+    tabnumber = sessionStorage.tabst.charAt(sessionStorage.tabst.length-1);
+    console.log(tabnumber);
 
     // --------- MODIFICATION DOM EN FONCTION DES PREFERENCES -----------
 
+    $( ".tabs-title").removeClass('is-active');
+    $("#tabt"+tabnumber).addClass('is-active');
     $( ".top-bar, .footer, .tabs-content" ).css( "background-color", col2 );
     $( "#breadcrumb").css( "background-color", col3);
     $( ".color0" ).css( "background-color", col0 );
@@ -47,7 +51,8 @@ document.addEventListener("turbolinks:load", function() {
       'border-radius' : radius
     });
 
-    $('html').fadeTo('slow',1);
+
+    // $('html').fadeTo('slow',1);
 
     // apparition box_buttons au survol
 
@@ -77,6 +82,7 @@ document.addEventListener("turbolinks:load", function() {
     // Action et changement de couleur lors du click sur un draw
 
     $( ".tabs-title>a" ).click(function() {
+      sessionStorage.tabst = this;
       $( ".tabs-title>a" ).css( "background", "#F2F2F2");
       $( "iframe" ).attr('src','');
       $(this).css( "background", col2 );
