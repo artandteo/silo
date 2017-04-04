@@ -192,7 +192,7 @@ class ApplicationController < ActionController::Base
       if lien[0..23] != "https://www.youtube.com/"
         flash[:alert] = 'Attention, ce lien n\'est pas un chemin youtube.'
       else
-        lien = lien.sub("https", "http")
+        # lien = lien.sub("https", "http")
         # traitement dans bdd
         nomdesk = params[:draw]
         currentdesk = Desk.where(:route => nomdesk, :compte_id => ccid(params[:desk])).take
