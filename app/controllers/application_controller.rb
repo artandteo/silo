@@ -64,6 +64,7 @@ class ApplicationController < ActionController::Base
       @eleves = Array.new
       @eleves = User.where(nom: current_user.nom).where.not(identifiant_eleve: nil)
       @desk = Desk.where(:compte_id => ccid(params[:desk])).all
+      @desk = @desk.sort_by { |x| x[:rang] }
         @desk.each do |d|
           @arr << d.route
           @vis_elev << (d.publish)
@@ -117,7 +118,9 @@ class ApplicationController < ActionController::Base
         Dir.mkdir(File.join(path, desk), 0777)
         # ajout desk dans bdd
         @eleves = liste_eleves
-        @desk = Desk.new(:name => params[:nouv_desk][:nom], :route => desk, :publish => ("1"*@eleves.count), :compte_id => ccid(params[:desk]))
+        deskrang = Desk.where(:compte_id => ccid(params[:desk])).all
+        rang = deskrang.length
+        @desk = Desk.new(:name => params[:nouv_desk][:nom], :route => desk, :publish => ("1"*@eleves.count), :compte_id => ccid(params[:desk]), :rang => rang)
         @desk.save
         # FIN ajout desk dans bdd
         redirect_to desk_path
@@ -171,15 +174,12 @@ class ApplicationController < ActionController::Base
               @c << d.route
               @d << d.genre
             end
-
               @table.push(@b)
               @route.push(@c)
               @genre.push(@d)
               @table_videos.push(@data_arr)
-            # end
           @length = @table.length
         end
-
   end
 
   # Ajouter un draw
@@ -304,7 +304,6 @@ class ApplicationController < ActionController::Base
 
                   FileUtils.mv("./public/folders/#{params[:desk]}", "./public/folders/#{@new_name}")
                   @eleves = User.where(nom: @last_name)
-                  puts current_user.nom
                   @eleves.each do |e|
                     e.update_attribute(:nom, @new_name)
                   end
@@ -406,11 +405,8 @@ class ApplicationController < ActionController::Base
     file = "./public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:folder]}/#{params[:file]}"
     File.delete(file) if File.exist?(file)
     # suppression fichier dans bdd
-    nomcompte = params[:desk]
-    currentcompte = Compte.where(:nom => nomcompte).take
-    ccid = currentcompte.id
     nomdesk = params[:draw]
-    currentdesk = Desk.where(:route => nomdesk, :compte_id => ccid.to_i).take
+    currentdesk = Desk.where(:route => nomdesk, :compte_id => ccid(params[:desk])).take
     cdid = currentdesk.id
     currentdraw = Draw.where(:route => params[:folder], :desk_id => cdid).take
     cdrid = currentdraw.id
@@ -431,11 +427,8 @@ class ApplicationController < ActionController::Base
     if !File.exist?("./public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:folder]}/#{filename}")
       FileUtils.mv("./public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:folder]}/#{params[:file_rename][:last_filename]}", "./public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:folder]}/#{filename}")
       # renommer fichier dans bdd
-      nomcompte = params[:desk]
-      currentcompte = Compte.where(:nom => nomcompte).take
-      ccid = currentcompte.id
       nomdesk = params[:draw]
-      currentdesk = Desk.where(:route => nomdesk, :compte_id => ccid.to_i).take
+      currentdesk = Desk.where(:route => nomdesk, :compte_id => ccid(params[:desk])).take
       cdid = currentdesk.id
       currentdraw = Draw.where(:route => params[:folder], :desk_id => cdid).take
       cdrid = currentdraw.id
@@ -493,23 +486,14 @@ class ApplicationController < ActionController::Base
       currentcompte = Compte.where(:nom => nomcompte).take
       ccid = currentcompte.id
       @desk = Desk.where(:compte_id => ccid).all
-      puts @desk.inspect
       @eleves = liste_eleves
-      puts @eleves.inspect
       @eleves_sel = params[:mesEleves]
-      puts ('------')
       i = 0
       @eleves_sel.each do |es|
         @eleves.each do |e|
-          puts e.id.inspect
-          puts es.inspect
           if e.id == es.to_i
             @desk.each do |d|
               acces = d.publish
-              puts ('ooooooo')
-              puts e
-              puts acces
-              puts('OOOOOOOOO')
               acces[i] = ""
               Desk.update(d.id, :publish => acces)
             end
@@ -582,8 +566,6 @@ class ApplicationController < ActionController::Base
   #==============================================================
   def video
     if params.include?(:titre_rename)
-      puts "rename"
-      puts params[:video]
       # rename
       file = File.open("public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:folder]}/videos.txt", "r")
         data = file.read
@@ -605,7 +587,6 @@ class ApplicationController < ActionController::Base
       redirect_to :back
     else
       # suppresion
-      puts "suppresion"
       file = File.open("public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:folder]}/videos.txt", "r")
         data = file.read
       file.close

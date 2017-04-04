@@ -35,8 +35,8 @@ d.each do |f|
   desk = Dir.entries(Rails.root+"public/folders/"+f)
   desk = desk - liste_exclus
   @compte = Compte.where("nom = '#{f}'").take
-  desk.each do |g|
-      Desk.create(:name => g.gsub(/_/, ' '), :route => g, :publish => userpub[j], :compte_id => @compte.id)
+  desk.each_with_index do |g, index|
+      Desk.create(:name => g.gsub(/_/, ' '), :route => g, :publish => userpub[j], :compte_id => @compte.id, :rang => index)
       draw = Dir.entries(Rails.root+"public/folders/#{f}/#{g}")
       draw = draw - liste_exclus
       @desk = Desk.where("route = '#{g}'").take

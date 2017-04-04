@@ -49,6 +49,31 @@ document.addEventListener("turbolinks:load", function() {
 
     $('html').fadeTo('slow',1);
 
+    // apparition box_buttons au survol
+
+    $( ".box").hover(function() {
+      $(this).children( ".box_buttons").fadeIn('500');
+    }, function() {
+      $(this).children( ".box_buttons").fadeOut('1500');
+    });
+
+    // Fonctionnalité de la checkbox Tout sélectionner dans Reveal de visibilité
+
+    $(".toutsel").click(function(){
+      if ($( ".toutsel").is(':checked')) {
+        $(".mesElev").prop('checked', true);
+      }
+      else {
+        $(".mesElev").prop('checked', false);
+      }
+    });
+
+    // Rafraichissement fenetre après fermeture d'un reveal sans valider
+
+    $(".close-button").click(function() {
+      window.location.reload()
+    });
+
     // Action et changement de couleur lors du click sur un draw
 
     $( ".tabs-title>a" ).click(function() {

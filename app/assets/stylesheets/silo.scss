@@ -31,6 +31,10 @@ $progress-height: 1.7em;
 
 h4 { font-size: 20px; }
 
+[type='checkbox'] {
+	margin: 0 10px 1rem;
+}
+
 .cache {
 	display: none;
 	position: absolute;
@@ -255,6 +259,11 @@ footer{
 		font-size: 1.7em;
 		font-weight: 700;
 	}
+	[type='submit'] {
+		background: none;
+		border: none;
+		color: $blanc;
+	}
 }
 
 .box{
@@ -292,6 +301,7 @@ footer{
 }
 
 .box_buttons {
+	display: none;
 	table {
 		margin: 0;
 		padding: 0;

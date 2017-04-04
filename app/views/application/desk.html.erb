@@ -24,7 +24,7 @@
 						<tr>
 							<% if i > 1 %>
 								<td>
-									<%= form_for deplac_path("deplac"), method: 'put' do |f| %>
+									<%= form_for "/deplac", url: "/deplac", method: 'put' do |f| %>
 									<%= f.hidden_field :desk, value: current_user.nom %>
 									<%= f.hidden_field :draw, value: dir %>
 									<%= f.hidden_field :direction, value: 'left' %>
@@ -34,7 +34,7 @@
 							<% end %>
 							<% if i < @arr.length %>
 								<td>
-									<%= form_for deplac_path("deplac"), method: 'put' do |f| %>
+									<%= form_for "/deplac", url: "/deplac", method: 'put' do |f| %>
 									<%= f.hidden_field :desk, value: current_user.nom %>
 									<%= f.hidden_field :draw, value: dir %>
 									<%= f.hidden_field :direction, value: 'right' %>
@@ -77,10 +77,14 @@
 		</div>
 	<!-- Reveal visibilité Desk par eleve -->
 		<div class="reveal" id="visibilite_desk-<%= i %>" data-reveal>
+			<h5>Sélectionner les comptes autorisés à voir le casier <%= dir.replace(dir.gsub('_', ' ')) %></h5>
+			<hr/>
+
 			<%= form_tag visi_path(params[:desk],dir), method: :put do %>
 			<% acces = @vis_elev[i-1] %>
+			<%= check_box_tag 'Tous', 0, false, class: 'toutsel' %> Tout sélectionner <br/><br/>
 			<% @eleves.each_with_index do |e, i| %>
-			<%= check_box_tag arg = "mesEleves[]", e.id, acces[i] == '1' %>
+			<%= check_box_tag arg = "mesEleves[]", e.id, acces[i] == '1', class: 'mesElev' %>
 			<%= e.identifiant_eleve %>
 			<br/>
 			<% end %>

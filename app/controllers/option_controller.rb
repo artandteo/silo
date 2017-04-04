@@ -20,31 +20,35 @@ class OptionController < ApplicationController
         acces = acces + "O"
       end
     end
-    puts ('ACCES')
-    puts acces.inspect
     Desk.update(cdid, :publish => acces)
     redirect_to :back
   end
 
   def deplac
-    puts('OKOKOKOK')
     nomdesk = params["/deplac"][:draw]
     @desks = Desk.where(:compte_id => ccid(params["/deplac"][:desk])).all
+    @desks = @desks.sort_by { |x| x[:rang] }
     currentdesk = Desk.where(:route => nomdesk, :compte_id => ccid(params["/deplac"][:desk])).take
     cdid = currentdesk.id
 
     if params["/deplac"][:direction] == "left"
-      puts('à gauche')
       @desks.each_with_index do |d, i|
         if d == currentdesk
           deskg = @desks[i-1]
           deskd = @desks[i]
-          # Desk.update(deskg.id, :name => deskd.name, :route => deskd.route, :publish => deskd.publish)
-          # Desk.update(cdid, :name => deskg.name, :route => deskg.route, :publish => deskg.publish)
+          Desk.update(deskg.id, :rang => i)
+          Desk.update(deskd.id, :rang => i-1)
         end
       end
     elsif params["/deplac"][:direction] == "right"
-      puts('à droite')
+      @desks.each_with_index do |d, i|
+        if d == currentdesk
+          deskg = @desks[i]
+          deskd = @desks[i+1]
+          Desk.update(deskg.id, :rang => i+1)
+          Desk.update(deskd.id, :rang => i)
+        end
+      end
     end
     redirect_to desk_path(current_user)
   end
