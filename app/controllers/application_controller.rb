@@ -237,6 +237,7 @@ class ApplicationController < ActionController::Base
       authorized_ext = [".pdf", ".jpg", ".jpeg", ".mp3"]
       params[:fichiers].each do |file|
         if file.size <= 6144000
+          cookies[:uload] = "ok"
           puts "============ TEST FILE SIZE ==============="
           filename = file.original_filename
           directory = "public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:dossier_courant]}/"
@@ -247,7 +248,6 @@ class ApplicationController < ActionController::Base
             if Dir[File.join("public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:dossier_courant]}/", '**', '*')].count != 25
               puts "============ TEST FILE COUNT ==============="
               # flash[:success] = 'Veuillez patienter, fichier en téléchargement...'
-              cookies[:uload] = "ok"
               File.open(path, "wb") { |f| f.write(file.read) }
               cookies.delete :uload
               # Nouveau fichier bdd
