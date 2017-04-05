@@ -57,10 +57,8 @@ document.addEventListener("turbolinks:load", function() {
     // Message Telechargement en cours pour upload
 
     $(".upload-click").click(function() {
-      $(".info-download").css( "display", "block" );
-      $(".info-download").fadeOut(900).delay(300).fadeIn(800);
-    }, function () {
-      $(".info-download").css( "display", "none" );
+      $(".info-download").css( "visibility", "visible" );
+      setInterval(function(){ $(".info-download").fadeTo(900, 0).delay(300).fadeTo(800,1); },1000);
     });
 
     // apparition box_buttons au survol
