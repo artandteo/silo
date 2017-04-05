@@ -238,6 +238,7 @@
 		<%= label_tag :nom, 'Nom du dossier (pdf, jpg, mp3)' %>
 		<%= file_field_tag "fichiers[]",  multiple: "true" %>
 		<%= hidden_field_tag :dossier_courant, a %>
+		<p class="info-download">Veuillez patienter, fichier en téléchargement...</p>
 		<%= submit_tag :envoyer, value: "Télécharger", class: "button success tiny" %>
 		<% end %>
 		<button class="close-button" data-close aria-label="Close modal" type="button">

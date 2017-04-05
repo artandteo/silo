@@ -246,9 +246,10 @@ class ApplicationController < ActionController::Base
             puts "============ TEST FILE EXTENSION ==============="
             if Dir[File.join("public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:dossier_courant]}/", '**', '*')].count != 25
               puts "============ TEST FILE COUNT ==============="
-              flash[:success] = 'Veuillez patienter, fichier en téléchargement...'
+              # flash[:success] = 'Veuillez patienter, fichier en téléchargement...'
+              cookies[:uload] = "ok"
               File.open(path, "wb") { |f| f.write(file.read) }
-
+              cookies.delete :uload
               # Nouveau fichier bdd
               nomdesk = params[:draw]
               currentdesk = Desk.where(:route => nomdesk, :compte_id => ccid(params[:desk])).take

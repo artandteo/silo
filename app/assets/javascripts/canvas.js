@@ -11,6 +11,7 @@ var minwidth;
 var radius;
 var helpon;
 var tabnumber;
+var uload;
 x = 10;
 y = 10;
 
@@ -23,7 +24,8 @@ document.addEventListener("turbolinks:load", function() {
     col4='#'+color4;
     img="/img/"+image;
     tabnumber = sessionStorage.tabst.charAt(sessionStorage.tabst.length-1);
-    console.log(tabnumber);
+    uload = Cookies.get("uload");
+
 
     // --------- MODIFICATION DOM EN FONCTION DES PREFERENCES -----------
 
@@ -53,6 +55,12 @@ document.addEventListener("turbolinks:load", function() {
 
 
     // $('html').fadeTo('slow',1);
+
+    // Message Telechargement en cours pour upload
+
+    if (uload = "ok") {
+      $("info-download").css("display", "block");
+    }
 
     // apparition box_buttons au survol
 
