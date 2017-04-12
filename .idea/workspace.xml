@@ -1,14 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="51276b5c-9c15-45db-b20b-0f8d02a34521" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Gemfile.lock" afterPath="$PROJECT_DIR$/Gemfile.lock" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Gemfile" afterPath="$PROJECT_DIR$/Gemfile" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/javascripts/application.js" afterPath="$PROJECT_DIR$/app/assets/javascripts/application.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/application_controller.rb" afterPath="$PROJECT_DIR$/app/controllers/application_controller.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/javascripts/canvas.js" afterPath="$PROJECT_DIR$/app/assets/javascripts/canvas.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/application/draw.html.erb" afterPath="$PROJECT_DIR$/app/views/application/draw.html.erb" />
-    </list>
+    <list default="true" id="51276b5c-9c15-45db-b20b-0f8d02a34521" name="Default" comment="" />
     <ignored path="silo.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path="$PROJECT_DIR$/components/" />
@@ -36,8 +29,8 @@
       <file leaf-file-name="draw.html.erb" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/views/application/draw.html.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.4622871">
-              <caret line="246" column="40" selection-start-line="246" selection-start-column="40" selection-end-line="246" selection-end-column="40" />
+            <state vertical-scroll-proportion="0.65531224">
+              <caret line="260" column="87" selection-start-line="260" selection-start-column="87" selection-end-line="260" selection-end-column="87" />
               <folding />
             </state>
           </provider>
@@ -536,12 +529,12 @@
       <created>1491991034653</created>
       <option name="number" value="Default" />
       <updated>1491991034653</updated>
-      <workItem from="1491991036758" duration="9808000" />
+      <workItem from="1491991036758" duration="9913000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="9808000" />
+    <option name="totallyTimeSpent" value="9913000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="449" y="587" width="2484" height="1383" extended-state="0" />
@@ -620,8 +613,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/views/application/draw.html.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.4622871">
-          <caret line="246" column="40" selection-start-line="246" selection-start-column="40" selection-end-line="246" selection-end-column="40" />
+        <state vertical-scroll-proportion="0.65531224">
+          <caret line="260" column="87" selection-start-line="260" selection-start-column="87" selection-end-line="260" selection-end-column="87" />
           <folding />
         </state>
       </provider>
