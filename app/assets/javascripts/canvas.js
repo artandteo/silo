@@ -54,6 +54,10 @@ document.addEventListener("turbolinks:load", function() {
 
     // $('html').fadeTo('slow',1);
 
+    $('#fileupload').bind('fileuploadprogress', function(e, data) {
+        $('.progress_bar').css('width', Math.round((data.loaded * 100.0) / data.total) + '%');
+    });
+
     // apparition box_buttons au survol
 
     $( ".box").hover(function() {

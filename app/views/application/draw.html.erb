@@ -10,13 +10,13 @@
 							<% else %>
 								<li class="tabs-title" id="tabt<%= i %>">
 							<% end %> <!-- end if -->
-								<a href="#tab<%= i %>"><%= a.replace(a.gsub("_", ' ')) %></a>
+								<a href="#tab<%= i %>"><%= @arrdrawname[i] %></a>
 								</li>
 								<% if current_user.is_admin? %>
 									<div class="edition">
 										<div class="toggle_admin">
 											<a data-open="renommer-folder-<%= i %> %>"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-											<a href="<%= folder_path(params[:desk], params[:draw], a.replace(a.gsub(" ", '_'))) %>" data-method="delete" data-confirm="Souhaitez-vous supprimer le dossier <%= a.replace(a.gsub("_", ' ')) %> ? Cette action est irréversible et ne peux être annuler."><i class="fa fa-trash" aria-hidden="true"></i></a>
+											<a href="<%= folder_path(params[:desk], params[:draw], a.replace(a.gsub(" ", '_'))) %>" data-method="delete" data-confirm="Souhaitez-vous supprimer le dossier <%= @arrdrawname[i] %> ? Cette action est irréversible et ne peux être annuler."><i class="fa fa-trash" aria-hidden="true"></i></a>
 										</div>
 									</div>
 								<% end %> <!-- end if -->
@@ -24,8 +24,8 @@
 							<div class="reveal" id="renommer-folder-<%= i %>" data-reveal>
 							  <%= form_for :renommer_folder, method: "put",  url: URI.escape("/#{params[:desk]}/#{params[:draw]}/#{a}") do |f| %>
 								<%= f.label :nom, 'Nouveau nom (25 caractères max.)' %>
-								<%= f.text_field :new_name, maxlength: "25", value: a.replace(a.gsub('_', ' ')), onkeypress: "return verif(event);", autofocus: true %>
-								<%= f.hidden_field :last_name, value: a.replace(a.gsub(' ', '_')) %>
+								<%= f.text_field :new_name, maxlength: "25", value: @arrdrawname[i], onkeypress: "return verif(event);", autofocus: true %>
+								<%= f.hidden_field :last_name, value: @arrdrawname[i] %>
 								<%= f.submit :go, value: "Valider", class: "button success" %>
 							  <% end %> <!-- end form -->
 
@@ -235,15 +235,34 @@
 <% @arrdraw.each_with_index do |a, i| %>
 	<div class="reveal" id="telech_fichier-<%= a %>" data-reveal>
 		<%= form_tag draw_path, method: "post", multipart: true do %>
-		<%= label_tag :nom, 'Nom du dossier (pdf, jpg, mp3)' %>
-		<%= file_field_tag "fichiers[]",  multiple: "true" %>
 		<%= hidden_field_tag :dossier_courant, a %>
-		<%= submit_tag :envoyer, value: "Télécharger", class: "button success tiny" %>
+		<br/>
+		<span class="btn btn-success fileinput-button">
+		<i class="fa fa-plus" aria-hidden="true"></i>
+		<span>Ajouter des documents (pdf, jpg, mp3)...</span>
+				<!-- The file input field used as target for the file upload widget -->
+				<input id="fileupload" type="file" name="fichiers[]" multiple="multiple">
+		</span>
+		<button type="submit" class="button success small start">
+				<i class="fa fa-download" aria-hidden="true"></i>
+				<span>Démarrer le téléversement</span>
+		</button>
+		<!-- The global file processing state -->
+    <span class="fileupload-process"></span>
+            <!-- The global progress state -->
+    <div class="col-lg-5 fileupload-progress fade">
+                <!-- The global progress bar -->
+        <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+            <div class="progress-bar progress-bar-success" style="width:0%;"></div>
+        </div>
+                <!-- The extended global progress state -->
+        <div class="progress-extended">&nbsp;</div>
 		<% end %>
 		<button class="close-button" data-close aria-label="Close modal" type="button">
 			<span aria-hidden="true">&times;</span>
 		</button>
 	</div>
+
 	<div class="reveal" id="lien_youtube-<%= a %>" data-reveal>
 		<%= form_for :nouv_youtube do |f| %>
 		<%= f.label :titre, 'Titre de la vidéo' %>

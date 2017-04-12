@@ -112,7 +112,7 @@ class ApplicationController < ActionController::Base
     #             AJOUT D'UN DESK
     #-------------------------------------------
     if params.include?(:nouv_desk)
-      desk = params[:nouv_desk][:nom].to_s.gsub(/\s+/, '_')
+      desk = params[:nouv_desk][:nom].to_s.gsub(/\s+|'/, '_')
       path = "./public/folders/#{params[:desk]}/"
       if !Dir.exists?(File.join(path, desk))
         Dir.mkdir(File.join(path, desk), 0777)
@@ -157,6 +157,7 @@ class ApplicationController < ActionController::Base
       @genre = Array.new { Array.new }
       @data_arr = Array.new
       @arrdraw = Array.new
+      @arrdrawname = Array.new
       @table_videos = Array.new { Array.new }
       @breadcrumb = params[:draw]
 
@@ -165,6 +166,7 @@ class ApplicationController < ActionController::Base
       @draw = Draw.where(:desk_id => deskid).all
         @draw.each do |a|
           @arrdraw << a.route
+          @arrdrawname << a.name
           @fiche = Fiche.where(:draw_id => a.id).all
           @b = Array.new
           @c = Array.new
@@ -214,7 +216,7 @@ class ApplicationController < ActionController::Base
 
     # Nouveau dossier #
     if params.include?(:nouv_dossier)
-      draw = params[:nouv_dossier][:nom].to_s.gsub(/\s+/, '_')
+      draw = params[:nouv_dossier][:nom].to_s.gsub(/\s+|'/, '_')
       path = "./public/folders/#{params[:desk]}/#{params[:draw]}/"
       if !Dir.exists?(File.join(path, draw))
         Dir.mkdir(File.join(path, draw), 0777)
@@ -234,7 +236,7 @@ class ApplicationController < ActionController::Base
 
     # Nouveau fichier #
     if params.include?(:fichiers)
-      authorized_ext = [".pdf", ".jpg", ".jpeg", ".mp3"]
+      authorized_ext = [".pdf", ".jpg", ".jpeg", ".mp3", ".PDF", ".JPG", ".JPEG", ".MP3"]
       params[:fichiers].each do |file|
         if file.size <= 6144000
           puts "============ TEST FILE SIZE ==============="
@@ -283,7 +285,7 @@ class ApplicationController < ActionController::Base
     #-------------------------------------------
     if params.include?(:nom_espace)
       @last_name = current_user.nom
-      @new_name = params[:nom_espace][:nom].to_s.gsub(' ', '_')
+      @new_name = params[:nom_espace][:nom].to_s.gsub(/\s+|'/, '_')
       # Mise à jour du titre de l'espace
       if params[:nom_espace][:nom].blank? && !params[:nom_espace][:titre].blank?
         if params[:nom_espace][:nom].length <= 60
@@ -334,7 +336,7 @@ class ApplicationController < ActionController::Base
     end
 
     if params.include?(:rename)
-      draw = params[:rename][:new_name].to_s.gsub(' ', '_')
+      draw = params[:rename][:new_name].to_s.gsub(/\s+|'/, '_')
       if !Dir.exists?("./public/folders/#{current_user.nom}/#{draw}")
         FileUtils.mv("./public/folders/#{current_user.nom}/#{params[:rename][:last_name]}", "./public/folders/#{current_user.nom}/#{draw}")
         # renommer desk dans bdd
@@ -383,23 +385,20 @@ class ApplicationController < ActionController::Base
   # Renommer le nom d'un folder
   # Route : PUT/:desk/:draw
   def folder_rename
-    folder = params[:renommer_folder][:new_name].to_s.gsub(' ', '_')
+    folder = params[:renommer_folder][:new_name].to_s.gsub(/\s+|'/, '_')
     if !Dir.exists?("./public/folders/#{current_user.nom}/#{params[:draw]}/#{folder}")
-      FileUtils.mv("./public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:renommer_folder][:last_name]}", "./public/folders/#{current_user.nom}/#{params[:draw]}/#{folder}")
+      FileUtils.mv("./public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:renommer_folder][:last_name].to_s.gsub(/\s+|'/, '_')}", "./public/folders/#{current_user.nom}/#{params[:draw]}/#{folder}")
+    end
       # renommer draw(folder, onglet) dans bdd
       nomdesk = params[:draw]
       currentdesk = Desk.where(:route => nomdesk, :compte_id => ccid(params[:desk])).take
       cdid = currentdesk.id
-      drawren = Draw.where(:route => params[:renommer_folder][:last_name], :desk_id => cdid).take
+      drawren = Draw.where(:route => params[:renommer_folder][:last_name].to_s.gsub(/\s+|'/, '_'), :desk_id => cdid).take
       drawrenid = drawren.id
       Draw.update(drawrenid, :name => params[:renommer_folder][:new_name], :route => folder)
       # FIN renommer draw(folder, onglet) dans bdd
       flash[:success] = 'Votre dossier a bien été renommé'
       redirect_to :back
-    else
-      flash[:alert] = 'Une erreur s\'est produite'
-      redirect_to :back
-    end
   end
 
   # Suppresion d'un fichier
@@ -442,7 +441,7 @@ class ApplicationController < ActionController::Base
       else
         ficheren = Fiche.where(:route => params[:file_rename][:last_filename], :draw_id => cdrid).take
         ficherenid = ficheren.id
-        Fiche.update(ficherenid, :name => filename.chomp(File.extname(filename.to_s)), :route => filename)
+        Fiche.update(ficherenid, :name => filename, :route => filename)
       end
       # FIN renommer fichier dans bdd
       flash[:success] = 'Votre fichier a bien été renommé'
@@ -454,16 +453,18 @@ class ApplicationController < ActionController::Base
   end
 
   def is_PDF?(file)
-    File.extname(file.to_s) == ".pdf"
+    authorized_ext = [".pdf", ".PDF"]
+    authorized_ext.include? File.extname(file)
   end
 
   def is_JPG?(file)
-    authorized_ext = [".jpg", ".jpeg"]
+    authorized_ext = [".jpg", ".jpeg", ".JPG", "JPEG"]
     authorized_ext.include? File.extname(file)
   end
 
   def is_MP3?(file)
-    File.extname(file.to_s) == ".mp3"
+    authorized_ext = [".mp3",".MP3"]
+    authorized_ext.include? File.extname(file)
   end
 
   def get_extension(file)
@@ -485,7 +486,7 @@ class ApplicationController < ActionController::Base
   def eleve_delete
     if params.include?(:hidden)
 
-      nomcompte = params[:desk].to_s.gsub(/\s+/, '_')
+      nomcompte = params[:desk].to_s.gsub(/\s+|'/, '_')
       currentcompte = Compte.where(:nom => nomcompte).take
       ccid = currentcompte.id
       @desk = Desk.where(:compte_id => ccid).all
@@ -619,7 +620,7 @@ class ApplicationController < ActionController::Base
   private
 
   def ccid(cpte)
-    nomcompte = cpte.to_s.gsub(/\s+/, '_')
+    nomcompte = cpte.to_s.gsub(/\s+|'/, '_')
     currentcompte = Compte.where(:nom => nomcompte).take
     ccid = currentcompte.id
   end

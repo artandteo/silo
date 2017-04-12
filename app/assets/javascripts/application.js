@@ -15,5 +15,6 @@
 //= require foundation
 //= require turbolinks
 //= require_tree .
+//= require jquery.fileupload
 
 document.addEventListener("turbolinks:load", function(){ $(document).foundation(); });
