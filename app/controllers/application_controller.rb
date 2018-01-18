@@ -139,7 +139,7 @@ class ApplicationController < ActionController::Base
 
       ko = size / 1024
       mo = ko.round(2) / 1024
-      @total = mo / 250 * 100
+      @total = mo / 2500 * 100
       @mo_used = mo
       @mo_used = mo.round(2)
       @total = @total.round
@@ -164,6 +164,7 @@ class ApplicationController < ActionController::Base
       deskselect = Desk.where(:route => params[:draw]).take
       deskid = deskselect.id
       @draw = Draw.where(:desk_id => deskid).all
+      @draw = @draw.sort_by { |x| x[:rang] }
         @draw.each do |a|
           @arrdraw << a.route
           @arrdrawname << a.name
@@ -224,7 +225,9 @@ class ApplicationController < ActionController::Base
         nomdesk = params[:draw]
         currentdesk = Desk.where(:route => nomdesk, :compte_id => ccid(params[:desk])).take
         cdid = currentdesk.id
-        @draw = Draw.new(:name => params[:nouv_dossier][:nom], :route => draw, :publish => true, :desk_id => cdid.to_i)
+        drawrang = Draw.where(:desk_id => cdid).all
+        rang = drawrang.length
+        @draw = Draw.new(:name => params[:nouv_dossier][:nom], :route => draw, :publish => true, :desk_id => cdid.to_i, :rang => rang)
         @draw.save
         # FIN Nouveau dossier bdd
         redirect_to draw_path(current_user.nom)
@@ -236,7 +239,7 @@ class ApplicationController < ActionController::Base
 
     # Nouveau fichier #
     if params.include?(:fichiers)
-      authorized_ext = [".pdf", ".jpg", ".jpeg", ".mp3", ".PDF", ".JPG", ".JPEG", ".MP3"]
+      authorized_ext = [".pdf", ".jpg", ".jpeg", ".mp3", ".PDF", ".JPG", ".JPEG", ".MP3", ".dwg", ".DWG", ".doc", ".docx", ".xls", ".xlsx"]
       params[:fichiers].each do |file|
         if file.size <= 6144000
           puts "============ TEST FILE SIZE ==============="

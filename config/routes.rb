@@ -14,6 +14,7 @@
         get '/:desk', to: 'application#desk', as: :desk
         put '/:desk/:draw', to: 'option#visi', as: :visi
         put '/deplac', to: 'option#deplac', as: :deplac
+        put '/deplacd', to: 'option#deplacd', as: :deplacd
         post '/:desk', to: 'application#desk_add'
         delete '/:desk', to: 'application#eleve_delete'
         #==============================================================

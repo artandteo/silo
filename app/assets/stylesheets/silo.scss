@@ -29,6 +29,12 @@ $primary-color: $col3;
 
 $progress-height: 1.7em;
 
+.fleche {
+  color: $blanc;
+  background-color: rgba(0,0,0,0);
+  border: none;
+}
+
 h4 { font-size: 20px; }
 
 [type='checkbox'] {

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170403170533) do
+ActiveRecord::Schema.define(version: 20180117145139) do
 
   create_table "comptes", force: :cascade do |t|
     t.string  "nom"
@@ -37,6 +37,7 @@ ActiveRecord::Schema.define(version: 20170403170533) do
     t.datetime "created_at",            null: false
     t.datetime "updated_at",            null: false
     t.integer  "desk_id"
+    t.integer  "rang"
     t.index ["desk_id"], name: "index_draws_on_desk_id"
   end
 

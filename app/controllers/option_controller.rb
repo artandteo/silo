@@ -24,6 +24,8 @@ class OptionController < ApplicationController
     redirect_to :back
   end
 
+  # DEPLACEMENT DES DESKS
+
   def deplac
     nomdesk = params["/deplac"][:draw].to_s.gsub(/\s+/, '_')
     @desks = Desk.where(:compte_id => ccid(params["/deplac"][:desk])).all
@@ -51,6 +53,39 @@ class OptionController < ApplicationController
       end
     end
     redirect_to desk_path(current_user)
+  end
+
+  # DEPLACEMENT DES DRAWS
+
+  def deplacd
+    nomdesk = params["/deplacd"][:desk].to_s.gsub(/\s+/, '_')
+    currentdesk = Desk.where(:route => nomdesk, :compte_id => ccid(params["/deplacd"][:cpte])).take
+    nomdraw = params["/deplacd"][:draw].to_s.gsub(/\s+/, '_')
+    currentdraw = Draw.where(:route => nomdraw, :desk_id => currentdesk.id).take
+    cdid = currentdesk.id
+    @draws = Draw.where(desk_id: cdid).all
+    @draws = @draws.sort_by { |x| x[:rang] }
+
+    if params["/deplacd"][:direction] == "left"
+      @draws.each_with_index do |d, i|
+        if d == currentdraw
+          drawg = @draws[i-1]
+          drawd = @draws[i]
+          Draw.update(drawg.id, :rang => i)
+          Draw.update(drawd.id, :rang => i-1)
+        end
+      end
+    elsif params["/deplacd"][:direction] == "right"
+      @draws.each_with_index do |d, i|
+        if d == currentdraw
+          drawg = @draws[i]
+          drawd = @draws[i+1]
+          Draw.update(drawg.id, :rang => i+1)
+          Draw.update(drawd.id, :rang => i)
+        end
+      end
+    end
+    redirect_to :back
   end
 
   #==============================================================

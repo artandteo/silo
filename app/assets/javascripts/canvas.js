@@ -54,6 +54,8 @@ document.addEventListener("turbolinks:load", function() {
 
     // $('html').fadeTo('slow',1);
 
+    // PROGRESS BAR
+
     $('#fileupload').bind('fileuploadprogress', function(e, data) {
         $('.progress_bar').css('width', Math.round((data.loaded * 100.0) / data.total) + '%');
     });
@@ -134,13 +136,19 @@ document.addEventListener("turbolinks:load", function() {
     {
       $( "a.lk_apercu").click(function() {
         var src = ($(this).attr('data'));
-        $( ".apercu").css('display', 'block');
-        $( ".apercu>iframe" ).attr('src',src);
-        $( ".close-apercu").css('display','block');
         var ext = src.charAt(src.length-3)+src.charAt(src.length-2)+src.charAt(src.length-1);
-        if (ext === 'mp3') {$( ".apercu>iframe" ).attr('height','50px');}
-        else if (ext === 'pdf') {$( ".apercu>iframe" ).attr('height','800px');}
-        else $( ".apercu>iframe" ).attr('height','480px');
+        if (ext != 'dwg' && ext != 'lsx' && ext != 'xls' && ext != 'doc' && ext != 'ocx') {
+            $(".apercu").css('display', 'block');
+            $(".apercu>iframe").attr('src', src);
+            $(".close-apercu").css('display', 'block');
+            if (ext === 'mp3') {
+                $(".apercu>iframe").attr('height', '50px');
+            }
+            else if (ext === 'pdf') {
+                $(".apercu>iframe").attr('height', '800px');
+            }
+            else $(".apercu>iframe").attr('height', '480px');
+        }
       });
     }
     //bouton close aperçu

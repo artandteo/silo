@@ -15,8 +15,36 @@
 								<% if current_user.is_admin? %>
 									<div class="edition">
 										<div class="toggle_admin">
+
+                                            <% if i > 0 %>
+                                                <span class="float-left" style="display: inline;">
+                                                    <%= form_for "/deplacd", :url => url_for(controller: "option", action: "deplacd"), method: 'put' do |f| %>
+                                                    <%= f.hidden_field :cpte, value: current_user.nom %>
+                                                    <%= f.hidden_field :desk, value: params[:draw] %>
+                                                    <%= f.hidden_field :draw, value: a %>
+                                                    <%= f.hidden_field :direction, value: 'left' %>
+                                                    <%= f.submit :<<, value: '^', class: "float-left fleche" %>
+                                                    <% end %>
+                                                </span>
+                                            <% end %>
+                                            <% if i < @arrdraw.length-1 %>
+                                                <span class="float-right" style="display: inline;">
+                                                    <%= form_for "/deplacd", :url => url_for(controller: "option", action: "deplacd"), method: 'put' do |f| %>
+                                                    <%= f.hidden_field :cpte, value: current_user.nom %>
+                                                    <%= f.hidden_field :desk, value: params[:draw] %>
+                                                    <%= f.hidden_field :draw, value: a %>
+                                                    <%= f.hidden_field :direction, value: 'right' %>
+                                                    <%= f.submit :>>, value: 'v', class: "float-right fleche" %>
+                                                    <% end %>
+                                                </span>
+                                            <% end %>
+
+                                          <span>
 											<a data-open="renommer-folder-<%= i %> %>"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+									      </span>
+									      <span>
 											<a href="<%= folder_path(params[:desk], params[:draw], a.replace(a.gsub(" ", '_'))) %>" data-method="delete" data-confirm="Souhaitez-vous supprimer le dossier <%= @arrdrawname[i] %> ? Cette action est irréversible et ne peux être annuler."><i class="fa fa-trash" aria-hidden="true"></i></a>
+										  </span>
 										</div>
 									</div>
 								<% end %> <!-- end if -->
@@ -234,6 +262,7 @@
 
 <% @arrdraw.each_with_index do |a, i| %>
 	<div class="reveal" id="telech_fichier-<%= a %>" data-reveal>
+
 		<%= form_tag draw_path, method: "post", multipart: true do %>
 		<%= hidden_field_tag :dossier_courant, a %>
 		<br/>
@@ -247,6 +276,7 @@
 				<i class="fa fa-download" aria-hidden="true"></i>
 				<span>Démarrer le téléversement</span>
 		</button>
+
 		<!-- The global file processing state -->
     <span class="fileupload-process"></span>
             <!-- The global progress state -->
