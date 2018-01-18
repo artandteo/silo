@@ -266,21 +266,25 @@
 		<%= form_tag draw_path, method: "post", multipart: true do %>
 		<%= hidden_field_tag :dossier_courant, a %>
 		<br/>
-		<span class="btn btn-success fileinput-button">
-		<i class="fa fa-plus" aria-hidden="true"></i>
-		<span>Ajouter des documents (pdf, jpg, mp3)...</span>
-				<!-- The file input field used as target for the file upload widget -->
-				<input id="fileupload" type="file" name="fichiers[]" multiple="multiple">
-		</span>
+		<div class="medium-12 text-center btn btn-success fileinput-button">
+            <span>Ajouter des documents (pdf, jpg, mp3)...</span>
+            <p></p>
+            <i class="fa fa-plus fa-3x" aria-hidden="true"></i>
+            <p></p>
+			<!-- The file input field used as target for the file upload widget -->
+			<input id="fileupload" type="file" name="fichiers[]" multiple="multiple">
+		</div>
+        <div class="medium-12 text-center">
 		<button type="submit" class="button success small start">
 				<i class="fa fa-download" aria-hidden="true"></i>
 				<span>Démarrer le téléversement</span>
 		</button>
+		</div>
 
 		<!-- The global file processing state -->
     <span class="fileupload-process"></span>
             <!-- The global progress state -->
-    <div class="col-lg-5 fileupload-progress fade">
+    <div class="medium-12 fileupload-progress fade">
                 <!-- The global progress bar -->
         <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
             <div class="progress-bar progress-bar-success" style="width:0%;"></div>

@@ -43,7 +43,7 @@ gem 'font-awesome-sass', '~> 4.7.0'
 # paiement via Paypal
 gem 'paypal-sdk-rest'
 # gem 'google_drive'
-gem 'jquery.fileupload-rails', '~> 1.11'
+gem "jquery-fileupload-rails"
 
 
 group :development, :test do
