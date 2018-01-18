@@ -1,7 +1,7 @@
 fr:
     accueil:
         nom: "Nom attribué à votre espace (20 caractères max.)"
-        email: "Votre adresse email (ou identifiant élève)"
+        email: "Votre adresse email (ou identifiant)"
         mdp: "Votre mot de passe"
         confirmer_mdp: "Confirmer le mot de passe"
         char_min: "6 caractères min."
