@@ -162,6 +162,9 @@ class ApplicationController < ActionController::Base
       @breadcrumb = params[:draw]
 
       deskselect = Desk.where(:route => params[:draw]).take
+      if draw_auth(deskselect) == false && current_user.is_admin == 0
+        return head :forbidden
+      end
       deskid = deskselect.id
       @draw = Draw.where(:desk_id => deskid).all
       @draw = @draw.sort_by { |x| x[:rang] }
@@ -634,6 +637,25 @@ class ApplicationController < ActionController::Base
 
   def configure_devise_parameters
     devise_parameter_sanitizer.permit(:sign_up) { |u| u.permit(:nom, :email, :password, :is_admin) }
+  end
+
+  def draw_auth(desk)
+    auth = false
+    @elev = User.where(nom: current_user.nom).where.not(identifiant_eleve: nil).all
+    puts "#################"
+    puts @elev.inspect
+    puts @elev.size
+    acces = desk.publish
+    puts acces.inspect
+    @elev.each_with_index do |el, i|
+      puts el.id
+      puts current_user.id
+      puts acces[i]
+      if el.id == current_user.id && acces[i].to_i == 1
+        auth = true
+      end
+    end
+    return auth
   end
 
 end
