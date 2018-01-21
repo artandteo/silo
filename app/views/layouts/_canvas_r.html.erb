@@ -1,4 +1,4 @@
-<% if user_signed_in? && current_user.is_admin? %>
+<% if user_signed_in? && current_user.is_admin? && @palette != nil %>
 <!-- <p class="text-center">
     <a href="<%= url_for( :locale => 'fr' ) %>"><img src="/img/fr.png" class="config-logo" alt="Langue française"/></a>
     <a href="<%= url_for( :locale => 'en' ) %>"><img src="/img/en.png" class="config-logo" alt="Langue anglaise"/></a>

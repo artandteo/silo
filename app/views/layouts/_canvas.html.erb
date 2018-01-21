@@ -1,4 +1,4 @@
-<% if user_signed_in? %>
+<% if user_signed_in? && @palette != nil %>
   <%= form_for :preferences do |f| %>
   <h4 class="text-center"><%= t('canvas_l.prefs_admin') %></h4>
   <ul class="accordion" data-accordion>

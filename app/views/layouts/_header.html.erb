@@ -7,7 +7,7 @@
     <% end %>
   </div>
 
-  <div class="small-9 medium-9 noverflow">
+  <div class="small-8 medium-8 noverflow">
     <% if user_signed_in? %>
       <a class="float-left" href="<%= root_path %>"><h1><%= @compte.titre_espace.gsub(/_/, " ") %></h1></a>
     <% else %>
@@ -32,6 +32,18 @@
       </div>
     </div> -->
   <% end %>
+
+  <div class="small-1 medium-1 out">
+    <% if user_signed_in? && current_user.is_admin? %>
+      <a id="ellipsis" title="<%= t('accueil.silo') %>" href="#"><i class="fa fa-ellipsis-v size-24" aria-hidden="true"></i></a>
+      <div id="menuellipsis">
+          <ul>
+              <li><a href="<%= new_compte_path %>">Créer un nouveau Silo</a></li>
+              <li><a href="<%= comptes_path %>">Changer de Silo</a></li>
+          </ul>
+      </div>
+    <% end %>
+  </div>
 
   <div class="small-1 medium-1 out">
     <% if user_signed_in? %>

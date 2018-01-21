@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
 
   before_action :liste_eleves, only: [:mentions, :desk, :draw, :visi]
 
-  before_action :palettes, :polices, :layouts, :images, :desk_size, only: [:mentions, :desk, :draw, :desk_add, :draw_add]
+  before_action :palettes, :polices, :layouts, :images, :desk_size, only: [:mentions, :compte, :desk, :draw, :desk_add, :draw_add]
   before_action :load_pref, :config_pref
 
 
@@ -49,6 +49,7 @@ class ApplicationController < ActionController::Base
 
   def accueil
     if user_signed_in?
+      # redirect_to silo_path(current_user.nom)
       redirect_to desk_path(current_user.nom)
     end
   end
@@ -295,7 +296,7 @@ class ApplicationController < ActionController::Base
       # Mise à jour du titre de l'espace
       if params[:nom_espace][:nom].blank? && !params[:nom_espace][:titre].blank?
         if params[:nom_espace][:nom].length <= 60
-          @compte = Compte.where(user_id: current_user.id).take
+          @compte = Compte.where(user_id: current_user.id, nom: @last_name).take
           @compte.update(titre_espace: params[:nom_espace][:titre])
           flash[:success] = "Le titre de l'espace a été sauvegardé."
           redirect_to :back
@@ -553,7 +554,7 @@ class ApplicationController < ActionController::Base
       @police = Polices.where(ref: params[:preferences][:police]).take
       @layout = Layout.where(ref: params[:preferences][:layout]).take
       @image = Image.where(ref: params[:preferences][:image]).take
-      @compte = Compte.where(user_id: current_user.id)
+      @compte = Compte.where(user_id: current_user.id, nom: params[:desk])
       @pref = Preference.where(compte_id: @compte).take
       if @police != nil
         @pref.update(polices: @police.nom)
@@ -642,15 +643,8 @@ class ApplicationController < ActionController::Base
   def draw_auth(desk)
     auth = false
     @elev = User.where(nom: current_user.nom).where.not(identifiant_eleve: nil).all
-    puts "#################"
-    puts @elev.inspect
-    puts @elev.size
     acces = desk.publish
-    puts acces.inspect
     @elev.each_with_index do |el, i|
-      puts el.id
-      puts current_user.id
-      puts acces[i]
       if el.id == current_user.id && acces[i].to_i == 1
         auth = true
       end

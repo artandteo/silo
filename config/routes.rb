@@ -7,7 +7,7 @@
     devise_for :users, path: '', path_names: { sign_in: 'connexion', sign_out: 'deconnexion', sign_up: 'inscription'}, :controllers => { :registrations => "registrations" }
     scope "(/:locale)", locale: /fr|en|br/ do
         get '/mentions', to: 'application#mentions'
-
+        resources :comptes
         #==============================================================
         #                           DESK
         #==============================================================

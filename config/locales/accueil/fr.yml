@@ -9,6 +9,7 @@ fr:
         btn-inscription: "S'inscrire"
         btn-connexion: "Se connecter"
         connexion: "Connexion"
+        silo: "Changer de Silo"
         deconnexion: "Se déconnecter"
         contact: "Nous contacter"
         mentions_legales: "Mentions légales"

@@ -6,8 +6,9 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :confirmable
 
-  validates :password, length: { minimum: 6, message: " doit être plus grand (6 caratères minimum)" }, on: :update
-  validates_confirmation_of :password, on: :update
+  validates :password, length: { minimum: 6, message: " doit être plus grand (6 caratères minimum)" }, on: :create
+  validates :password, length: { minimum: 6, message: " doit être plus grand (6 caratères minimum)" }, on: :update, allow_blank: true
+  validates_confirmation_of :password, on: :update, allow_blank: true
 
   def self.find_first_by_auth_conditions(warden_conditions)
     conditions = warden_conditions.dup

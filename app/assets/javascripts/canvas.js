@@ -189,5 +189,12 @@ document.addEventListener("turbolinks:load", function() {
         }
     });
 
+    // MENU ELLIPSIS
+
+    $("#ellipsis, #menuellipsis").hover(function() {
+        $("#menuellipsis").css("display", "block");
+    }, function() {
+        $("#menuellipsis").css("display", "none");
+    });
 
 });
