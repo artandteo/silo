@@ -162,7 +162,8 @@ class ApplicationController < ActionController::Base
       @table_videos = Array.new { Array.new }
       @breadcrumb = params[:draw]
 
-      deskselect = Desk.where(:route => params[:draw]).take
+      compte = Compte.where(:nom => params[:desk]).take
+      deskselect = Desk.where(:route => params[:draw], :compte_id => compte.id).take
       if draw_auth(deskselect) == false && current_user.is_admin == 0
         return head :forbidden
       end

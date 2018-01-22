@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="51276b5c-9c15-45db-b20b-0f8d02a34521" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/javascripts/canvas.js" afterPath="$PROJECT_DIR$/app/assets/javascripts/canvas.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/application/draw.html.erb" afterPath="$PROJECT_DIR$/app/views/application/draw.html.erb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/application_controller.rb" afterPath="$PROJECT_DIR$/app/controllers/application_controller.rb" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="silo.iws" />
@@ -30,7 +29,7 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="option_controller.rb" pinned="false" current-in-tab="true">
+      <file leaf-file-name="option_controller.rb" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/controllers/option_controller.rb">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
@@ -80,11 +79,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="application_controller.rb" pinned="false" current-in-tab="false">
+      <file leaf-file-name="application_controller.rb" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/controllers/application_controller.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="556" column="73" selection-start-line="556" selection-start-column="73" selection-end-line="556" selection-end-column="73" />
+            <state vertical-scroll-proportion="0.4935484">
+              <caret line="170" column="48" selection-start-line="170" selection-start-column="48" selection-end-line="170" selection-end-column="48" />
               <folding />
             </state>
           </provider>
@@ -137,7 +136,6 @@
         <option value="$PROJECT_DIR$/app/views/comptes/show.html.erb" />
         <option value="$PROJECT_DIR$/app/views/comptes/edit.html.erb" />
         <option value="$PROJECT_DIR$/app/controllers/comptes_controller.rb" />
-        <option value="$PROJECT_DIR$/app/controllers/application_controller.rb" />
         <option value="$PROJECT_DIR$/app/views/comptes/_form.html.erb" />
         <option value="$PROJECT_DIR$/app/views/comptes/new.html.erb" />
         <option value="$PROJECT_DIR$/app/views/comptes/index.html.erb" />
@@ -147,6 +145,7 @@
         <option value="$PROJECT_DIR$/Gemfile" />
         <option value="$PROJECT_DIR$/app/assets/javascripts/canvas.js" />
         <option value="$PROJECT_DIR$/app/views/application/draw.html.erb" />
+        <option value="$PROJECT_DIR$/app/controllers/application_controller.rb" />
       </list>
     </option>
   </component>
@@ -165,8 +164,8 @@
     <order />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="1804" />
-    <option name="y" value="1010" />
+    <option name="x" value="2299" />
+    <option name="y" value="962" />
     <option name="width" value="2758" />
     <option name="height" value="1027" />
   </component>
@@ -816,15 +815,15 @@
       <workItem from="1507019182595" duration="79000" />
       <workItem from="1513420775388" duration="1369000" />
       <workItem from="1513429064586" duration="2046000" />
-      <workItem from="1516195303715" duration="39854000" />
+      <workItem from="1516195303715" duration="40652000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="59066000" />
+    <option name="totallyTimeSpent" value="59864000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1804" y="1010" width="2758" height="1027" extended-state="0" />
+    <frame x="2299" y="962" width="2758" height="1027" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -1194,14 +1193,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/controllers/application_controller.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="556" column="73" selection-start-line="556" selection-start-column="73" selection-end-line="556" selection-end-column="73" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/application.css">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.2924731">
@@ -1283,6 +1274,14 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="46" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/controllers/application_controller.rb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.4935484">
+          <caret line="170" column="48" selection-start-line="170" selection-start-column="48" selection-end-line="170" selection-end-column="48" />
           <folding />
         </state>
       </provider>
