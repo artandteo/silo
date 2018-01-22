@@ -263,7 +263,7 @@
 <% @arrdraw.each_with_index do |a, i| %>
 	<div class="reveal" id="telech_fichier-<%= a %>" data-reveal>
 
-		<%= form_tag draw_path, method: "post", multipart: true do %>
+		<%= form_tag draw_path, method: "post", multipart: true, id: "upload" do %>
 		<%= hidden_field_tag :dossier_courant, a %>
 		<br/>
 		<div class="medium-12 text-center btn btn-success fileinput-button">
@@ -272,7 +272,7 @@
             <i class="fa fa-plus fa-3x" aria-hidden="true"></i>
             <p></p>
 			<!-- The file input field used as target for the file upload widget -->
-			<input id="fileupload" type="file" name="fichiers[]" multiple="multiple">
+			<input id="file" type="file" name="fichiers[]" multiple="multiple">
 		</div>
         <div class="medium-12 text-center">
 		<button type="submit" class="button success small start">
@@ -285,10 +285,17 @@
     <span class="fileupload-process"></span>
             <!-- The global progress state -->
     <div class="medium-12 fileupload-progress fade">
-                <!-- The global progress bar -->
+
+    <!-- PROGRESS BAR -->
+    <div id="percent" style="text-align: center;"></div>
+    <progress class="progress progress-striped active" id="prog" max="100" value="0" style="display: none; width: 100%;"></progress>
+    <div id="here"></div>
+    <!-- ############ -->
+
+                <!-- The global progress bar
         <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
             <div class="progress-bar progress-bar-success" style="width:0%;"></div>
-        </div>
+        </div>-->
                 <!-- The extended global progress state -->
         <div class="progress-extended">&nbsp;</div>
 		<% end %>

@@ -56,9 +56,26 @@ document.addEventListener("turbolinks:load", function() {
 
     // PROGRESS BAR
 
-    $('#fileupload').bind('fileuploadprogress', function(e, data) {
-        $('.progress_bar').css('width', Math.round((data.loaded * 100.0) / data.total) + '%');
+    $("#upload").on('submit', function(e){
+        e.preventDefault();
+            $(this).ajaxSubmit({
+                beforeSend:function(){
+                    $("#prog").show();
+                    $("#prog").attr('value','0');
+                },
+                uploadProgress:function(event,position,total,percentComplete){
+                $("#prog").attr('value',percentComplete);
+                $("#percent").html(percentComplete+'%')
+                },
+                success:function(data){
+                    $("#here").html(data);
+                }
+            });
     });
+
+    // $('#fileupload').bind('fileuploadprogress', function(e, data) {
+    //    $('.progress_bar').css('width', Math.round((data.loaded * 100.0) / data.total) + '%');
+    // });
 
     // apparition box_buttons au survol
 
