@@ -73,10 +73,6 @@ document.addEventListener("turbolinks:load", function() {
             });
     });
 
-    // $('#fileupload').bind('fileuploadprogress', function(e, data) {
-    //    $('.progress_bar').css('width', Math.round((data.loaded * 100.0) / data.total) + '%');
-    // });
-
     // apparition box_buttons au survol
 
     $( ".box").hover(function() {
@@ -165,6 +161,13 @@ document.addEventListener("turbolinks:load", function() {
                 $(".apercu>iframe").attr('height', '800px');
             }
             else $(".apercu>iframe").attr('height', '480px');
+        }
+        if (ext === 'doc' || ext === 'ocx' || ext === 'xls' || ext === 'lsx') {
+            var src2 = 'https://view.officeapps.live.com/op/view.aspx?src=https%3A%2F%2Fsilo.artandteo' + encodeURIComponent(src);
+            $(".apercu").css('display', 'block');
+            $(".apercu>iframe").attr('src', src2);
+            $(".close-apercu").css('display', 'block');
+            $(".apercu>iframe").attr('height', '800px');
         }
       });
     }

@@ -59,7 +59,27 @@ class ComptesController < ApplicationController
   end
 
   def destroy
-
+    @cptes = Compte.where(user_id: current_user.id).all
+    if @cptes.count > 1
+      flash[:alert] = 'Il doit vous rester au moins 1 compte !'
+      if Dir.exists?("./public/folders/#{@compte.nom}")
+        FileUtils.rm_rf("./public/folders/#{@compte.nom}")
+        @compte.destroy
+        @cpte = Compte.where(user_id: current_user.id).last
+        @user = User.find(current_user.id)
+        @user.update_without_password(:nom => @cpte.nom)
+        @utilisat = User.where(nom: @compte.nom).all
+        @utilisat.each do |u|
+          u.destroy
+        end
+        flash[:alert] = 'Le compte a bien été supprimé.'
+      else
+        flash[:alert] = 'Le dossier n\'existe pas !'
+      end
+    else
+      flash[:alert] = 'Il doit vous rester au moins 1 compte !'
+    end
+      redirect_to comptes_path
   end
 
   protected

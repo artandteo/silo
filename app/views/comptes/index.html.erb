@@ -3,7 +3,10 @@
     <h1>Sélectionnez un Silo</h1>
       <hr/>
     <% @comptes.each do |c| %>
-            <h3><a href="<%= edit_compte_path(c.id) %>"><%= c.titre_espace %></a></h3>
+            <h3>
+                <a href="<%= edit_compte_path(c.id) %>"><%= c.titre_espace %></a>
+                <%= link_to '<i class="fa fa-trash" aria-hidden="true"></i>'.html_safe, c, method: :delete, data: { confirm: 'Souhaitez-vous supprimer le compte '+c.titre_espace+' et tout ses fichiers ? Cette action est définitive et irréversible.' }, style: "float: right;" %>
+            </h3>
             <hr/>
     <% end %>
   </div>
