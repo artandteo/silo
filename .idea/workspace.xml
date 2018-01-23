@@ -3,8 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="51276b5c-9c15-45db-b20b-0f8d02a34521" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/javascripts/canvas.js" afterPath="$PROJECT_DIR$/app/assets/javascripts/canvas.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/comptes_controller.rb" afterPath="$PROJECT_DIR$/app/controllers/comptes_controller.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/comptes/index.html.erb" afterPath="$PROJECT_DIR$/app/views/comptes/index.html.erb" />
     </list>
     <ignored path="silo.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -30,11 +28,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="canvas.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="canvas.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/assets/javascripts/canvas.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="180" column="0" selection-start-line="180" selection-start-column="0" selection-end-line="180" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.44060475">
+              <caret line="165" column="106" selection-start-line="165" selection-start-column="106" selection-end-line="165" selection-end-column="106" />
               <folding />
             </state>
           </provider>
@@ -60,11 +58,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="comptes_controller.rb" pinned="false" current-in-tab="true">
+      <file leaf-file-name="comptes_controller.rb" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/controllers/comptes_controller.rb">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.412527">
-              <caret line="73" column="11" selection-start-line="73" selection-start-column="11" selection-end-line="73" selection-end-column="11" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="100" column="0" selection-start-line="100" selection-start-column="0" selection-end-line="100" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -164,9 +162,9 @@
         <option value="$PROJECT_DIR$/Gemfile" />
         <option value="$PROJECT_DIR$/app/views/application/draw.html.erb" />
         <option value="$PROJECT_DIR$/app/controllers/application_controller.rb" />
-        <option value="$PROJECT_DIR$/app/assets/javascripts/canvas.js" />
         <option value="$PROJECT_DIR$/app/views/comptes/index.html.erb" />
         <option value="$PROJECT_DIR$/app/controllers/comptes_controller.rb" />
+        <option value="$PROJECT_DIR$/app/assets/javascripts/canvas.js" />
       </list>
     </option>
   </component>
@@ -836,12 +834,12 @@
       <workItem from="1507019182595" duration="79000" />
       <workItem from="1513420775388" duration="1369000" />
       <workItem from="1513429064586" duration="2046000" />
-      <workItem from="1516195303715" duration="46889000" />
+      <workItem from="1516195303715" duration="47191000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="66101000" />
+    <option name="totallyTimeSpent" value="66403000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="3263" y="124" width="1680" height="1023" extended-state="0" />
@@ -1259,14 +1257,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/assets/javascripts/canvas.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="180" column="0" selection-start-line="180" selection-start-column="0" selection-end-line="180" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/models/compte.rb">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1301,8 +1291,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/controllers/comptes_controller.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.412527">
-          <caret line="73" column="11" selection-start-line="73" selection-start-column="11" selection-end-line="73" selection-end-column="11" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="100" column="0" selection-start-line="100" selection-start-column="0" selection-end-line="100" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/assets/javascripts/canvas.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.44060475">
+          <caret line="165" column="106" selection-start-line="165" selection-start-column="106" selection-end-line="165" selection-end-column="106" />
           <folding />
         </state>
       </provider>
