@@ -185,19 +185,22 @@
 												</div>
 											<!-- Fin des td pour les fichiers yt -->
 											<% else %>
-											<!-- Debut des td pour les fichiers jpg mp3 pdf -->
+											<!-- Debut des td pour les fichiers jpg mp3 pdf --> <!-- target="apercu" et class="lk_apercu" et data à la place de href pour apercu window -->
 											<td>
-														<a class="lk_apercu" data="/folders/<%= params[:desk] %>/<%= params[:draw] %>/<%= @arrdraw[i] %>/<%= @route[i][j] %>" target="apercu">
+														<a class="" href="/folders/<%= params[:desk] %>/<%= params[:draw] %>/<%= @arrdraw[i] %>/<%= @route[i][j] %>" target="_blank">
 														<% if is_PDF?(@route[i][j]) %><i class="fa fa-file-pdf-o size-36 step" aria-hidden="true"></i> <% end %>
 														<% if is_MP3?(@route[i][j]) %><i class="fa fa-file-audio-o size-36 step" aria-hidden="true"></i><% end %>
 														<% if is_JPG?(@route[i][j]) %><i class="fa fa-file-image-o size-36 step" aria-hidden="true"></i><% end %>
 													</a>
 											</td>
 											<td>
-												  <a class="lk_apercu" data="/folders/<%= params[:desk] %>/<%= params[:draw] %>/<%= @arrdraw[i] %>/<%= @route[i][j] %>" target="apercu">
+												  <a class="" href="/folders/<%= params[:desk] %>/<%= params[:draw] %>/<%= @arrdraw[i] %>/<%= @route[i][j] %>" target="_blank">
 														<%= @table[i][j] %>
 													</a>
 											</td>
+											<td>
+                                                <%= number_to_human_size(File.size(Rails.root.join("public","folders",params[:desk], params[:draw], @arrdraw[i], @route[i][j]))) %>
+                                            </td>
 
 													<% if current_user.is_admin? %>
 													<td>

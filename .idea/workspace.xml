@@ -30,16 +30,18 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="draw.html.erb" pinned="false" current-in-tab="false">
+      <file leaf-file-name="draw.html.erb" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/views/application/draw.html.erb">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="8.6603775">
-              <caret line="103" column="56" selection-start-line="103" selection-start-column="56" selection-end-line="103" selection-end-column="56" />
+            <state vertical-scroll-proportion="0.6303828">
+              <caret line="206" column="76" selection-start-line="206" selection-start-column="76" selection-end-line="206" selection-end-column="76" />
               <folding>
-                <marker date="1516893664000" expanded="true" signature="13357:13639" placeholder="..." />
-                <marker date="1516893664000" expanded="true" signature="13409:13528" placeholder="..." />
-                <marker date="1516893664000" expanded="true" signature="14652:14977" placeholder="..." />
-                <marker date="1516893664000" expanded="false" signature="15567:15594" placeholder="..." />
+                <element signature="e#13799#13814#0#ruby" expanded="false" />
+                <marker date="1516897875000" expanded="true" signature="8069:8268" placeholder="..." />
+                <marker date="1516897875000" expanded="true" signature="13677:13959" placeholder="..." />
+                <marker date="1516897875000" expanded="true" signature="13729:13848" placeholder="..." />
+                <marker date="1516897875000" expanded="true" signature="14972:15297" placeholder="..." />
+                <marker date="1516897875000" expanded="false" signature="15887:15914" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -70,6 +72,16 @@
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="-15.038462">
               <caret line="65" column="21" selection-start-line="65" selection-start-column="21" selection-end-line="65" selection-end-column="21" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="application_controller.rb" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/controllers/application_controller.rb">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="189" column="33" selection-start-line="189" selection-start-column="33" selection-end-line="189" selection-end-column="33" />
               <folding />
             </state>
           </provider>
@@ -110,16 +122,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="-7.9615383">
               <caret line="36" column="51" selection-start-line="36" selection-start-column="51" selection-end-line="36" selection-end-column="51" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="application_controller.rb" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/controllers/application_controller.rb">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.7266592">
-              <caret line="189" column="33" selection-start-line="189" selection-start-column="33" selection-end-line="189" selection-end-column="33" />
               <folding />
             </state>
           </provider>
@@ -180,8 +182,8 @@
         <option value="$PROJECT_DIR$/app/views/comptes/index.html.erb" />
         <option value="$PROJECT_DIR$/app/controllers/comptes_controller.rb" />
         <option value="$PROJECT_DIR$/app/assets/javascripts/canvas.js" />
-        <option value="$PROJECT_DIR$/app/views/application/draw.html.erb" />
         <option value="$PROJECT_DIR$/app/controllers/application_controller.rb" />
+        <option value="$PROJECT_DIR$/app/views/application/draw.html.erb" />
       </list>
     </option>
   </component>
@@ -200,8 +202,8 @@
     <order />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="1766" />
-    <option name="y" value="428" />
+    <option name="x" value="1834" />
+    <option name="y" value="467" />
     <option name="width" value="2255" />
     <option name="height" value="986" />
   </component>
@@ -851,15 +853,15 @@
       <workItem from="1507019182595" duration="79000" />
       <workItem from="1513420775388" duration="1369000" />
       <workItem from="1513429064586" duration="2046000" />
-      <workItem from="1516195303715" duration="50172000" />
+      <workItem from="1516195303715" duration="52304000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="69384000" />
+    <option name="totallyTimeSpent" value="71516000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1766" y="428" width="2255" height="986" extended-state="0" />
+    <frame x="1834" y="467" width="2255" height="986" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -1239,14 +1241,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/layouts/_header.html.erb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-7.9615383">
-          <caret line="36" column="51" selection-start-line="36" selection-start-column="51" selection-end-line="36" selection-end-column="51" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/controllers/option_controller.rb">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1303,24 +1297,34 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/application/draw.html.erb">
+    <entry file="file://$PROJECT_DIR$/app/views/layouts/_header.html.erb">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="8.6603775">
-          <caret line="103" column="56" selection-start-line="103" selection-start-column="56" selection-end-line="103" selection-end-column="56" />
-          <folding>
-            <marker date="1516893664000" expanded="true" signature="13357:13639" placeholder="..." />
-            <marker date="1516893664000" expanded="true" signature="13409:13528" placeholder="..." />
-            <marker date="1516893664000" expanded="true" signature="14652:14977" placeholder="..." />
-            <marker date="1516893664000" expanded="false" signature="15567:15594" placeholder="..." />
-          </folding>
+        <state vertical-scroll-proportion="-7.9615383">
+          <caret line="36" column="51" selection-start-line="36" selection-start-column="51" selection-end-line="36" selection-end-column="51" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/controllers/application_controller.rb">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7266592">
+        <state vertical-scroll-proportion="0.0">
           <caret line="189" column="33" selection-start-line="189" selection-start-column="33" selection-end-line="189" selection-end-column="33" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/application/draw.html.erb">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.6303828">
+          <caret line="206" column="76" selection-start-line="206" selection-start-column="76" selection-end-line="206" selection-end-column="76" />
+          <folding>
+            <element signature="e#13799#13814#0#ruby" expanded="false" />
+            <marker date="1516897875000" expanded="true" signature="8069:8268" placeholder="..." />
+            <marker date="1516897875000" expanded="true" signature="13677:13959" placeholder="..." />
+            <marker date="1516897875000" expanded="true" signature="13729:13848" placeholder="..." />
+            <marker date="1516897875000" expanded="true" signature="14972:15297" placeholder="..." />
+            <marker date="1516897875000" expanded="false" signature="15887:15914" placeholder="..." />
+          </folding>
         </state>
       </provider>
     </entry>
