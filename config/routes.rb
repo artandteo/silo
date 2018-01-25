@@ -1,7 +1,7 @@
   Rails.application.routes.draw do
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
-  # root 'application#accueil'
+    root 'application#accueil'
 
 
     devise_for :users, path: '', path_names: { sign_in: 'connexion', sign_out: 'deconnexion', sign_up: 'inscription'}, :controllers => { :registrations => "registrations" }
@@ -9,7 +9,6 @@
       root to: "devise/sessions#new"
     end
     scope "(/:locale)", locale: /fr|en|br/ do
-        get '/accueil', to: 'application#accueil'
         get '/mentions', to: 'application#mentions'
         resources :comptes
         #==============================================================
