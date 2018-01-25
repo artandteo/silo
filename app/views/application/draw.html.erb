@@ -90,7 +90,7 @@
 								</div>
 							</div>
 						<% end %> <!-- end if -->
-						<div class="row small-up-1 medium-up-1 large-up-2">
+						<div class="row"> <!-- medium-up-1 large-up-2 à ajouter pour apercu window -->
 							<div class="column column-block">
 								<table>
 
@@ -236,12 +236,16 @@
 							<!-- fin de affichage des fichiers creation des liens -->
 							</table>
 							</div> <!-- fermeture de medium-4 -->
-							<div class="column column-block apercu">
+
+		                                    <!-- APERCU WINDOW -->
+							<!-- <div class="column column-block apercu">
 								<button class="close-apercu" type="button">
 									<span aria-hidden="true">&times; <span class="btn-txt"><%= t('draw.close') %></span></span>
 								</button>
 								<iframe id="apercu" width="100%" height="70px" frameborder="0" allowfullscreen></iframe>
-							</div>
+							</div> -->
+
+
 						</div> <!-- fermeture de la row -->
 					</div> <!-- fermeture tabs-panel -->
 			    <% end %> <!-- end for i -->

@@ -174,6 +174,7 @@ class ApplicationController < ActionController::Base
           @arrdraw << a.route
           @arrdrawname << a.name
           @fiche = Fiche.where(:draw_id => a.id).all
+          @fiche = @fiche.sort_by { |x| x[:name] }
           @b = Array.new
           @c = Array.new
           @d = Array.new
