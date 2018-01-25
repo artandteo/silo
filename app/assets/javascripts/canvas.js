@@ -34,6 +34,7 @@ document.addEventListener("turbolinks:load", function() {
     $( ".color0" ).css( "background-color", col0 );
     $( ".color1" ).css( "background-color", col1 );
     $( ".color2" ).css( "background-color", col2 );
+    $( ".color3" ).css( "background-color", col3 );
     $( ".draw_add i" ).css( "color", col2 );
     $( ".is-active>a" ).css("background", col2);
     $( ".color3, .switch-paddle, button.success" ).css( "background-color", col3 );
