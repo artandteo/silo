@@ -51,6 +51,8 @@ class ApplicationController < ActionController::Base
     if user_signed_in?
       # redirect_to silo_path(current_user.nom)
       redirect_to desk_path(current_user.nom)
+    else
+      redirect_to new_user_session_path
     end
   end
 
