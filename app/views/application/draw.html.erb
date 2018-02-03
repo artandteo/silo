@@ -64,7 +64,7 @@
 								<% i = i + 1 %>
 					  <% end %> <!-- end each -->
 
-						<% if @arrdraw.count != 7 && current_user.is_admin? %>
+						<% if @arrdraw.count != 20 && current_user.is_admin? %>
 							<div class="draw_add toggle_admin">
 								<a data-open="creer_dossier"><i class="fa fa-plus-circle" aria-hidden="true"></i></a>
 							</div>
@@ -83,7 +83,7 @@
 						<% if current_user.is_admin? %>
 							<div class="row">
 								<div class="small-6 medium-6 text-center">
-									<a class="toggle_admin" data-open="telech_fichier-<%= @arrdraw[i] %>"><button type="button" class="button success tiny">Ajouter un nouveau fichier</button></a>
+									<a class="toggle_admin" data-open="telech_fichier-<%= @arrdraw[i] %>"><button type="button" class="button success">Ajouter un fichier</button></a>
 								</div>
 								<div class="small-6 medium-6 text-center">
 									<a class="toggle_admin" data-open="lien_youtube-<%= @arrdraw[i] %>"><button type="button" class="button success tiny">Ajouter un lien YouTube</button></a>

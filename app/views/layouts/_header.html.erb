@@ -68,10 +68,10 @@
 <% if params[:draw] %>
 <div id="breadcrumb" class="row">
 	<div class="small-4 medium-7 columns bread_home">
-		<a href="<%= root_path %>"><h4><%= t('accueil.root_path') %></h4></a>
+		<a href="<%= root_path %>"><h4><strong><%= t('accueil.root_path') %></strong></h4></a>
 	</div>
 	<div class="small-8 medium-5 columns bread_title">
-		<h4><%= @breadcrumb.gsub(/_/, " ") %></h4>
+		<h4><strong><%= @breadcrumb.gsub(/_/, " ") %></strong></h4>
 	</div>
 </div>
 <% end %>

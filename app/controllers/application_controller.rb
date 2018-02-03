@@ -254,33 +254,38 @@ class ApplicationController < ActionController::Base
           filename = file.original_filename
           directory = "public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:dossier_courant]}/"
           path = File.join(directory, filename)
-          Dir[File.join("public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:dossier_courant]}/", '**', '*')].count
-          if authorized_ext.include? File.extname(path)
-            puts "============ TEST FILE EXTENSION ==============="
-            if Dir[File.join("public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:dossier_courant]}/", '**', '*')].count != 25
-              puts "============ TEST FILE COUNT ==============="
-              # flash[:success] = 'Veuillez patienter, fichier en téléchargement...'
-              File.open(path, "wb") { |f| f.write(file.read) }
-              # Nouveau fichier bdd
-              nomdesk = params[:draw]
-              currentdesk = Desk.where(:route => nomdesk, :compte_id => ccid(params[:desk])).take
-              cdid = currentdesk.id
-              nomdraw = params[:dossier_courant]
-              currentdraw = Draw.where(:route => nomdraw, :desk_id => cdid.to_i ).take
-              cdrid = currentdraw.id
-              @fiche = Fiche.new(:name => filename, :route => filename, :genre => File.extname(path), :publish => true, :draw_id => cdrid.to_i)
-              @fiche.save
-              # FIN Nouveau fichier bdd
+          if !File.exist?(path)
+          puts "============= TEST EXIST =================="
+            Dir[File.join("public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:dossier_courant]}/", '**', '*')].count
+            if authorized_ext.include? File.extname(path)
+              puts "============ TEST FILE EXTENSION ==============="
+              if Dir[File.join("public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:dossier_courant]}/", '**', '*')].count != 25
+                puts "============ TEST FILE COUNT ==============="
+                # flash[:success] = 'Veuillez patienter, fichier en téléchargement...'
+                File.open(path, "wb") { |f| f.write(file.read) }
+                # Nouveau fichier bdd
+                nomdesk = params[:draw]
+                currentdesk = Desk.where(:route => nomdesk, :compte_id => ccid(params[:desk])).take
+                cdid = currentdesk.id
+                nomdraw = params[:dossier_courant]
+                currentdraw = Draw.where(:route => nomdraw, :desk_id => cdid.to_i ).take
+                cdrid = currentdraw.id
+                @fiche = Fiche.new(:name => filename, :route => filename, :genre => File.extname(path), :publish => true, :draw_id => cdrid.to_i)
+                @fiche.save
+                # FIN Nouveau fichier bdd
 
-              flash[:success] = 'Fichier téléchargé'
+                flash[:success] = 'Fichier téléchargé'
+              else
+                flash[:danger] = "Limite de fichier atteinte !"
+              end
             else
-              flash[:danger] = "Limite de fichier atteinte !"
+              flash[:alert] = 'Extension non autorisé'
             end
           else
-            flash[:alert] = 'Extension non autorisé'
+              flash[:alert] = 'Le fichier '+filename+' est déjà présent dans cet onglet'
           end
         else
-            flash[:danger] = "La taille du fichier doit être inférieur ou égale à 6mo !"
+          flash[:danger] = "La taille du fichier doit être inférieur ou égale à 6mo !"
         end
       end
       redirect_to draw_path
