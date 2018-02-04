@@ -249,7 +249,7 @@ class ApplicationController < ActionController::Base
     if params.include?(:fichiers)
       authorized_ext = [".pdf", ".jpg", ".jpeg", ".mp3", ".PDF", ".JPG", ".JPEG", ".MP3", ".dwg", ".DWG", ".doc", ".docx", ".xls", ".xlsx"]
       params[:fichiers].each do |file|
-        if file.size <= 10240000
+        if file.size <= 20480000
           puts "============ TEST FILE SIZE ==============="
           filename = file.original_filename
           directory = "public/folders/#{current_user.nom}/#{params[:draw]}/#{params[:dossier_courant]}/"
