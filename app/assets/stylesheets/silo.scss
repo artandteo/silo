@@ -29,6 +29,10 @@ $primary-color: $col3;
 
 $progress-height: 1.7em;
 
+.versement {
+  visibility: hidden;
+}
+
 #menuellipsis {
   position: fixed;
   top: 60px;

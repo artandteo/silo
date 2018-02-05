@@ -28,9 +28,6 @@ class ComptesController < ApplicationController
   def create
     params[:compte][:nom] = params[:compte][:nom].to_s.gsub(/\s+/, '_')
     @compte = Compte.new(compte_params)
-    puts "333333333333333333"
-    puts params[:compte][:nom]
-    puts "333333333333333333"
     if !Dir.exists?(File.join("./public/folders/", params[:compte][:nom].to_s.gsub(/\s+/, '_')))
       Dir.mkdir(File.join("./public/folders/", params[:compte][:nom].to_s.gsub(/\s+/, '_')), 0777)
     else
@@ -40,7 +37,7 @@ class ComptesController < ApplicationController
 
     respond_to do |format|
       if @compte.save
-        @preference = Preference.new(:polices => "1", :img_header => "", :color1 => "FF5B2B", :color2 => "B1221C", :color3 => "34393E", :color4 => "BCV6D7", :color5 => "FFDA8C",  :layout => "1", :compte_id => @compte.id)
+        @preference = Preference.new(:polices => "1", :img_header => "", :color1 => "FF5B2B", :color2 => "B1221C", :color3 => "34393E", :color4 => "8CC6D7", :color5 => "FFDA8C",  :layout => "1", :compte_id => @compte.id)
         @preference.save
         @user = User.find(current_user.id)
         @user.update_without_password(:nom => @compte.nom)

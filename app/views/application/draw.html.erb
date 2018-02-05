@@ -270,40 +270,29 @@
 <% @arrdraw.each_with_index do |a, i| %>
 	<div class="reveal" id="telech_fichier-<%= a %>" data-reveal>
 
-		<%= form_tag draw_path, method: "post", multipart: true, id: "upload" do %>
+		<%= form_tag draw_path, method: "post", multipart: true, class: "upload" do %>
 		<%= hidden_field_tag :dossier_courant, a %>
 		<br/>
-		<div class="medium-12 text-center btn btn-success fileinput-button">
-            <span>Ajouter des documents (pdf, jpg, mp3)...</span>
+		<div class="medium-12 text-center btn btn-success">
+            <p>Ajouter des documents (pdf, jpg, mp3)...</p>
+            <label for="uploadfile<%= a %>" class="button">Ajouter des fichiers</label>
+            <input id="uploadfile<%= a %>" type="file" class="upfile show-for-sr" name="fichiers[]" multiple="multiple">
+            <ul class="datafile" style="padding-left: 15px; text-align: left; font-size: 14px;"></ul>
             <p></p>
-            <i class="fa fa-plus fa-3x" aria-hidden="true"></i>
-            <p></p>
-			<!-- The file input field used as target for the file upload widget -->
-			<input id="file" type="file" name="fichiers[]" multiple="multiple">
 		</div>
         <div class="medium-12 text-center">
-		<button type="submit" class="button success small start">
+		<button type="submit" class="button success start versement">
 				<i class="fa fa-download" aria-hidden="true"></i>
 				<span>Démarrer le téléversement</span>
 		</button>
 		</div>
-
-		<!-- The global file processing state -->
-    <span class="fileupload-process"></span>
             <!-- The global progress state -->
-    <div class="medium-12 fileupload-progress fade">
+    <div class="medium-12">
 
     <!-- PROGRESS BAR -->
-    <div id="percent" style="text-align: center;"></div>
-    <progress class="progress progress-striped active" id="prog" max="100" value="0" style="display: none; width: 100%;"></progress>
-    <div id="here"></div>
-    <!-- ############ -->
-
-                <!-- The global progress bar
-        <div class="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
-            <div class="progress-bar progress-bar-success" style="width:0%;"></div>
-        </div>-->
-                <!-- The extended global progress state -->
+    <div class="percent" style="text-align: center;"></div>
+    <progress class="progress progress-striped active prog" max="100" value="0" style="display: none; width: 100%;"></progress>
+    <div class="here"></div>
         <div class="progress-extended">&nbsp;</div>
 		<% end %>
 		<button class="close-button" data-close aria-label="Close modal" type="button">

@@ -37,7 +37,7 @@ document.addEventListener("turbolinks:load", function() {
     $( ".color3" ).css( "background-color", col3 );
     $( ".draw_add i" ).css( "color", col2 );
     $( ".is-active>a" ).css("background", col2);
-    $( ".color3, .switch-paddle, button.success" ).css( "background-color", col3 );
+    $( ".switch-paddle, button.success" ).css( "background-color", col3 );
     $( ".color4" ).css( "background-color", col4 );
     $( "h1, h2, h3, h4, h5, h6, p, li, a" ).css( "font-family", police );
     $( "#bandeau img" ).attr({
@@ -56,20 +56,27 @@ document.addEventListener("turbolinks:load", function() {
     // $('html').fadeTo('slow',1);
 
     // PROGRESS BAR
+    $('.upfile').change(function(){
+        var txtfiles = $(this)[0].files;
+        for (var i = 0; i < txtfiles.length; i++) {
+            $(".datafile").append("<li>"+txtfiles[i].name+"</li>");
+        }
+        $('.versement').css('visibility','visible');
+    });
 
-    $("#upload").on('submit', function(e){
+    $(".upload").on('submit', function(e){
         e.preventDefault();
             $(this).ajaxSubmit({
                 beforeSend:function(){
-                    $("#prog").show();
-                    $("#prog").attr('value','0');
+                    $(".prog").show();
+                    $(".prog").attr('value','0');
                 },
                 uploadProgress:function(event,position,total,percentComplete){
-                $("#prog").attr('value',percentComplete);
-                $("#percent").html(percentComplete+'%')
+                $(".prog").attr('value',percentComplete);
+                $(".percent").html(percentComplete+'%')
                 },
                 success:function(data){
-                    $("#here").html(data);
+                    $(".here").html("Téléversement effectué avec succès");
                 }
             });
     });
