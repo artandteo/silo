@@ -7,6 +7,7 @@
 
 <h4 class="text-center"><%= t('canvas_r.admin_user_titre') %></h4>
 <ul class="accordion" data-accordion>
+  <% if current_user.is_admin == 1 %>
     <li class="accordion-item" data-accordion-item>
         <a href="#" class="accordion-title"><%= t('canvas_r.renommer_espace') %></a>
         <div class="accordion-content" data-tab-content>
@@ -21,6 +22,7 @@
             <% end %>
         </div>
     </li>
+  <% end %>
     <li class="accordion-item" data-accordion-item>
         <a href="#" class="accordion-title"><%= t('canvas_r.creation_utilisateur') %></a>
         <div class="accordion-content" data-tab-content>
@@ -31,6 +33,9 @@
 
             <%= f.label :password, t('canvas_r.mdp') %>
             <%= f.password_field :password, value: nil %>
+            <% if current_user.is_admin == 1 %>
+             <%= f.check_box :is_admin %><%= f.label :is_admin, "administrateur" %>
+            <% end %>
             <br/>
             <%= f.submit :valider, value: t('canvas_r.valider'), class: "success button small" %>
 
@@ -44,9 +49,11 @@
                 <%= form_tag desk_path(current_user.nom), method: :delete do %>
                 <%= hidden_field_tag :hidden, value: "delete_eleve" %>
                 <% @eleves.each do |e| %>
-                <%= check_box_tag "mesEleves[]", e.id %>
-                <%= e.identifiant_eleve %>
-                <br/>
+                    <% if current_user != e %>
+                        <%= check_box_tag "mesEleves[]", e.id %>
+                        <span <% if e.is_admin == 2 %>style="color: red;"<% end %>><%= e.identifiant_eleve %></span>
+                        <br/>
+                    <% end %>
                 <% end %>
                 <hr/>
                 <%= submit_tag :supprimer, class: "success button small" %>

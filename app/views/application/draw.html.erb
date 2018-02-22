@@ -260,7 +260,7 @@
   <%= form_for :nouv_dossier do |f| %>
 	<%= f.label :nom, 'Nom du dossier (25 caractères max.)' %>
 	<%= f.text_field :nom, maxlength: "25",  onkeypress: "return verif(event);", autofocus: true  %>
-	<%= f.submit :valider, value: "Valider", class: "button success tiny" %>
+	<%= f.submit :valider, value: "Valider", class: "button success" %>
   <% end %>
   <button class="close-button" data-close aria-label="Close modal" type="button">
     <span aria-hidden="true">&times;</span>

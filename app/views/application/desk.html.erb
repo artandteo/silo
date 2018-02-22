@@ -19,7 +19,7 @@
 		<% end %>
 	<% end %>
 	<% i = i + 1 %>
-	<% if current_user.is_admin? || authoriz == true %>
+	<% if current_user.is_admin == 1 || authoriz == true %>
 		<div class="box color<%= (i) % 5 %>">
 			<% if current_user.is_admin? %>
 				<div class="box_buttons toggle_admin">
@@ -87,9 +87,9 @@
 			<% acces = @vis_elev[i-1] %>
 			<%= check_box_tag 'Tous', 0, false, class: 'toutsel' %> Tout sélectionner <br/><br/>
 			<% @eleves.each_with_index do |e, i| %>
-			<%= check_box_tag arg = "mesEleves[]", e.id, acces[i] == '1', class: 'mesElev' %>
-			<%= e.identifiant_eleve %>
-			<br/>
+            <span <% if current_user == e %>style="display: none;"<% end %>><%= check_box_tag arg = "mesEleves[]", e.id, acces[i] == '1', class: 'mesElev' %></span>
+            <span <% if current_user == e %>style="display: none;"<% end %> <% if e.is_admin == 2 %>style="color: red;"<% end %>><%= e.identifiant_eleve %></span>
+            <br/>
 			<% end %>
 			<hr/>
 			<%= submit_tag :valider, class: "success button small" %>

@@ -1,6 +1,6 @@
 <div class="expanded row top-bar">
   <div class="small-1 medium-1">
-    <% if user_signed_in? && current_user.is_admin? %>
+    <% if user_signed_in? && current_user.is_admin == 1 %>
     <div class="toggle_admin">
       <button type="button" data-toggle="offCanvas"><img class="pref-logo" src="/img/logo_silo_ico.png" alt="Icone de menu Silo" title="Accès aux préférences"/></button>
     </div>
@@ -34,7 +34,7 @@
   <% end %>
 
   <div class="small-1 medium-1 out">
-    <% if user_signed_in? && current_user.is_admin? %>
+    <% if user_signed_in? && current_user.is_admin == 1 %>
       <a id="ellipsis" title="<%= t('accueil.silo') %>" href="#"><i class="fa fa-ellipsis-v size-24" aria-hidden="true"></i></a>
       <div id="menuellipsis">
           <ul>

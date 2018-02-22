@@ -87,6 +87,7 @@ class ApplicationController < ActionController::Base
       @eleve = User.new(eleve_params)
       @eleve.nom = current_user.nom
       @eleve.is_admin = 0
+      @eleve.is_admin = 2 if params[:eleve][:is_admin] == "1"
       @eleve.confirmed_at = DateTime.now.to_date
       @eleve.created_at = DateTime.now.to_date
       @desk = Desk.where(:compte_id => ccid(params[:desk])).all
@@ -493,7 +494,7 @@ class ApplicationController < ActionController::Base
 
   # Affiche la liste des elèves
   def liste_eleves
-      if user_signed_in? && current_user.is_admin == 1
+      if user_signed_in? && current_user.is_admin != 0
         # Liste des élèves d'un professeur
         @eleves = User.where(nom: current_user.nom).where.not(identifiant_eleve: nil)
       end
@@ -642,7 +643,7 @@ class ApplicationController < ActionController::Base
   end
 
   def eleve_params
-      params.require(:eleve).permit(:identifiant_eleve, :password)
+      params.require(:eleve).permit(:identifiant_eleve, :password, :is_admin)
   end
 
   def configure_devise_parameters
