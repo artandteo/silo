@@ -136,7 +136,7 @@ class ApplicationController < ActionController::Base
   end
 
   def desk_size
-    if user_signed_in? && current_user.is_admin == 1
+    if user_signed_in? && current_user.is_admin?
       size = 0
       path = "./public/folders/#{current_user.nom}/"
       Dir.glob(File.join(path, '**', '*')) { |file| size+=File.size(file) }
