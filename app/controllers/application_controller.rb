@@ -168,7 +168,12 @@ class ApplicationController < ActionController::Base
       compte = Compte.where(:nom => params[:desk]).take
       deskselect = Desk.where(:route => params[:draw], :compte_id => compte.id).take
       if draw_auth(deskselect) == false && current_user.is_admin == 0
-        return head :forbidden
+
+        respond_to do |format|
+          format.html { redirect_to root_path, alert: "Vous n'êtes pas autorisé à accèder à ces données." }
+          format.xml { head :forbidden }
+          format.json { head :forbidden }
+        end
       end
       deskid = deskselect.id
       @draw = Draw.where(:desk_id => deskid).all
@@ -200,7 +205,7 @@ class ApplicationController < ActionController::Base
     # Liens Youtube #
     if params.include?(:nouv_youtube)
       titre = params[:nouv_youtube][:titre]
-      lien = URI.escape(params[:nouv_youtube][:nom]).sub("watch?v=", "embed/")
+      lien = CGI.escape(params[:nouv_youtube][:nom]).sub("watch?v=", "embed/")
       if lien[0..23] != "https://www.youtube.com/"
         flash[:alert] = 'Attention, ce lien n\'est pas un chemin youtube.'
       else

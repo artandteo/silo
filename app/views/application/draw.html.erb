@@ -50,7 +50,7 @@
 								<% end %> <!-- end if -->
 
 							<div class="reveal" id="renommer-folder-<%= i %>" data-reveal>
-							  <%= form_for :renommer_folder, method: "put",  url: URI.escape("/#{params[:desk]}/#{params[:draw]}/#{a}") do |f| %>
+							  <%= form_for :renommer_folder, method: "put",  url: CGI.escape("/#{params[:desk]}/#{params[:draw]}/#{a}") do |f| %>
 								<%= f.label :nom, 'Nouveau nom (25 caractères max.)' %>
 								<%= f.text_field :new_name, maxlength: "25", value: @arrdrawname[i], onkeypress: "return verif(event);", autofocus: true %>
 								<%= f.hidden_field :last_name, value: @arrdrawname[i] %>
@@ -172,7 +172,7 @@
 												</td>
 
 												<div class="reveal" id="rename_file-<%= i %><%= j %>" data-reveal>
-													<%= form_for :file_rename, url:  URI.escape("/#{params[:desk]}/#{params[:draw]}/#{@arrdraw[i]}/#{ @table[i][j]+".yt"}/"), method: 'put' do |f| %>
+													<%= form_for :file_rename, url:  CGI.escape("/#{params[:desk]}/#{params[:draw]}/#{@arrdraw[i]}/#{ @table[i][j]+".yt"}/"), method: 'put' do |f| %>
 													<%= f.label :nom, 'Nouveau nom ' %>
 													<%= f.text_field :new_filename, value: @table[i][j], onkeypress: "return verif(event);", autofocus: true %>
 													<%= f.hidden_field :last_filename, value: @table[i][j]+".yt" %>
@@ -220,7 +220,7 @@
 													<!-- Fin de Lien de telechargement pour les petits ecrans et mobiles -->
 
 		        					<div class="reveal" id="rename_file-<%= i %><%= j %>" data-reveal>
-											  <%= form_for :file_rename, url:  URI.escape("/#{params[:desk]}/#{params[:draw]}/#{@arrdraw[i]}/#{@route[i][j]}/"), method: 'put' do |f| %>
+											  <%= form_for :file_rename, url:  CGI.escape("/#{params[:desk]}/#{params[:draw]}/#{@arrdraw[i]}/#{@route[i][j]}/"), method: 'put' do |f| %>
 												<%= f.label :nom, 'Nouveau nom ' %>
 												<%= f.text_field :new_filename, value: @route[i][j].gsub(get_extension(@route[i][j]), ""), onkeypress: "return verif(event);", autofocus: true %>
 												<%= f.hidden_field :last_filename, value: @route[i][j] %>
